@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "tsparticles-slim": "^2.12.0"
+  }
+}

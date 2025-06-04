@@ -1,0 +1,44 @@
+# .gitignore para Portafolio Cyberpunk de Javier España
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# Archivos temporales y de sistema
+.DS_Store
+Thumbs.db
+*.log
+
+# Archivos de entorno
+.env
+
+# Salidas de build o dist
+/dist/
+/build/
+
+# Archivos de sistema Linux
+*~
+
+# Archivos de caché
+.cache/
+
+# Archivos de dependencias lock
+package-lock.json
+yarn.lock
+
+# Archivos de pruebas
+coverage/
+
+# Archivos de usuario
+*.swp
+*.swo
+
+# Archivos multimedia grandes (opcional, si no quieres trackear videos demo)
+assets/utils/videos/
+assets/utils/sounds/

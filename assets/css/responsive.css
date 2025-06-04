@@ -1,0 +1,15 @@
+@media (max-width: 768px) {
+    .about__container {
+        grid-template-columns: 1fr;
+    }
+    
+    .solar-system {
+        width: 300px;
+        height: 300px;
+        margin-top: 2rem;
+    }
+    
+    .planet {
+        animation-duration: calc(10s + var(--index) * 3s) !important;
+    }
+}

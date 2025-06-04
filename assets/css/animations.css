@@ -1,0 +1,187 @@
+/* Efecto Grid Animado */
+@keyframes gridMove {
+    from { background-position: 0 0; }
+    to { background-position: 0 22px; }
+}
+
+/* Efecto Glitch */
+.glitch {
+    position: relative;
+}
+
+.glitch::before, .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.glitch::before {
+    color: var(--neon-pink);
+    z-index: -1;
+    animation: glitch-effect 3s infinite;
+}
+
+.glitch::after {
+    color: var(--neon-green);
+    z-index: -2;
+    animation: glitch-effect 2s infinite reverse;
+}
+
+@keyframes glitch-effect {
+    0% { clip-path: inset(0 0 95% 0); }
+    25% { clip-path: inset(0 95% 0 0); }
+    50% { clip-path: inset(95% 0 0 0); }
+    75% { clip-path: inset(0 0 0 95%); }
+    100% { clip-path: inset(0 0 95% 0); }
+}
+
+/* Botón CTA */
+.pulse {
+    animation: pulse 2s infinite alternate;
+}
+
+@keyframes pulse {
+    from { box-shadow: 0 0 5px var(--neon-blue); }
+    to { box-shadow: 0 0 20px var(--neon-blue); }
+}
+
+
+/* Distorsión de foto al hover */
+#distorted-photo:hover img {
+    animation: distort 0.5s infinite alternate;
+}
+
+@keyframes distort {
+    0% { transform: scale(1); filter: hue-rotate(0deg); }
+    100% { transform: scale(1.05); filter: hue-rotate(20deg); }
+}
+
+/* Órbitas planetarias */
+@keyframes orbit {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+
+/* Efecto neón para títulos */
+.neon {
+    text-shadow: 0 0 5px var(--neon-pink), 
+                 0 0 10px var(--neon-pink), 
+                 0 0 20px var(--neon-pink);
+    animation: flicker 3s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 100% { opacity: 1; }
+    20%, 22%, 24% { opacity: 0.5; }
+}
+
+
+/* Nebulosa */
+@keyframes nebula-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Estrellas titilantes */
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* Efecto 3D para estrellas */
+@keyframes float {
+    0%, 100% { transform: translateY(0) translateZ(0); }
+    50% { transform: translateY(-20px) translateZ(30px); }
+}
+
+/* Efecto de rotación automática */
+@keyframes radar-rotate {
+    0% { transform: rotateX(20deg) rotateY(0deg); }
+    100% { transform: rotateX(20deg) rotateY(360deg); }
+}
+
+/* Efecto de flotación para puntos */
+@keyframes float-3d {
+    0%, 100% { transform: translateZ(0); }
+    50% { transform: translateZ(20px); }
+}
+
+/* Resaltado al seleccionar categoría */
+@keyframes highlight {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+.skill-tooltip {
+    position: absolute;
+    background: rgba(0, 15, 30, 0.9);
+    border: 1px solid var(--neon-blue);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: var(--font-text);
+    font-size: 0.9rem;
+    white-space: pre-line;
+    z-index: 100;
+    pointer-events: none;
+    transform: translateX(-50%);
+    box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+}
+
+/* Animación de barras */
+@keyframes bar-glow {
+    0%, 100% { box-shadow: 0 0 10px rgba(0, 247, 255, 0.5); }
+    50% { box-shadow: 0 0 20px currentColor; }
+}
+
+.bar:hover {
+    animation: bar-glow 1.5s infinite;
+    transform: translateY(-2px);
+}
+
+/* Efecto de carga */
+@keyframes chart-load {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.bar-container {
+    animation: chart-load 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+/* Añade delays escalonados */
+.bar-container:nth-child(1) { animation-delay: 0.1s; }
+.bar-container:nth-child(2) { animation-delay: 0.3s; }
+.bar-container:nth-child(3) { animation-delay: 0.5s; }
+.bar-container:nth-child(4) { animation-delay: 0.7s; }
+.bar-container:nth-child(5) { animation-delay: 0.9s; }
+
+/* Loader animado para la gráfica de lenguajes */
+.loader {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 50px;
+    align-items: center;
+}
+
+.loader__dot {
+    width: 12px;
+    height: 12px;
+    background: var(--neon-blue);
+    border-radius: 50%;
+    animation: loader-bounce 1s infinite ease-in-out;
+}
+
+.loader__dot:nth-child(1) { animation-delay: 0s; }
+.loader__dot:nth-child(2) { animation-delay: 0.2s; }
+.loader__dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loader-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
