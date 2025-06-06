@@ -6,28 +6,6 @@
     z-index: 1000;
 }
 
-#toggle-rotation {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(0, 15, 30, 0.7);
-    border: 1px solid var(--neon-green);
-}
-
-#toggle-rotation.active {
-    background: var(--neon-green);
-    color: black;
-}
-
-#toggle-rotation .icon {
-    font-size: 1.2rem;
-    animation: spin 2s linear infinite;
-}
-
-#toggle-rotation:not(.active) .icon {
-    animation: none;
-    opacity: 0.5;
-}
 
 /* Transición suave para la rotación */
 .radar-3d {

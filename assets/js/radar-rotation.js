@@ -21,12 +21,14 @@ function stopAutoRotation() {
     lastStoppedAngle = rotationAngle;
 }
 
+// Modifica setupRotationControl en radar-rotation.js
 function setupRotationControl() {
     const toggleBtn = document.getElementById('toggle-rotation');
+    if (!toggleBtn) return; // Verifica si existe
+    
     toggleBtn.addEventListener('click', function() {
         this.classList.toggle('active');
         if (this.classList.contains('active')) {
-            // Si hay un ángulo guardado, continuar desde ahí
             rotationAngle = lastStoppedAngle || 0;
             startAutoRotation();
         } else {

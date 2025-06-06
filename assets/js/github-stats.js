@@ -185,12 +185,13 @@ function getLanguageColor(language) {
 
 // 5. Integración con el radar existente
 async function integrateGitHubData() {
-    const reposUrl = await getBasicStats();
-    const githubSkills = await getLanguages(reposUrl);
-    
-    // Añadir habilidades al radar
-    const radar = document.getElementById('radar-3d');
-    if (githubSkills && radar) { // Añade verificación de radar
+    try {
+        const reposUrl = await getBasicStats();
+        const githubSkills = await getLanguages(reposUrl);
+        
+        const radar = document.getElementById('radar-3d');
+        if (!radar || !githubSkills) return; // Verifica existencia
+        
         githubSkills.forEach(skill => {
             const point = document.createElement('div');
             point.className = 'skill-point github';
@@ -203,7 +204,10 @@ async function integrateGitHubData() {
             point.dataset.tooltip = `${skill.name}\nUso: ${skill.level}%`;
             radar.appendChild(point);
         });
+    } catch (error) {
+        console.error("Error integrating GitHub data:", error);
     }
 }
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', integrateGitHubData);

@@ -8,6 +8,18 @@
     overflow: hidden;
 }
 
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 0; /* detrás del contenido */
+    pointer-events: none; /* para que no bloquee clics en el botón */
+}
+
+
+
 .hero__grid-lines {
     position: absolute;
     width: 100%;
@@ -22,13 +34,10 @@
 }
 
 .hero__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    text-align: center;
-    z-index: 10;
+    position: relative;
+    z-index: 1;
+    padding-top: 100px;
+    padding-bottom: 100px;
 }
 
 .hero__title {

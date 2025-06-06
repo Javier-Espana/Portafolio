@@ -17,23 +17,21 @@ const sounds = {
 
 // Efectos en elementos interactivos
 function setupAudioInteractions() {
-    // Hover en estrellas/botones
+    // Verifica existencia de elementos antes de agregar eventos
     const hoverElements = document.querySelectorAll('.star, .filter-btn, .legend__item, .bar');
-    if (hoverElements.length) {
+    if (hoverElements.length > 0) {
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => sounds.hover.play());
         });
     }
     
-    // Clicks importantes
     const clickElements = document.querySelectorAll('.hero__cta, .filter-btn, .close');
-    if (clickElements.length) {
+    if (clickElements.length > 0) {
         clickElements.forEach(el => {
             el.addEventListener('click', () => sounds.click.play());
         });
     }
     
-    // Rotación automática - Añade verificación de existencia
     const rotationToggle = document.getElementById('toggle-rotation');
     if (rotationToggle) {
         rotationToggle.addEventListener('click', function() {

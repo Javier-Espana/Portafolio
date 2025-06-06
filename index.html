@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Javier España | Portafolio Cyberpunk</title>
+    <title>Javier España | Portafolio</title>
     <style>
         .typewriter-container {
             display: flex;
@@ -52,9 +52,11 @@
 <body>
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero__grid-lines"></div> <!-- Fondo de líneas animadas -->
+        <div class="hero__grid-lines">
+            <div id="particles-js"></div>
+        </div> <!-- Fondo de líneas animadas -->
         <div class="hero__content">
-            <h1 class="hero__title glitch" data-text="JAVIER ESPAÑA">JAVIER ESPAÑA</h1>
+            <h1 class="hero__title glitch" data-text="Javier España">Javier España</h1>
             <div class="typewriter-container">
                 <span class="text" id="typewriter"></span>
                 <span class="cursor"></span>
@@ -63,9 +65,8 @@
             <div class="hero__cta-wrapper">
                 <button class="hero__cta pulse" id="explore-cta">Explorar Portafolio</button>
             </div>
+
         </div>
-        <!-- Partículas (se añadirán con JS) -->
-        <div id="particles-js"></div>
     </section>
 
     <!-- Sección Sobre Mí -->
@@ -136,11 +137,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- Agrega esto en tu sección de habilidades -->
+        <div class="skills__legend">
+            <div class="legend__item" data-skill="frontend"><span class="legend__color" style="background:#00f7ff;"></span>Frontend</div>
+            <div class="legend__item" data-skill="backend"><span class="legend__color" style="background:#00ff7f;"></span>Backend</div>
+            <div class="legend__item" data-skill="all"><span class="legend__color" style="background:#fff;"></span>Todos</div>
+        </div>
     </section>
 
     <script src="assets/js/github-stats.js"></script>
     <script type="module" src="assets/js/main.js"></script>
-    <script src="assets/js/particles.js"></script>
     <script src="assets/js/radar-rotation.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="assets/js/particles.js"></script>
+    <script src="assets/js/skills.js"></script>
+    <script src="assets/js/dodecaedro.js"></script>
+    <script src="assets/js/hero.js"></script>
+    
+
 </body>
 </html>
