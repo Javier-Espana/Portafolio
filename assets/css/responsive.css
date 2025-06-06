@@ -11,5 +11,8 @@
     
     .planet {
         animation-duration: calc(10s + var(--index) * 3s) !important;
+        position: absolute;
+        top: var(--planet-top, 50px);
+        left: var(--planet-left, 150px);
     }
 }
