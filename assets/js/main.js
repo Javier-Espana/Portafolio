@@ -57,6 +57,10 @@ skills.forEach((skill, index) => {
     planet.style.setProperty('--orbit-radius', skill.orbitRadius + 'px');
     planet.style.animation = `orbit ${8 + index * 2}s linear infinite`;
     planet.style.animationDelay = `${index * 0.5}s`;
+    // Centrado correcto: quitar el translate(-50%, -50%) del CSS y hacerlo aquí
+    planet.style.top = '50%';
+    planet.style.left = '50%';
+    planet.style.transform = `rotate(0deg) translateX(${skill.orbitRadius}px)`;
 
     // Tooltip
     const tooltip = document.createElement('div');
