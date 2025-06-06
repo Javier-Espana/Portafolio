@@ -138,42 +138,7 @@
         </div>
     </section>
 
-    <script type="module" src="assets/js/github-stats.js"></script>
+    <script src="assets/js/github-stats.js"></script>
     <script type="module" src="assets/js/main.js"></script>
-    <script>
-        const phrases = ["Ingeniero de software", "Creador de realidades digitales"];
-        const typeSpeed = 100; // ms por letra
-        const deleteSpeed = 50;
-        const pauseBetween = 1500;
-
-        let currentPhraseIndex = 0;
-        let currentCharIndex = 0;
-        let isDeleting = false;
-
-        const el = document.getElementById("typewriter");
-
-        function type() {
-          const currentPhrase = phrases[currentPhraseIndex];
-
-          if (isDeleting) {
-            currentCharIndex--;
-            el.textContent = currentPhrase.substring(0, currentCharIndex);
-          } else {
-            currentCharIndex++;
-            el.textContent = currentPhrase.substring(0, currentCharIndex);
-          }
-
-          if (!isDeleting && currentCharIndex === currentPhrase.length) {
-            setTimeout(() => isDeleting = true, pauseBetween);
-          } else if (isDeleting && currentCharIndex === 0) {
-            isDeleting = false;
-            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
-          }
-
-          setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
-        }
-
-        type();
-    </script>
 </body>
 </html>
