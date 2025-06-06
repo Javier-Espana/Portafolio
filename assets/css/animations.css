@@ -98,18 +98,6 @@
     50% { transform: translateY(-20px) translateZ(30px); }
 }
 
-/* Efecto de rotación automática */
-@keyframes radar-rotate {
-    0% { transform: rotateX(20deg) rotateY(0deg); }
-    100% { transform: rotateX(20deg) rotateY(360deg); }
-}
-
-/* Efecto de flotación para puntos */
-@keyframes float-3d {
-    0%, 100% { transform: translateZ(0); }
-    50% { transform: translateZ(20px); }
-}
-
 /* Resaltado al seleccionar categoría */
 @keyframes highlight {
     0% { opacity: 0.3; }
