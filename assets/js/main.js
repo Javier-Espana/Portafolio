@@ -39,46 +39,49 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Sistema Solar de Habilidades
-const planetsContainer = document.querySelector('.planets-container');
-const skills = [
-    { name: "Python", level: 5, color: "#3776AB", orbitRadius: 90 },
-    { name: "JavaScript", level: 5, color: "#F7DF1E", orbitRadius: 120 },
-    { name: "React", level: 4, color: "#61DAFB", orbitRadius: 150 },
-    { name: "Three.js", level: 3, color: "#049EF4", orbitRadius: 180 }
-];
+// Sistema Solar de Habilidades
+document.addEventListener('DOMContentLoaded', () => {
+    const planetsContainer = document.querySelector('.planets-container');
+    if (!planetsContainer) return;
 
-skills.forEach((skill, index) => {
-    // Crear planeta
-    const planet = document.createElement('div');
-    planet.className = 'planet';
-    planet.style.width = `${20 + skill.level * 5}px`;
-    planet.style.height = `${20 + skill.level * 5}px`;
-    planet.style.setProperty('--planet-color', skill.color);
-    planet.style.setProperty('--orbit-radius', skill.orbitRadius + 'px');
-    planet.style.animation = `orbit ${8 + index * 2}s linear infinite`;
-    planet.style.animationDelay = `${index * 0.5}s`;
-    // Centrado correcto: quitar el translate(-50%, -50%) del CSS y hacerlo aquí
-    planet.style.top = '50%';
-    planet.style.left = '50%';
-    planet.style.transform = `rotate(0deg) translateX(${skill.orbitRadius}px) rotate(0deg)`;
+    const skills = [
+        { name: "Python", level: 5, color: "#3776AB", orbitRadius: 90 },
+        { name: "JavaScript", level: 5, color: "#F7DF1E", orbitRadius: 120 },
+        { name: "React", level: 4, color: "#61DAFB", orbitRadius: 150 },
+        { name: "Three.js", level: 3, color: "#049EF4", orbitRadius: 180 }
+    ];
 
-    // Tooltip
-    const tooltip = document.createElement('div');
-    tooltip.className = 'tooltip';
-    tooltip.textContent = `${skill.name}: ${'★'.repeat(skill.level)}`;
-    tooltip.style.color = skill.color;
-    planet.appendChild(tooltip);
+    skills.forEach((skill, index) => {
+        const planet = document.createElement('div');
+        planet.className = 'planet';
+        planet.style.width = `${20 + skill.level * 5}px`;
+        planet.style.height = `${20 + skill.level * 5}px`;
+        planet.style.setProperty('--planet-color', skill.color);
+        planet.style.setProperty('--orbit-radius', skill.orbitRadius + 'px');
+        planet.style.animation = `orbit ${8 + index * 2}s linear infinite`;
+        planet.style.animationDelay = `${index * 0.5}s`;
+        planet.style.top = '50%';
+        planet.style.left = '50%';
+        planet.style.transform = `rotate(0deg) translateX(${skill.orbitRadius}px) rotate(0deg)`;
 
-    // Eventos para tooltip
-    planet.addEventListener('mouseenter', () => {
-        tooltip.style.opacity = '1';
+        const tooltip = document.createElement('div');
+        tooltip.className = 'tooltip';
+        tooltip.textContent = `${skill.name}: ${'★'.repeat(skill.level)}`;
+        tooltip.style.color = skill.color;
+        planet.appendChild(tooltip);
+
+        planet.addEventListener('mouseenter', () => {
+            tooltip.style.opacity = '1';
+        });
+        planet.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+
+        planetsContainer.appendChild(planet);
     });
-    planet.addEventListener('mouseleave', () => {
-        tooltip.style.opacity = '0';
-    });
-
-    planetsContainer.appendChild(planet);
 });
+
+
 
 // Efecto de distorsión para foto (Canvas API)
 const photo = document.getElementById('distorted-photo');

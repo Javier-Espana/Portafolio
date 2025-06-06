@@ -3,6 +3,7 @@
     padding: 4rem 2rem;
     background: radial-gradient(circle at center, #0f0f2d 0%, #000 70%);
     position: relative;
+    height: 100vh;
     overflow: hidden;
 }
 
@@ -45,12 +46,12 @@
     transition: transform 0.3s;
 }
 
+/* Solar System */
 .solar-system {
     position: relative;
     width: 400px;
     height: 400px;
     margin: 0 auto;
-    /* Centrado vertical y horizontal */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -69,46 +70,65 @@
     z-index: 2;
 }
 
+/* Orbit container: responsible for rotation */
 .orbit {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100%;
-    height: 100%;
+    width: 0;
+    height: 0;
     transform: translate(-50%, -50%);
-    pointer-events: none;
+    animation: rotate-orbit linear infinite;
+    z-index: 1;
 }
 
+/* Rotation keyframes */
+@keyframes rotate-orbit {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Planet: positioned relative to orbit center */
 .planet {
     position: absolute;
     top: 0;
-    left: 0;
-    transform-origin: center center;
+    left: calc(var(--orbit-radius, 120px));
+    width: var(--planet-size, 30px);
+    height: var(--planet-size, 30px);
     border-radius: 50%;
-    background: var(--planet-color, var(--neon-blue));
-    cursor: help;
-    transition: all 0.3s;
-    z-index: 3;
-    animation: orbit 8s linear infinite;
+    background: var(--planet-color, #00f);
+    z-index: 2;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .planet:hover {
-    transform: scale(1.2) translateZ(10px);
+    transform: scale(1.2);
     box-shadow: 0 0 20px currentColor;
 }
 
-@keyframes orbit {
-    0% { transform: rotate(0deg) translateX(var(--orbit-radius, 120px)) rotate(0deg); }
-    100% { transform: rotate(360deg) translateX(var(--orbit-radius, 120px)) rotate(-360deg); }
-}
-
+/* Tooltip that appears on hover */
 .tooltip {
     position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
     background: rgba(0, 0, 20, 0.9);
     border: 1px solid var(--neon-green);
+    color: var(--neon-green);
     padding: 0.5rem;
     border-radius: 5px;
     font-size: 0.9rem;
     opacity: 0;
     transition: opacity 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.planet:hover .tooltip {
+    opacity: 1;
 }
