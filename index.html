@@ -4,10 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Javier España | Portafolio Cyberpunk</title>
+    <style>
+        .typewriter-container {
+            display: flex;
+            font-size: 2rem;
+            font-family: 'Courier New', monospace;
+            color: #00ffcc;
+            margin: 0 auto;
+        }
+
+        .text {
+            white-space: pre;
+        }
+
+        .cursor {
+            width: 2px;
+            background-color: #00ffcc;
+            animation: blink 0.7s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
     <!-- Fuentes -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@400;500&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- Modular CSS -->
+    <link rel="stylesheet" href="assets/css/styles/_base.css">
+    <link rel="stylesheet" href="assets/css/styles/_hero.css">
+    <link rel="stylesheet" href="assets/css/styles/_about.css">
+    <link rel="stylesheet" href="assets/css/styles/_projects.css">
+    <link rel="stylesheet" href="assets/css/styles/_skills.css">
+    <link rel="stylesheet" href="assets/css/styles/_charts.css">
+    <link rel="stylesheet" href="assets/css/styles/_radar-control.css">
+    <link rel="stylesheet" href="assets/css/styles/_responsive.css">
     <link rel="stylesheet" href="assets/css/animations.css">
     <!-- Howler.js para sonidos -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
@@ -18,11 +49,13 @@
         <div class="hero__grid-lines"></div> <!-- Fondo de líneas animadas -->
         <div class="hero__content">
             <h1 class="hero__title glitch" data-text="JAVIER ESPAÑA">JAVIER ESPAÑA</h1>
-            <div class="hero__subtitle-group">
-                <p class="hero__subtitle" id="typed-text">&nbsp;</p>
-                <div class="hero__cta-wrapper">
-                    <button class="hero__cta pulse">Explorar Portafolio</button>
-                </div>
+            <div class="typewriter-container">
+                <span class="text" id="typewriter"></span>
+                <span class="cursor"></span>
+            </div>
+            <!-- Botón restaurado Explotar Portafolio -->
+            <div class="hero__cta-wrapper">
+                <button class="hero__cta pulse" id="explore-cta">Explorar Portafolio</button>
             </div>
         </div>
         <!-- Partículas (se añadirán con JS) -->
@@ -41,8 +74,9 @@
                 <p>Soy un ingeniero de software apasionado por el diseño de experiencias digitales inmersivas. Me especializo en desarrollo web, visualización 3D y UI/UX. Siempre busco fusionar arte y tecnología en cada proyecto.</p>
                 <ul>
                     <li>🌐 Full Stack Developer</li>
-                    <li>🎨 UI/UX Enthusiast</li>
-                    <li>🕹️ Amante de la cultura cyberpunk</li>
+                    <li>🖥️ Backend Enthusiast</li>
+                    <li>🎨 UI/UX Designer</li>
+                    <li>🎵 Music Lover</li>
                 </ul>
             </div>
 
@@ -153,7 +187,42 @@
 
 
     <!-- JS -->
+    <script type="module" src="assets/js/main.js"></script>
     <script src="assets/js/particles.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script>
+        const phrases = ["Ingeniero de software", "Creador de realidades digitales"];
+        const typeSpeed = 100; // ms por letra
+        const deleteSpeed = 50;
+        const pauseBetween = 1500;
+
+        let currentPhraseIndex = 0;
+        let currentCharIndex = 0;
+        let isDeleting = false;
+
+        const el = document.getElementById("typewriter");
+
+        function type() {
+          const currentPhrase = phrases[currentPhraseIndex];
+
+          if (isDeleting) {
+            currentCharIndex--;
+            el.textContent = currentPhrase.substring(0, currentCharIndex);
+          } else {
+            currentCharIndex++;
+            el.textContent = currentPhrase.substring(0, currentCharIndex);
+          }
+
+          if (!isDeleting && currentCharIndex === currentPhrase.length) {
+            setTimeout(() => isDeleting = true, pauseBetween);
+          } else if (isDeleting && currentCharIndex === 0) {
+            isDeleting = false;
+            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+          }
+
+          setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
+        }
+
+        type();
+    </script>
 </body>
 </html>

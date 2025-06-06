@@ -1,46 +1,41 @@
 import './audio.js';
 import './radar-rotation.js';
 
-// Efecto de escritura automática (sin librerías)
-window.addEventListener('DOMContentLoaded', () => {
-    const subtitle = document.getElementById('typed-text');
-    const phrases = [
-        "Ingeniero de Software",
-        "Creador de Realidades Digitales"
-    ];
-    let phraseIndex = 0;
-    let charIndex = 0;
+// Efecto máquina de escribir para el hero subtitle
+document.addEventListener('DOMContentLoaded', () => {
+    const phrases = ["Ingeniero de Software", "Creador de Realidades Digitales"];
+    const typeSpeed = 100; // ms por letra
+    const deleteSpeed = 50;
+    const pauseBetween = 1500;
+
+    let currentPhraseIndex = 0;
+    let currentCharIndex = 0;
     let isDeleting = false;
 
+    const el = document.getElementById("typewriter");
+    if (!el) return;
+
     function type() {
-        if (!subtitle) return;
-        const currentPhrase = phrases[phraseIndex];
+        const currentPhrase = phrases[currentPhraseIndex];
         if (isDeleting) {
-            if (charIndex > 0) {
-                charIndex--;
-                subtitle.innerHTML = currentPhrase.substring(0, charIndex) || '&nbsp;';
-                setTimeout(type, 40);
-            } else {
-                isDeleting = false;
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                setTimeout(type, 500);
-            }
+            currentCharIndex--;
+            el.textContent = currentPhrase.substring(0, currentCharIndex);
         } else {
-            if (charIndex < currentPhrase.length) {
-                charIndex++;
-                subtitle.innerHTML = currentPhrase.substring(0, charIndex);
-                setTimeout(type, 80);
-            } else {
-                setTimeout(() => { isDeleting = true; type(); }, 1200);
-            }
+            currentCharIndex++;
+            el.textContent = currentPhrase.substring(0, currentCharIndex);
         }
+
+        if (!isDeleting && currentCharIndex === currentPhrase.length) {
+            setTimeout(() => isDeleting = true, pauseBetween);
+        } else if (isDeleting && currentCharIndex === 0) {
+            isDeleting = false;
+            currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+        }
+
+        setTimeout(type, isDeleting ? deleteSpeed : typeSpeed);
     }
 
-    subtitle.innerHTML = '&nbsp;';
-    phraseIndex = 0;
-    charIndex = 0;
-    isDeleting = false;
-    setTimeout(type, 400);
+    type();
 });
 
 // Sistema Solar de Habilidades

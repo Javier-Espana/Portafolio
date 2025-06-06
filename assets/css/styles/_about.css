@@ -1,0 +1,89 @@
+/* Sobre Mí y Sistema Solar */
+.about {
+    padding: 4rem 2rem;
+    background: radial-gradient(circle at center, #0f0f2d 0%, #000 70%);
+    position: relative;
+    overflow: hidden;
+}
+
+.about__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.about__card {
+    background: rgba(15, 15, 45, 0.5);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--neon-blue);
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.2);
+    transition: all 0.5s;
+}
+
+.about__card:hover {
+    box-shadow: 0 0 40px rgba(0, 247, 255, 0.4);
+}
+
+.about__photo {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 2rem;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 3px solid var(--neon-pink);
+    position: relative;
+}
+
+.about__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.solar-system {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 0 auto;
+}
+
+.sun {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, #ffcc00, #ff6600);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 50px #ff6600;
+}
+
+.planet {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--neon-blue);
+    cursor: help;
+    transition: all 0.3s;
+}
+
+.planet:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px currentColor;
+}
+
+.tooltip {
+    position: absolute;
+    background: rgba(0, 0, 20, 0.9);
+    border: 1px solid var(--neon-green);
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}

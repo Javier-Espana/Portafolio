@@ -1,0 +1,22 @@
+/* Variables y reset global */
+:root {
+    --neon-blue: #00f7ff;
+    --neon-pink: #ff00f7;
+    --neon-green: #00ff7f;
+    --dark-bg: #0a0a1a;
+    --font-title: 'Orbitron', sans-serif;
+    --font-text: 'Rajdhani', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-bg);
+    color: white;
+    font-family: var(--font-text);
+    overflow-x: hidden;
+}
