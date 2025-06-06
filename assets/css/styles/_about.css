@@ -81,16 +81,14 @@
 
 .planet {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    /* El JS ajustará el radio de la órbita */
-    transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius, 120px));
+    top: 0;
+    left: 0;
+    transform-origin: center center;
     border-radius: 50%;
     background: var(--planet-color, var(--neon-blue));
     cursor: help;
     transition: all 0.3s;
     z-index: 3;
-    /* Animación de órbita */
     animation: orbit 8s linear infinite;
 }
 
@@ -100,8 +98,8 @@
 }
 
 @keyframes orbit {
-    0% { transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius, 120px)); }
-    100% { transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius, 120px)); }
+    0% { transform: rotate(0deg) translateX(var(--orbit-radius, 120px)) rotate(0deg); }
+    100% { transform: rotate(360deg) translateX(var(--orbit-radius, 120px)) rotate(-360deg); }
 }
 
 .tooltip {

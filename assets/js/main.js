@@ -60,7 +60,7 @@ skills.forEach((skill, index) => {
     // Centrado correcto: quitar el translate(-50%, -50%) del CSS y hacerlo aquí
     planet.style.top = '50%';
     planet.style.left = '50%';
-    planet.style.transform = `rotate(0deg) translateX(${skill.orbitRadius}px)`;
+    planet.style.transform = `rotate(0deg) translateX(${skill.orbitRadius}px) rotate(0deg)`;
 
     // Tooltip
     const tooltip = document.createElement('div');
