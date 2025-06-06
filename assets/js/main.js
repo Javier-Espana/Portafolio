@@ -44,9 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const skills = [
         { name: "Python", level: 5, color: "#3776AB", orbitRadius: 90 },
-        { name: "JavaScript", level: 5, color: "#F7DF1E", orbitRadius: 120 },
+        { name: "JavaScript", level: 4, color: "#F7DF1E", orbitRadius: 120 },
         { name: "React", level: 4, color: "#61DAFB", orbitRadius: 150 },
-        { name: "Three.js", level: 3, color: "#049EF4", orbitRadius: 180 }
+        { name: "Java", level: 5, color: "#FF0000", orbitRadius: 180 },
+        { name: "Kotlin", level: 4, color: "#3CB043", orbitRadius: 130 }
     ];
 
     skills.forEach((skill, index) => {
@@ -256,18 +257,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // Datos de habilidades (personaliza aquí)
 const skillsData = [
-    { name: "JavaScript", category: "frontend", level: 90, color: "#F7DF1E" },
+    { name: "JS", category: "frontend", level: 90, color: "#F7DF1E" },
     { name: "React", category: "frontend", level: 85, color: "#61DAFB" },
-    { name: "Three.js", category: "frontend", level: 75, color: "#049EF4" },
     { name: "Python", category: "backend", level: 80, color: "#3776AB" },
-    { name: "Node.js", category: "backend", level: 70, color: "#68A063" },
-    { name: "UI/UX", category: "design", level: 65, color: "#FF4081" },
     { name: "TypeScript", category: "frontend", level: 80, color: "#3178C6" },
-    { name: "Django", category: "backend", level: 60, color: "#092E20" },
-    { name: "Figma", category: "design", level: 60, color: "#A259FF" },
     { name: "Kotlin", category: "mobile", level: 55, color: "#F18E33" },
-    { name: "Unity", category: "mobile", level: 50, color: "#222C37" },
     { name: "Vue.js", category: "frontend", level: 60, color: "#42b883" }
+
 ];
 
 // Crear radar 3D

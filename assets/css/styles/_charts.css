@@ -78,6 +78,8 @@
     align-items: center;
     flex: 1;
     max-width: 60px;
+    color: var(--neon-blue);
+
 }
 
 .bar {
@@ -87,6 +89,8 @@
     position: relative;
     transition: height 1.5s ease-out;
     box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+    color: var(--neon-blue);
+
 }
 
 .bar::after {
@@ -96,14 +100,13 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--neon-pink);
     border-radius: 3px;
+    
 }
 
 .bar-label {
     margin-top: 0.5rem;
     font-size: 0.8rem;
-    color: var(--neon-blue);
     text-align: center;
     word-break: break-word;
     max-width: 100%;
@@ -116,4 +119,14 @@
     right: 0;
     text-align: center;
     font-size: 0.7rem;
+    color: var(--neon-blue);
+
+}
+
+.bar-wrapper {
+    width: 100%;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+
+
 }

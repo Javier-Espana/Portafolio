@@ -28,6 +28,8 @@
         padding: 2rem 1rem;
     }
     .skills {
+        position: relative;
+        height: 100vh;
         padding: 2rem 1rem;
     }
     .solar-system {

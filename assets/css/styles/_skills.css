@@ -1,8 +1,11 @@
 /* Skills section and radar 3D styles split from styles.css */
 .skills {
+    position: relative;
+    height: 100vh;
     padding: 5rem 2rem;
     background: linear-gradient(to bottom, #000 0%, #0a0a2a 100%);
     perspective: 1000px;
+
 }
 
 .skills__container {

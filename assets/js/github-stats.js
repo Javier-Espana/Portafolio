@@ -1,5 +1,5 @@
 // Configuración
-const GITHUB_USERNAME = "javier-espana"; // Cambia por tu usuario real
+const GITHUB_USERNAME = "Javier-Espana"; // Cambia por tu usuario real
 const API_URL = `https://api.github.com/users/${GITHUB_USERNAME}`;
 
 // Utilidad: fetch con caché local
@@ -87,56 +87,43 @@ function createLanguageChart(languages, totalBytes) {
     const chartContainer = document.getElementById('languages-chart');
     if (!chartContainer) return;
     chartContainer.innerHTML = '';
-    // Si no hay datos, usar ejemplo
-    if (!languages || !languages.length) {
-        languages = [
-            ['JavaScript', 12000],
-            ['Python', 9000],
-            ['HTML', 7000],
-            ['CSS', 5000],
-            ['TypeScript', 4000],
-            ['Vue', 3000],
-            ['C#', 2000]
-        ];
-        totalBytes = 41000;
-    }
+
+    // Configuración de altura máxima (ajusta este valor según prefieras)
+    const MAX_BAR_HEIGHT = 150; // píxeles
+
     languages.forEach(([lang, bytes]) => {
         const percentage = Math.round((bytes / totalBytes) * 100);
+        const barHeight = (percentage / 100) * MAX_BAR_HEIGHT;
+
         const barContainer = document.createElement('div');
         barContainer.className = 'bar-container';
+
+        const barWrapper = document.createElement('div');
+        barWrapper.className = 'bar-wrapper';
+
         const bar = document.createElement('div');
         bar.className = 'bar';
-        bar.style.height = '0%'; // Inicia en 0 para animación
+        bar.style.height = '0px'; // Inicia en 0 para animación
         bar.style.backgroundColor = getLanguageColor(lang);
+
         const percentageLabel = document.createElement('div');
         percentageLabel.className = 'bar-percentage';
         percentageLabel.textContent = `${percentage}%`;
+
         const label = document.createElement('div');
         label.className = 'bar-label';
         label.textContent = lang;
+
         bar.appendChild(percentageLabel);
-        barContainer.appendChild(bar);
+        barWrapper.appendChild(bar);
+        barContainer.appendChild(barWrapper);
         barContainer.appendChild(label);
         chartContainer.appendChild(barContainer);
+
         // Animación después de un pequeño delay
         setTimeout(() => {
-            bar.style.height = `${percentage}%`;
+            bar.style.height = `${barHeight}px`;
         }, 100);
-    });
-    // Interactividad: hover en barras
-    document.querySelectorAll('.bar').forEach(bar => {
-        bar.addEventListener('mouseenter', function() {
-            this.style.transform = 'scaleY(1.05)';
-            const percentage = this.querySelector('.bar-percentage');
-            percentage.style.fontWeight = 'bold';
-            percentage.style.color = this.style.backgroundColor;
-        });
-        bar.addEventListener('mouseleave', function() {
-            this.style.transform = '';
-            const percentage = this.querySelector('.bar-percentage');
-            percentage.style.fontWeight = '';
-            percentage.style.color = '';
-        });
     });
 }
 
