@@ -95,6 +95,7 @@
 /* Planet: positioned relative to orbit center */
 .planet {
     position: absolute;
+    transform: translate(50px, 100px);
     top: 0;
     left: calc(var(--orbit-radius, 120px));
     width: var(--planet-size, 30px);
