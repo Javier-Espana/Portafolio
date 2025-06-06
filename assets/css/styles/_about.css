@@ -116,7 +116,7 @@
     position: absolute;
     top: -35px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-30%);
     background: rgba(0, 0, 20, 0.9);
     border: 1px solid var(--neon-green);
     color: var(--neon-green);
