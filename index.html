@@ -42,6 +42,8 @@
     <link rel="stylesheet" href="assets/css/animations.css">
     <!-- Howler.js para sonidos -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.min.js"></script>
+
 </head>
 <body>
     <!-- Hero Section -->
@@ -71,7 +73,13 @@
                     <img src="assets/utils/images/web-placeholder.jpg" alt="Javier España Foto" />
                 </div>
                 <h3>Sobre Mí</h3>
-                <p>Soy un ingeniero de software apasionado por el diseño de experiencias digitales inmersivas. Me especializo en desarrollo web, visualización 3D y UI/UX. Siempre busco fusionar arte y tecnología en cada proyecto.</p>
+                <p style="margin-bottom: 1.5rem;">
+                Soy un ingeniero de software apasionado por el diseño de experiencias digitales inmersivas. 
+                Me especializo en desarrollo web, visualización 3D y UI/UX. Siempre busco fusionar arte y 
+                tecnología en cada proyecto.
+                </p>
+
+                
                 <ul>
                     <li>🌐 Full Stack Developer</li>
                     <li>🖥️ Backend Enthusiast</li>
@@ -84,106 +92,52 @@
             <div class="solar-system planets-container">
                 <!-- Los planetas se generan por JS -->
                 <div class="sun"></div>
+                <div id="dodecahedron-container"></div>
+
             </div>
         </div>
     </section>
     
-    <!-- Sección Proyectos -->
-    <section class="projects">
-        <div class="universe">
-            <!-- Nebulosa de fondo -->
-            <div class="nebula"></div>
-            
-            <!-- Filtros -->
-            <div class="filters">
-                <button class="filter-btn active" data-filter="all">Todos</button>
-                <button class="filter-btn" data-filter="web">Web</button>
-                <button class="filter-btn" data-filter="mobile">Mobile</button>
+    <!-- Sección Habilidades -->
+    <section class="skills">
+        <div class="skills__container">
+            <!-- Gráfico de lenguajes más usados -->
+            <div class="languages-chart">
+                <h3 class="chart-title">LENGUAJES MÁS USADOS <span class="neon">(GITHUB STATS)</span></h3>
+                <div id="chart-loader" class="loader">
+                    <div class="loader__dot"></div>
+                    <div class="loader__dot"></div>
+                    <div class="loader__dot"></div>
+                </div>
+                <div class="chart-container" id="languages-chart">
+                    <!-- Barras se generan dinámicamente con JS -->
+                </div>
             </div>
             
-            <!-- Constelación de proyectos -->
-            <div class="constellation" id="constellation">
-                <!-- Proyectos se generan dinámicamente con JS -->
+            <!-- Leyenda interactiva -->
+            <div class="skills__legend">
+                <div class="legend__item" data-skill="frontend"><span class="legend__color" style="background:#00f7ff;"></span>Frontend</div>
+                <div class="legend__item" data-skill="backend"><span class="legend__color" style="background:#00ff7f;"></span>Backend</div>
+                <div class="legend__item" data-skill="design"><span class="legend__color" style="background:#ff00f7;"></span>Diseño</div>
+                <div class="legend__item" data-skill="all"><span class="legend__color" style="background:#fff;"></span>Todos</div>
             </div>
-        </div>
-        
-        <!-- Modal -->
-        <div class="modal" id="project-modal">
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title">Cyberpunk Dashboard</h2>
-                <video id="modal-video" src="assets/utils/videos/demo1.mp4" controls poster="assets/utils/images/web-placeholder.jpg" style="width:100%;border-radius:10px;"></video>
-                <p id="modal-desc">Panel de control con visualización 3D de datos</p>
-                <div style="margin-top:1rem;display:flex;gap:1rem;">
-                    <a id="modal-github" href="#" class="neon-btn" target="_blank">GitHub</a>
-                    <a id="modal-demo" href="#" class="neon-btn" target="_blank">Demo</a>
+            <!-- Stats de GitHub -->
+            <div class="github-stats">
+                <div class="stat" id="repos">
+                    <div class="stat__value">12</div>
+                    <div class="stat__label">Repositorios</div>
+                </div>
+                <div class="stat" id="stars">
+                    <div class="stat__value">48</div>
+                    <div class="stat__label">Seguidores</div>
+                </div>
+                <div class="stat" id="languages">
+                    <div class="stat__value">6</div>
+                    <div class="stat__label">Lenguajes</div>
                 </div>
             </div>
         </div>
     </section>
-
-<!-- Sección Habilidades -->
-<section class="skills">
-    <div class="skills__container">
-        <h2 class="skills__title">HABILIDADES <span class="neon">EN 3D</span></h2>
-        
-        <!-- Contenedor del Radar 3D -->
-        <div class="radar-3d" id="radar-3d">
-            <div class="radar__axis x-axis"></div>
-            <div class="radar__axis y-axis"></div>
-            <div class="radar__axis z-axis"></div>
-            
-            <!-- Puntos de habilidades se generan dinámicamente -->
-        </div>
-        <!-- Control de rotación -->
-        <div class="rotation-control">
-            <button id="toggle-rotation" class="neon-btn">
-                <span class="icon">⟳</span>
-                <span class="label">AUTO-ROTACIÓN</span>
-            </button>
-            <div class="speed-control" id="speed-control">
-                <button data-speed="0.2">1x</button>
-                <button data-speed="0.4">2x</button>
-                <button data-speed="0.6">3x</button>
-            </div>
-        </div>
-        <!-- Gráfico de lenguajes más usados -->
-        <div class="languages-chart">
-            <h3 class="chart-title">LENGUAJES MÁS USADOS <span class="neon">(GITHUB STATS)</span></h3>
-            <div id="chart-loader" class="loader">
-                <div class="loader__dot"></div>
-                <div class="loader__dot"></div>
-                <div class="loader__dot"></div>
-            </div>
-            <div class="chart-container" id="languages-chart">
-                <!-- Barras se generan dinámicamente con JS -->
-            </div>
-        </div>
-        
-        <!-- Leyenda interactiva -->
-        <div class="skills__legend">
-            <div class="legend__item" data-skill="frontend"><span class="legend__color" style="background:#00f7ff;"></span>Frontend</div>
-            <div class="legend__item" data-skill="backend"><span class="legend__color" style="background:#00ff7f;"></span>Backend</div>
-            <div class="legend__item" data-skill="design"><span class="legend__color" style="background:#ff00f7;"></span>Diseño</div>
-            <div class="legend__item" data-skill="all"><span class="legend__color" style="background:#fff;"></span>Todos</div>
-        </div>
-        <!-- Stats de GitHub -->
-        <div class="github-stats">
-            <div class="stat" id="repos">
-                <div class="stat__value">12</div>
-                <div class="stat__label">Repositorios</div>
-            </div>
-            <div class="stat" id="stars">
-                <div class="stat__value">48</div>
-                <div class="stat__label">Seguidores</div>
-            </div>
-            <div class="stat" id="languages">
-                <div class="stat__value">6</div>
-                <div class="stat__label">Lenguajes</div>
-            </div>
-        </div>
-    </div>
-</section>
 
 
     <!-- JS -->
