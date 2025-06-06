@@ -162,3 +162,14 @@ function createConstellation() {
         }
     });
 }
+
+document.getElementById('explore-cta').addEventListener('click', function(e) {
+    e.preventDefault();
+    const aboutSection = document.querySelector('.about');
+    aboutSection.scrollIntoView({
+        behavior: 'smooth'
+    });
+    
+    const sound = new Howl({ src: ['assets/sounds/click.mp3'] });
+    sound.play();
+});
