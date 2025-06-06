@@ -62,8 +62,8 @@
 
 /* Órbitas planetarias */
 @keyframes orbit {
-    from { transform: rotate(0deg) translateX(250px) rotate(0deg); }
-    to { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+    from { transform: rotate(0deg) translateX(400px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(400px) rotate(-360deg); }
 }
 
 /* Efecto neón para títulos */
