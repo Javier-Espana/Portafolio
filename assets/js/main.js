@@ -1,5 +1,4 @@
 import './audio.js';
-import './radar-rotation.js';
 
 // Efecto máquina de escribir para el hero subtitle
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
     type();
 });
 
-// Sistema Solar de Habilidades
 // Sistema Solar de Habilidades
 document.addEventListener('DOMContentLoaded', () => {
     const planetsContainer = document.querySelector('.planets-container');
@@ -153,8 +151,8 @@ const projects = [
         type: "web",
         tech: ["Three.js", "React"],
         video: "assets/utils/videos/demo1.mp4",
-        github: "https://github.com/javier-espana/cyberpunk-dashboard",
-        demo: "https://cyberpunk-dashboard.demo/",
+        github: "https://github.com/Javier-Espana/Portafolio",
+        demo: "https://calicheoficial.lat/23361/Portafolio/index.html",
         description: "Panel de control con visualización 3D de datos.",
         position: { x: 20, y: 30 }
     },
