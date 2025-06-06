@@ -189,8 +189,8 @@ async function integrateGitHubData() {
     const githubSkills = await getLanguages(reposUrl);
     
     // Añadir habilidades al radar
-    if (githubSkills) {
-        const radar = document.getElementById('radar-3d');
+    const radar = document.getElementById('radar-3d');
+    if (githubSkills && radar) { // Añade verificación de radar
         githubSkills.forEach(skill => {
             const point = document.createElement('div');
             point.className = 'skill-point github';
@@ -205,6 +205,5 @@ async function integrateGitHubData() {
         });
     }
 }
-
 // Inicialización
 document.addEventListener('DOMContentLoaded', integrateGitHubData);

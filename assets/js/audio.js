@@ -18,22 +18,31 @@ const sounds = {
 // Efectos en elementos interactivos
 function setupAudioInteractions() {
     // Hover en estrellas/botones
-    document.querySelectorAll('.star, .filter-btn, .legend__item, .bar').forEach(el => {
-        el.addEventListener('mouseenter', () => sounds.hover.play());
-    });
+    const hoverElements = document.querySelectorAll('.star, .filter-btn, .legend__item, .bar');
+    if (hoverElements.length) {
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => sounds.hover.play());
+        });
+    }
     
     // Clicks importantes
-    document.querySelectorAll('.hero__cta, .filter-btn, .close').forEach(el => {
-        el.addEventListener('click', () => sounds.click.play());
-    });
+    const clickElements = document.querySelectorAll('.hero__cta, .filter-btn, .close');
+    if (clickElements.length) {
+        clickElements.forEach(el => {
+            el.addEventListener('click', () => sounds.click.play());
+        });
+    }
     
-    // Rotación automática
-    document.getElementById('toggle-rotation').addEventListener('click', function() {
-        sounds.activate.play();
-        if (this.classList.contains('active')) {
-            sounds.hover.play(); // Sonido adicional al activar
-        }
-    });
+    // Rotación automática - Añade verificación de existencia
+    const rotationToggle = document.getElementById('toggle-rotation');
+    if (rotationToggle) {
+        rotationToggle.addEventListener('click', function() {
+            sounds.activate.play();
+            if (this.classList.contains('active')) {
+                sounds.hover.play();
+            }
+        });
+    }
 }
 
 // Inicialización

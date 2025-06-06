@@ -266,48 +266,20 @@ const skillsData = [
 
 ];
 
-// Crear radar 3D
-async function create3DRadar() {
+// Modifica setupRadarRotation en main.js así:
+function setupRadarRotation() {
     const radar = document.getElementById('radar-3d');
-    if (!radar) return;
-    radar.innerHTML = '';
-    const radius = 100;
-    skillsData.forEach((skill, i) => {
-        // Distribuir puntos en el espacio 3D
-        const angle = (i / skillsData.length) * 2 * Math.PI;
-        const x = Math.cos(angle) * radius * (skill.level / 100);
-        const y = Math.sin(angle) * radius * (skill.level / 100);
-        const z = (Math.random() - 0.5) * 80;
-        const point = document.createElement('div');
-        point.className = 'skill-point';
-        point.style.background = skill.color;
-        point.style.transform = `translate3d(${x}px, ${y}px, ${z}px)`;
-        point.title = skill.name;
-        // Zoom al hacer click
-        point.addEventListener('click', () => {
-            radar.style.transform = `translate3d(${-x}px, ${-y}px, ${-z}px) rotateX(20deg) rotateY(30deg)`;
-        });
-        // Tooltip
-        point.addEventListener('mouseenter', showTooltip);
-        point.addEventListener('mouseleave', hideTooltip);
-        radar.appendChild(point);
-        // Líneas de conexión (opcional, simple)
-        if (i > 0) {
-            const prev = radar.children[i-1];
-            const line = document.createElement('div');
-            line.className = 'skill-line';
-            line.style.position = 'absolute';
-            line.style.background = 'rgba(0,247,255,0.3)';
-            line.style.width = '2px';
-            line.style.height = `${Math.sqrt(Math.pow(x - (Math.cos((i-1)/skillsData.length*2*Math.PI)*radius*(skillsData[i-1].level/100)),2) + Math.pow(y - (Math.sin((i-1)/skillsData.length*2*Math.PI)*radius*(skillsData[i-1].level/100)),2) + Math.pow(z - ((Math.random()-0.5)*80),2))}px`;
-            // Para una visualización avanzada, usar SVG o Three.js
-            radar.appendChild(line);
-        }
+    if (!radar) return; // Añade esta verificación
+    
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    
+    radar.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        previousMousePosition = { x: e.clientX, y: e.clientY };
     });
-    // Añadir datos de GitHub
-    if (typeof integrateGitHubData === 'function') {
-        await integrateGitHubData();
-    }
+    
+    // Resto del código...
 }
 
 // Rotación con mouse
@@ -385,9 +357,14 @@ function hideTooltip(e) {
 
 // Inicialización
 window.addEventListener('DOMContentLoaded', () => {
-    create3DRadar();
-    setupRadarRotation();
-    setupCategoryFilters();
+    // Verifica que los elementos existan antes de intentar inicializarlos
+    if (document.getElementById('radar-3d')) {
+        create3DRadar();
+        setupRadarRotation();
+        setupCategoryFilters();
+    }
+    
+    createConstellation();
 });
 
 
