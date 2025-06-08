@@ -1,15 +1,15 @@
 // Configuración de sonidos
 const sounds = {
     hover: new Howl({
-        src: ['assets/sounds/hover.wav'],
+        src: ['../utils/sounds/beam.mp3'],
         volume: 0.3
     }),
     click: new Howl({
-        src: ['assets/sounds/click.wav'],
+        src: ['../utils/sounds/click.mp3'],
         volume: 0.5
     }),
     activate: new Howl({
-        src: ['assets/sounds/activate.wav'],
+        src: ['../utils/sounds/activate.wav'],
         volume: 0.4,
         rate: 1.2
     })
@@ -45,3 +45,12 @@ function setupAudioInteractions() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', setupAudioInteractions);
+
+
+const exploreBtn = document.getElementById('explore-cta');
+if (exploreBtn) {
+    exploreBtn.addEventListener('click', () => {
+        sounds.click.play();
+        sounds.hover.play(); // suena también el efecto hover
+    });
+}
