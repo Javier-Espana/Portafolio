@@ -5,11 +5,12 @@
     position: relative;
     height: 100vh;
     overflow: hidden;
+
 }
 
 .about__container {
     height: 80vh;
-    max-width: 2100px;
+    max-width: 1800px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -17,7 +18,7 @@
 }
 
 .about__card {
-    width: 1200px;
+    width: 1000px;
     background: rgba(15, 15, 45, 0.5);
     backdrop-filter: blur(10px);
     border: 1px solid var(--neon-blue);

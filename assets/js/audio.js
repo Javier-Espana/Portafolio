@@ -1,11 +1,11 @@
 // Configuración de sonidos
 const sounds = {
     hover: new Howl({
-        src: ['../utils/sounds/beam.mp3'],
+        src: ['assets/sounds/beam.mp3'],
         volume: 0.3
     }),
     click: new Howl({
-        src: ['../utils/sounds/click.mp3'],
+        src: ['assets/sounds/click.mp3'],
         volume: 0.5
     }),
     activate: new Howl({
