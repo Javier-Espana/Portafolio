@@ -48,3 +48,11 @@ function setupAudioInteractions() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', setupAudioInteractions);
+
+const exploreBtn = document.getElementById('explore-cta');
+if (exploreBtn) {
+    exploreBtn.addEventListener('click', () => {
+        sounds.click.play();
+        sounds.hover.play(); // suena también el efecto hover
+    });
+}
