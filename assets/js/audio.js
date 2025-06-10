@@ -2,11 +2,11 @@
 const sounds = {
     hover: new Howl({
         src: ['assets/utils/sounds/beam.mp3'],
-        volume: 0.7
+        volume: 0.9
     }),
     click: new Howl({
         src: ['assets/utils/sounds/click.mp3'],
-        volume: 0.8
+        volume: 0.3
     }),
     activate: new Howl({
         src: ['assets/utils/sounds/activate.wav'],
