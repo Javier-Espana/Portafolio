@@ -180,8 +180,8 @@ export default {
         messagePlaceholder: 'Tell me about your project...',
         submit: 'Send Message',
         sending: 'Sending...',
-        success: "✓ Message sent successfully! I'll reply soon.",
-        error: '✗ There was an error sending the message. Please try again.',
+        success: 'Message sent successfully! I will reply soon.',
+        error: 'There was an error sending the message. Please try again.',
         errors: {
           nameRequired: 'Name is required',
           emailRequired: 'Email is required',
@@ -399,7 +399,7 @@ export default {
     },
     contact: {
       title: 'Contacto',
-      subtitle: '¿Tienes un proyecto en mente? ¡Hablemos! Estoy disponible para nuevas oportunidades',
+      subtitle: 'Tienes un proyecto en mente? Hablemos! Estoy disponible para nuevas oportunidades',
       form: {
         title: 'Envíame un Mensaje',
         name: 'Nombre',
@@ -412,8 +412,8 @@ export default {
         messagePlaceholder: 'Cuéntame sobre tu proyecto...',
         submit: 'Enviar Mensaje',
         sending: 'Enviando...',
-        success: '✓ ¡Mensaje enviado con éxito! Te responderé pronto.',
-        error: '✗ Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.',
+        success: 'Mensaje enviado con éxito! Te responderé pronto.',
+        error: 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.',
         errors: {
           nameRequired: 'El nombre es requerido',
           emailRequired: 'El email es requerido',
