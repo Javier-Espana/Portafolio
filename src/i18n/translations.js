@@ -14,9 +14,9 @@ export default {
         'Full Stack Developer',
         'Computer Science Student',
         'Backend Enthusiast',
-        'AI & Data Science Lover'
+        'AI and Data Science Lover'
       ],
-      subtitle: '6th Semester Computer Science & IT Engineering Student at Universidad del Valle de Guatemala',
+      subtitle: '6th Semester Computer Science and IT Engineering Student at Universidad del Valle de Guatemala',
       cta: {
         projects: 'View Projects',
         contact: 'Contact Me'
@@ -26,7 +26,7 @@ export default {
     about: {
       title: 'About Me',
       name: 'Javier Eduardo España Pacheco',
-      role: 'Computer Science & Information Technology Engineering Student',
+      role: 'Computer Science and Information Technology Engineering Student',
       university: 'Universidad del Valle de Guatemala',
       semester: '6th Semester',
       badges: {
@@ -62,7 +62,7 @@ export default {
         frontend: 'Frontend',
         backend: 'Backend',
         database: 'Database',
-        tools: 'Tools & DevOps'
+        tools: 'Tools and DevOps'
       },
       proficiency: 'Proficiency'
     },
@@ -158,10 +158,10 @@ export default {
       categories: {
         languages: 'Programming Languages',
         frontend: 'Frontend',
-        backend: 'Backend & APIs',
+        backend: 'Backend and APIs',
         databases: 'Databases',
-        devops: 'DevOps & Cloud',
-        tools: 'Tools & Others'
+        devops: 'DevOps and Cloud',
+        tools: 'Tools and Others'
       },
       years: 'years of experience'
     },
@@ -214,7 +214,7 @@ export default {
       ]
     },
     achievements: {
-      title: 'Achievements & Recognition',
+      title: 'Achievements and Recognition',
       items: [
         {
           title: 'Academic Mention',
