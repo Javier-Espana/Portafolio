@@ -8,7 +8,7 @@ export default {
       contact: 'Contact'
     },
     hero: {
-      greeting: 'Hi, I\'m',
+      greeting: "Hi, I'm",
       name: 'Javier España',
       titles: [
         'Full Stack Developer',
@@ -98,8 +98,8 @@ export default {
       }
     },
     cta: {
-      title: 'Let\'s Work Together',
-      subtitle: 'I\'m available for freelance projects and full-time opportunities',
+      title: "Let's Work Together",
+      subtitle: "I'm available for freelance projects and full-time opportunities",
       buttons: {
         contact: 'Get in Touch',
         github: 'View GitHub'
@@ -167,7 +167,7 @@ export default {
     },
     contact: {
       title: 'Contact',
-      subtitle: 'Have a project in mind? Let\'s talk! I\'m available for new opportunities',
+      subtitle: "Have a project in mind? Let's talk! I'm available for new opportunities",
       form: {
         title: 'Send Me a Message',
         name: 'Name',
@@ -180,7 +180,7 @@ export default {
         messagePlaceholder: 'Tell me about your project...',
         submit: 'Send Message',
         sending: 'Sending...',
-        success: '✓ Message sent successfully! I\'ll reply soon.',
+        success: "✓ Message sent successfully! I'll reply soon.",
         error: '✗ There was an error sending the message. Please try again.',
         errors: {
           nameRequired: 'Name is required',
