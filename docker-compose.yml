@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # Production-like static site served by nginx using the multi-stage Dockerfile
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portafolio:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  # Optional development service that runs the Vite dev server (hot reload).
+  # Start with: docker compose up --build dev
+  dev:
+    image: node:18
+    working_dir: /app
+    volumes:
+      - ./:/app:cached
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm ci && npm run dev"

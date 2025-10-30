@@ -40,4 +40,31 @@ Notes:
 - Docker ensures reproducible builds and is useful when deploying to container platforms (Cloud Run, AWS ECS, DigitalOcean App Platform, etc.).
 - Docker itself won't change Netlify CDN caching behavior; to fix stale-client issues use proper cache-control headers (we already added `netlify.toml`) and CI-based deploys that ensure index.html is revalidated.
 
+## Docker Compose
+
+If you want to build and run the app locally with a single command, a `docker-compose.yml` was added. It provides two services:
+
+- `web`: builds the multi-stage production image (uses the `Dockerfile`) and serves the built `dist/` directory with Nginx on port 80. Mapped to host port `8080` by default.
+- `dev`: an optional development container that runs the Vite dev server (hot-reload) on port `5173`.
+
+Run both (build and start web container):
+
+```bash
+docker compose up --build -d web
+# then open http://localhost:8080
+```
+
+Run the development container (hot reload):
+
+```bash
+docker compose up --build dev
+# then open http://localhost:5173
+```
+
+To tear down:
+
+```bash
+docker compose down
+```
+
 
