@@ -279,13 +279,13 @@ const handleSubmit = async () => {
   color: rgba(255, 255, 255, 0.7);
   font-size: 1.2rem;
   max-width: 700px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 1.2rem; /* reduce space below subtitle */
 }
 
 .contact-grid {
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  gap: 4rem;
+  gap: 2rem; /* tighter spacing between form and info */
 }
 
 /* Contact Form */
@@ -294,7 +294,7 @@ const handleSubmit = async () => {
   font-family: var(--font-title);
   font-size: 2rem;
   color: var(--neon-blue);
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* reduce heading bottom margin */
 }
 
 .contact-form {
@@ -369,8 +369,8 @@ const handleSubmit = async () => {
 .info-cards {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-bottom: 2rem;
+  gap: 1rem; /* less vertical gap between cards */
+  margin-bottom: 1rem; /* compact bottom spacing */
 }
 
 .info-card {
@@ -417,11 +417,11 @@ const handleSubmit = async () => {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.5rem;
-  background: rgba(0, 255, 127, 0.1);
+  padding: 1rem; /* slightly smaller padding */
+  background: rgba(0, 255, 127, 0.08);
   border: 1px solid var(--neon-green);
-  border-radius: 15px;
-  margin-bottom: 2rem;
+  border-radius: 12px;
+  margin-bottom: 1rem; /* reduce spacing below availability */
 }
 
 .status-indicator {
