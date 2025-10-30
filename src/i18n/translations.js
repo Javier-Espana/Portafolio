@@ -1,3 +1,4 @@
+// Cleaned translations file — ensure no stray tokens that break vue-i18n linked-format parser
 export default {
   en: {
     nav: {
