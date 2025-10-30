@@ -52,3 +52,100 @@
         gap: 1rem;
     }
 }
+
+/* Extra small phones / very small screens */
+@media (max-width: 480px) {
+    /* Reduce large headings */
+    .hero__title,
+    .section-title {
+        font-size: 1.5rem !important;
+        line-height: 1.2;
+    }
+
+    .hero__subtitle,
+    .section-subtitle {
+        font-size: 0.95rem !important;
+    }
+
+    /* Make containers tighter on small screens */
+    .container {
+        padding: 0 0.75rem;
+    }
+
+    .section {
+        padding: 2rem 0.75rem;
+    }
+
+    /* Buttons full width to improve tap targets */
+    .btn,
+    .btn-primary,
+    .btn-secondary {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0.85rem 1rem;
+        font-size: 1rem;
+    }
+
+    /* Forms: inputs and textarea full width and larger touch targets */
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.9rem;
+        font-size: 1rem;
+    }
+
+    /* Contact layout: stack and stretch */
+    .contact-grid,
+    .projects-grid,
+    .info-cards {
+        grid-template-columns: 1fr !important;
+        display: block !important;
+    }
+
+    .contact-form-container,
+    .contact-info,
+    .project-card {
+        width: 100% !important;
+        margin: 0 0 1.25rem 0;
+    }
+
+    /* Navbar: ensure menu covers full width when active */
+    .navbar__menu {
+        width: 85% !important;
+    }
+
+    /* Social links and icons smaller, centered */
+    .social-links {
+        justify-content: center;
+    }
+
+    .social-link {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Reduce spacing for info cards and lists */
+    .info-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+}
+
+/* Ultra-small / older phones */
+@media (max-width: 360px) {
+    .section-title {
+        font-size: 1.25rem !important;
+    }
+    .btn {
+        font-size: 0.95rem;
+        padding: 0.7rem 0.9rem;
+    }
+    .container {
+        padding: 0 0.6rem;
+    }
+}

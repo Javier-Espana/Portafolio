@@ -5,29 +5,27 @@
         <div class="footer__section">
           <h3 class="footer__title">Javier España</h3>
           <p class="footer__description">
-            Estudiante de Ingeniería en Ciencias de la Computación apasionado por 
-            el desarrollo de software, la inteligencia artificial y la creación de 
-            soluciones tecnológicas innovadoras.
+            {{ $t('footer.about') }}
           </p>
         </div>
-        
+
         <div class="footer__section">
-          <h4 class="footer__subtitle">Enlaces Rápidos</h4>
+          <h4 class="footer__subtitle">{{ $t('footer.quickLinks') }}</h4>
           <ul class="footer__links">
             <li v-for="link in quickLinks" :key="link.path">
-              <router-link :to="link.path">{{ link.name }}</router-link>
+              <router-link :to="link.path">{{ $t(link.nameKey) }}</router-link>
             </li>
           </ul>
         </div>
-        
+
         <div class="footer__section">
-          <h4 class="footer__subtitle">Redes Sociales</h4>
+          <h4 class="footer__subtitle">{{ $t('footer.social') }}</h4>
           <div class="footer__social">
-            <a 
-              v-for="social in socialLinks" 
+            <a
+              v-for="social in socialLinks"
               :key="social.name"
-              :href="social.url" 
-              target="_blank" 
+              :href="social.url"
+              target="_blank"
               rel="noopener noreferrer"
               :aria-label="social.name"
               class="footer__social-link"
@@ -37,11 +35,11 @@
           </div>
         </div>
       </div>
-      
+
       <div class="footer__bottom">
-        <p>&copy; {{ currentYear }} Javier España. Todos los derechos reservados.</p>
+        <p>&copy; {{ currentYear }} Javier España. {{ $t('footer.rights') }}</p>
         <p class="footer__made-with">
-          Hecho con <span class="heart">❤️</span> y Vue 3
+          {{ $t('footer.madeWith') }} <span class="heart">❤️</span> {{ $t('footer.and') }} Vue 3
         </p>
       </div>
     </div>
@@ -54,10 +52,10 @@ import { computed } from 'vue'
 const currentYear = computed(() => new Date().getFullYear())
 
 const quickLinks = [
-  { name: 'Inicio', path: '/' },
-  { name: 'Proyectos', path: '/projects' },
-  { name: 'Habilidades', path: '/skills' },
-  { name: 'Contacto', path: '/contact' }
+  { nameKey: 'nav.home', path: '/' },
+  { nameKey: 'nav.projects', path: '/projects' },
+  { nameKey: 'nav.skills', path: '/skills' },
+  { nameKey: 'nav.contact', path: '/contact' }
 ]
 
 const socialLinks = [
