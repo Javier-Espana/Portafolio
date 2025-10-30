@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "serve": "sirv dist --single --port 4173",
+    "postbuild": "cp -f dist/index.html dist/404.html || true",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
@@ -21,6 +23,7 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
+    "sirv-cli": "^1.0.14",
     "vite": "^5.2.0"
   }
 }
