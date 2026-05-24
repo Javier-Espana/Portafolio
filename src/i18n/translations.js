@@ -17,7 +17,7 @@ export default {
         'Backend Enthusiast',
         'AI and Data Science Lover'
       ],
-      subtitle: '6th Semester Computer Science and IT Engineering Student at Universidad del Valle de Guatemala',
+      subtitle: '7th Semester Computer Science and IT Engineering Student at Universidad del Valle de Guatemala',
       cta: {
         projects: 'View Projects',
         contact: 'Contact Me'
@@ -29,7 +29,7 @@ export default {
       name: 'Javier Eduardo España Pacheco',
       role: 'Computer Science and Information Technology Engineering Student',
       university: 'Universidad del Valle de Guatemala',
-      semester: '6th Semester',
+      semester: '7th Semester',
       badges: {
         fullstack: 'Full Stack Developer',
         backend: 'Backend Enthusiast',
@@ -37,7 +37,7 @@ export default {
         music: 'Music Lover'
       },
       bio: [
-        'I am a 6th semester student of Computer Science and Information Technology Engineering at Universidad del Valle de Guatemala, with a great passion for software development and solving complex problems. I specialize in Full Stack development, intuitive interface design, and creating efficient solutions in both backend and frontend.',
+        'I am a 7th semester student of Computer Science and Information Technology Engineering at Universidad del Valle de Guatemala, with a great passion for software development and solving complex problems. I specialize in Full Stack development, intuitive interface design, and creating efficient solutions in both backend and frontend.',
         'I love exploring new technologies, optimizing processes, and turning ideas into functional products. I am currently developing web technology and artificial intelligence projects. I am deeply interested in developing applications that have a direct impact on people, especially in the areas of financial management, process automation, and data analysis.',
         'Additionally, I have experience in parallel programming, simulations, and applied mathematical calculations. One of my current focuses is combining financial analysis with artificial intelligence, building solutions that not only process data but offer added value through result interpretation.',
         'I have worked on scenario simulations, financial report generation, and calculating indicators such as Value at Risk using advanced statistical methods.',
@@ -230,6 +230,85 @@ export default {
           description: 'Recognition for academic excellence'
         }
       ]
+    },
+    cinematic: {
+      statusLabel: 'FULL EXPERIENCE',
+      skipBtn: 'SKIP',
+      warning: '⚠️ Contains music and sound (3:12 mins)',
+      scene0: {
+        subtitle: 'Computer Science & IT Engineering',
+        university: 'Universidad del Valle de Guatemala'
+      },
+      scene1: {
+        label1: 'Semester',
+        label2: 'Years Coding',
+        label3: 'Projects',
+        tagline: 'Turning ideas into software'
+      },
+      scene2: {
+        label: '// TECHNICAL ARSENAL',
+        title: 'Multi-Stack',
+        title2: 'Mastery'
+      },
+      scene3: {
+        label: '// FEATURED PROJECTS',
+        title: 'What I have',
+        title2: 'built'
+      },
+      scene4: {
+        label: '// MY JOURNEY',
+        title: 'Experience',
+        exp1_title: 'Full Stack Developer',
+        exp1_company: 'Personal Projects',
+        exp1_desc: 'Complete web applications from frontend to backend, APIs, and databases.',
+        exp2_title: 'Backend Developer',
+        exp2_company: 'Academic Projects',
+        exp2_desc: 'Robust systems, simulations, financial analysis and parallelism.',
+        exp3_title: 'Parallel Computing',
+        exp3_company: 'UVG Research',
+        exp3_desc: 'Monte Carlo simulations, Value at Risk, OpenMP and CUDA.'
+      },
+      sceneA: {
+        label: '// PHILOSOPHY',
+        title: 'Clean Architecture',
+        title2: 'Scalable Systems',
+        points: ['Clean Code Principles', 'High Performance', 'Security by Design']
+      },
+      sceneB: {
+        label: '// FUTURE GOALS',
+        title: 'Impacting through',
+        title2: 'Software',
+        text1: 'Building AI-driven financial platforms.',
+        text2: 'Automating the future.'
+      },
+      scene5: {
+        label: '// ACHIEVEMENTS',
+        title: 'Awards &',
+        title2: 'Recognition',
+        ach1_title: 'Academic Mention',
+        ach1_year: '2023',
+        ach1_desc: 'Outstanding performance at Universidad del Valle de Guatemala',
+        ach2_title: 'Academic Distinction',
+        ach2_year: '2024',
+        ach2_desc: 'Excellence recognition at Universidad del Valle de Guatemala',
+        cert1_title: 'Agile Project Management',
+        cert1_issuer: 'Google — Coursera · 2024',
+        cert2_title: 'Dale Carnegie Youth Course',
+        cert2_issuer: 'Dale Carnegie Training · 2016'
+      },
+      scene6: {
+        label: '// ORIGIN STORY',
+        quote: '"I started coding at 14, fascinated by how text could become something real on a screen. That curiosity never left."',
+        traits: ['Self-taught', 'Curious', 'Team Player', 'Music Lover', 'Problem Solver']
+      },
+      scene7: {
+        label: '// CONNECT WITH ME',
+        title: 'Ready to',
+        title2: 'collaborate?',
+        cta1: 'View Projects',
+        cta2: 'Get in Touch',
+        thanksLabel: 'thank you for watching'
+      }
     }
   },
   es: {
@@ -249,7 +328,7 @@ export default {
         'Entusiasta del Backend',
         'Amante de IA y Data Science'
       ],
-      subtitle: 'Estudiante de 6.º Ciclo de Ingeniería en Ciencias de la Computación y TI en la Universidad del Valle de Guatemala',
+      subtitle: 'Estudiante de 7.º Semestre de Ingeniería en Ciencias de la Computación y TI en la Universidad del Valle de Guatemala',
       cta: {
         projects: 'Ver Proyectos',
         contact: 'Contáctame'
@@ -261,7 +340,7 @@ export default {
       name: 'Javier Eduardo España Pacheco',
       role: 'Estudiante de Ingeniería en Ciencias de la Computación y Tecnologías de la Información',
       university: 'Universidad del Valle de Guatemala',
-      semester: '6.º Ciclo',
+      semester: '7.º Semestre',
       badges: {
         fullstack: 'Desarrollador Full Stack',
         backend: 'Entusiasta del Backend',
@@ -269,7 +348,7 @@ export default {
         music: 'Amante de la Música'
       },
       bio: [
-        'Soy estudiante de 6.º ciclo de Ingeniería en Ciencias de la Computación y Tecnologías de la Información en la Universidad del Valle de Guatemala, con una gran pasión por el desarrollo de software y la resolución de problemas complejos. Me especializo en desarrollo Full Stack, diseño de interfaces intuitivas y en la creación de soluciones eficientes, tanto en backend como en frontend.',
+        'Soy estudiante de 7.º semestre de Ingeniería en Ciencias de la Computación y Tecnologías de la Información en la Universidad del Valle de Guatemala, con una gran pasión por el desarrollo de software y la resolución de problemas complejos. Me especializo en desarrollo Full Stack, diseño de interfaces intuitivas y en la creación de soluciones eficientes, tanto en backend como en frontend.',
         'Me encanta explorar nuevas tecnologías, optimizar procesos y convertir ideas en productos funcionales. Actualmente me encuentro desarrollando proyectos de tecnologías web e inteligencia artificial. Me interesa profundamente el desarrollo de aplicaciones que tengan un impacto directo en las personas, especialmente en el área de gestión financiera, automatización de procesos y análisis de datos.',
         'Además, tengo experiencia en programación paralela, simulaciones y cálculos matemáticos aplicados. Uno de mis enfoques actuales es combinar el análisis financiero con la inteligencia artificial, construyendo soluciones que no solo procesan datos, sino que ofrecen valor agregado mediante la interpretación de los resultados.',
         'He trabajado en simulaciones de escenarios, generación de reportes financieros, y en el cálculo de indicadores como el Value at Risk utilizando métodos estadísticos avanzados.',
@@ -462,6 +541,85 @@ export default {
           description: 'Reconocimiento por excelencia académica'
         }
       ]
+    },
+    cinematic: {
+      statusLabel: 'FULL EXPERIENCE',
+      skipBtn: 'SALTAR',
+      warning: '⚠️ Contiene música y sonido (3:12 mins)',
+      scene0: {
+        subtitle: 'Ingeniería en Ciencias de la Computación y TI',
+        university: 'Universidad del Valle de Guatemala'
+      },
+      scene1: {
+        label1: 'Semestre',
+        label2: 'Años Programando',
+        label3: 'Proyectos',
+        tagline: 'Convirtiendo ideas en software'
+      },
+      scene2: {
+        label: '// ARSENAL TÉCNICO',
+        title: 'Dominio',
+        title2: 'Multi-Stack'
+      },
+      scene3: {
+        label: '// PROYECTOS DESTACADOS',
+        title: 'Lo que he',
+        title2: 'construido'
+      },
+      scene4: {
+        label: '// MI TRAYECTORIA',
+        title: 'Experiencia',
+        exp1_title: 'Desarrollador Full Stack',
+        exp1_company: 'Proyectos Personales',
+        exp1_desc: 'Aplicaciones web completas de frontend a backend, APIs y bases de datos.',
+        exp2_title: 'Desarrollador Backend',
+        exp2_company: 'Proyectos Académicos',
+        exp2_desc: 'Sistemas robustos, simulaciones, análisis financiero y paralelismo.',
+        exp3_title: 'Computación Paralela',
+        exp3_company: 'Investigación UVG',
+        exp3_desc: 'Simulaciones Monte Carlo, Value at Risk, OpenMP y CUDA.'
+      },
+      sceneA: {
+        label: '// FILOSOFÍA',
+        title: 'Arquitectura Limpia',
+        title2: 'Sistemas Escalables',
+        points: ['Principios de Clean Code', 'Alto Rendimiento', 'Seguridad desde el Diseño']
+      },
+      sceneB: {
+        label: '// METAS FUTURAS',
+        title: 'Impactando a través',
+        title2: 'del Software',
+        text1: 'Construyendo plataformas financieras con IA.',
+        text2: 'Automatizando el futuro.'
+      },
+      scene5: {
+        label: '// LOGROS',
+        title: 'Premios y',
+        title2: 'Reconocimientos',
+        ach1_title: 'Mención Académica',
+        ach1_year: '2023',
+        ach1_desc: 'Desempeño sobresaliente en la Universidad del Valle de Guatemala',
+        ach2_title: 'Distinción Académica',
+        ach2_year: '2024',
+        ach2_desc: 'Reconocimiento por excelencia académica en la UVG',
+        cert1_title: 'Gestión de Proyectos con Agile',
+        cert1_issuer: 'Google — Coursera · 2024',
+        cert2_title: 'Curso Dale Carnegie para Jóvenes',
+        cert2_issuer: 'Dale Carnegie Training · 2016'
+      },
+      scene6: {
+        label: '// HISTORIA DE ORIGEN',
+        quote: '"Empecé a programar a los 14, fascinado por cómo el texto podía convertirse en algo real en una pantalla. Esa curiosidad nunca se fue."',
+        traits: ['Autodidacta', 'Curioso', 'Trabajo en Equipo', 'Amante de la Música', 'Solucionador de Problemas']
+      },
+      scene7: {
+        label: '// CONÉCTATE CONMIGO',
+        title: '¿Listo para',
+        title2: 'colaborar?',
+        cta1: 'Ver Proyectos',
+        cta2: 'Contáctame',
+        thanksLabel: 'gracias por ver'
+      }
     }
   }
 }

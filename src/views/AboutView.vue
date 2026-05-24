@@ -1,45 +1,52 @@
 <template>
-  <div class="about-view">
-    <section class="about-hero section">
+  <div class="about-view page-transition">
+    <!-- Hero Section -->
+    <section class="about-hero section" ref="heroRef">
       <div class="container">
-        <h1 class="section-title">{{ $t('about.title') }}</h1>
-        
+        <h1 class="section-title gsap-reveal">{{ $t('about.title') }}</h1>
+        <p class="section-subtitle gsap-reveal">{{ $t('about.role') }}</p>
+
         <div class="about-content">
           <div class="about-intro">
-            <div class="about-photo-large">
-              <img src="/assets/images/Profile-Picture.jpg" alt="Javier España" class="profile-photo-large" />
+            <!-- Photo -->
+            <div class="about-photo-large gsap-reveal">
+              <div class="photo-border">
+                <img src="/assets/images/Profile-Picture.jpg" :alt="$t('about.name')" class="profile-photo-large" />
+              </div>
             </div>
-            
+
+            <!-- Bio -->
             <div class="about-text">
-              <h2>{{ $t('hero.greeting') }}, {{ $t('hero.name') }}</h2>
-              <h3>{{ $t('about.role') }}</h3>
-              
-              <p v-for="(paragraph, index) in $tm('about.bio')" :key="index">
-                {{ paragraph }}
-              </p>
+              <h2 class="text-gradient-violet gsap-reveal">{{ $t('hero.greeting') }}, {{ $t('hero.name') }}</h2>
+              <div class="bio-paragraphs">
+                <p v-for="(paragraph, index) in $tm('about.bio')" :key="index" class="gsap-reveal">
+                  {{ paragraph }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    
-    <section class="experience section">
+
+    <!-- Experience Timeline -->
+    <section class="experience section" ref="expRef">
       <div class="container">
-        <h2 class="section-title">{{ $t('experience.title') }}</h2>
-        
+        <h2 class="section-title gsap-reveal">{{ $t('experience.title') }}</h2>
         <div class="timeline">
-          <div 
-            v-for="(exp, index) in $tm('experience.items')" 
+          <div class="timeline-line" ref="timelineLineRef"></div>
+          <div
+            v-for="(exp, index) in $tm('experience.items')"
             :key="index"
-            class="timeline-item"
+            class="timeline-item gsap-timeline-item"
           >
             <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <h3>{{ exp.title }}</h3>
-              <h4>{{ exp.company }}</h4>
-              <p>{{ exp.description }}</p>
+            <div class="timeline-content card">
+              <h3 class="timeline-title">{{ exp.title }}</h3>
+              <h4 class="timeline-company">{{ exp.company }}</h4>
+              <p class="timeline-desc">{{ exp.description }}</p>
               <div class="timeline-tech">
-                <span v-for="tech in exp.technologies" :key="tech">
+                <span v-for="tech in exp.technologies" :key="tech" class="badge badge-violet">
                   {{ tech }}
                 </span>
               </div>
@@ -48,21 +55,53 @@
         </div>
       </div>
     </section>
-    
-    <section class="education section">
+
+    <!-- Education & Certifications -->
+    <section class="education section" ref="eduRef">
       <div class="container">
-        <h2 class="section-title">{{ $t('education.title') }}</h2>
-        
-        <div class="education-grid">
-          <div 
-            v-for="(edu, index) in $tm('education.items')" 
-            :key="index"
-            class="education-card"
-          >
-            <div class="education-icon">🎓</div>
-            <h3>{{ edu.degree }}</h3>
-            <h4>{{ edu.institution }}</h4>
-            <p class="education-date">{{ edu.date }}</p>
+        <div class="two-col-grid">
+          <!-- Education -->
+          <div>
+            <h2 class="section-title gsap-reveal">{{ $t('education.title') }}</h2>
+            <div class="education-grid">
+              <div
+                v-for="(edu, index) in $tm('education.items')"
+                :key="index"
+                class="education-card card gsap-edu-card"
+              >
+                <div class="education-icon">
+                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                  </svg>
+                </div>
+                <h3>{{ edu.degree }}</h3>
+                <h4>{{ edu.institution }}</h4>
+                <p class="education-date">{{ edu.date }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certifications -->
+          <div>
+            <h2 class="section-title gsap-reveal">{{ $t('certifications.title') }}</h2>
+            <div class="education-grid">
+              <div
+                v-for="(cert, index) in $tm('certifications.items')"
+                :key="index"
+                class="education-card card gsap-cert-card"
+              >
+                <div class="education-icon">
+                  <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                <h3>{{ cert.title }}</h3>
+                <h4>{{ cert.institution }}</h4>
+                <p class="education-date">{{ cert.year }}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -71,7 +110,89 @@
 </template>
 
 <script setup>
-// No necesitamos datos hardcodeados, todo viene de i18n
+import { ref, onMounted, nextTick } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
+const heroRef = ref(null)
+const expRef = ref(null)
+const eduRef = ref(null)
+const timelineLineRef = ref(null)
+
+onMounted(() => {
+  nextTick(() => {
+    // 1. Hero Animations
+    if (heroRef.value) {
+      gsap.fromTo(heroRef.value.querySelectorAll('.gsap-reveal'),
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out",
+          scrollTrigger: { trigger: heroRef.value, start: "top 80%" }
+        }
+      )
+      
+      // Floating animation for the photo
+      gsap.to('.photo-border', {
+        y: -15,
+        duration: 3,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      })
+    }
+
+    // 2. Timeline Animations
+    if (expRef.value) {
+      gsap.fromTo(expRef.value.querySelectorAll('.gsap-reveal'),
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out",
+          scrollTrigger: { trigger: expRef.value, start: "top 80%" }
+        }
+      )
+
+      // Animate line drawing
+      gsap.fromTo(timelineLineRef.value,
+        { scaleY: 0 },
+        { scaleY: 1, transformOrigin: "top center", duration: 1.5, ease: "power3.inOut",
+          scrollTrigger: { trigger: ".timeline", start: "top 70%" }
+        }
+      )
+
+      // Animate timeline items
+      gsap.fromTo('.gsap-timeline-item',
+        { x: -50, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, stagger: 0.3, ease: "back.out(1.2)",
+          scrollTrigger: { trigger: ".timeline", start: "top 60%" }
+        }
+      )
+    }
+
+    // 3. Education / Certifications Animations
+    if (eduRef.value) {
+      gsap.fromTo(eduRef.value.querySelectorAll('.gsap-reveal'),
+        { y: 30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.2,
+          scrollTrigger: { trigger: eduRef.value, start: "top 80%" }
+        }
+      )
+
+      gsap.fromTo('.gsap-edu-card',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.2, ease: "power3.out",
+          scrollTrigger: { trigger: ".gsap-edu-card", start: "top 85%" }
+        }
+      )
+
+      gsap.fromTo('.gsap-cert-card',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.2, ease: "power3.out",
+          scrollTrigger: { trigger: ".gsap-cert-card", start: "top 85%" }
+        }
+      )
+    }
+  })
+})
 </script>
 
 <style scoped>
@@ -79,202 +200,133 @@
   padding-top: 5rem;
 }
 
-.about-content {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 .about-intro {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 350px 1fr;
   gap: 4rem;
   align-items: start;
 }
 
+/* ---- Photo ---- */
 .about-photo-large {
-  width: 100%;
-  max-width: 400px;
-  aspect-ratio: 1;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 3px solid var(--neon-blue);
-  box-shadow: 0 0 40px rgba(0, 247, 255, 0.3);
   position: sticky;
   top: 100px;
 }
 
-.about-photo-large img,
-.avatar-placeholder-large {
+.photo-border {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  padding: 3px;
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+  box-shadow: var(--glow-violet);
+  overflow: hidden;
 }
 
 .profile-photo-large {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: calc(var(--radius-xl) - 3px);
   display: block;
 }
 
-/* Avatar grande con iniciales */
-.avatar-placeholder-large {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink), var(--neon-green));
-  background-size: 200% 200%;
-  animation: gradientRotate 6s ease infinite;
-}
-
-@keyframes gradientRotate {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-.initials-large {
-  font-family: var(--font-title);
-  font-size: 3rem;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 40px rgba(0, 0, 0, 0.8),
-               0 0 80px rgba(0, 247, 255, 0.6);
-  z-index: 2;
-  letter-spacing: 5px;
-  text-align: center;
-  line-height: 1.2;
-}
-
-.avatar-glow-large {
-  position: absolute;
-  inset: -30px;
-  background: radial-gradient(circle, rgba(0, 247, 255, 0.5), transparent);
-  filter: blur(40px);
-  animation: pulse 3s ease-in-out infinite;
-  z-index: 1;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(0.95);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-}
-
+/* ---- Bio ---- */
 .about-text h2 {
-  font-family: var(--font-title);
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-
-.highlight {
-  color: var(--neon-blue);
-  text-shadow: 0 0 20px var(--neon-blue);
-}
-
-.about-text h3 {
-  font-size: 1.5rem;
-  color: var(--neon-pink);
+  font-size: var(--text-3xl);
+  font-weight: 800;
   margin-bottom: 2rem;
+  letter-spacing: -0.02em;
 }
 
-.about-text p {
+.bio-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bio-paragraphs p {
   line-height: 1.8;
-  margin-bottom: 1.5rem;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.1rem;
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  text-align: justify;
 }
 
-/* Timeline */
+/* ---- Timeline ---- */
 .timeline {
   position: relative;
-  padding: 2rem 0;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
-.timeline::before {
-  content: '';
+.timeline-line {
   position: absolute;
-  left: 50%;
+  left: 24px;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, var(--neon-blue), var(--neon-pink));
-  transform: translateX(-50%);
+  background: linear-gradient(180deg, var(--accent-violet), var(--accent-cyan));
+  opacity: 0.5;
 }
 
 .timeline-item {
   position: relative;
-  margin-bottom: 4rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  padding-left: 70px;
+  margin-bottom: 3rem;
 }
 
-.timeline-item:nth-child(even) .timeline-content {
-  grid-column: 1;
-  text-align: right;
-}
-
-.timeline-item:nth-child(odd) .timeline-content {
-  grid-column: 2;
+.timeline-item:last-child {
+  margin-bottom: 0;
 }
 
 .timeline-marker {
   position: absolute;
-  left: 50%;
+  left: 17px;
   top: 0;
-  width: 20px;
-  height: 20px;
-  background: var(--neon-blue);
-  border: 3px solid var(--dark-bg);
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  transform: translateX(-50%);
-  box-shadow: 0 0 20px var(--neon-blue);
+  background: var(--bg-primary);
+  border: 3px solid var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
   z-index: 2;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.timeline-item:hover .timeline-marker {
+  transform: scale(1.3);
+  background: var(--accent-cyan);
 }
 
 .timeline-content {
-  background: rgba(15, 15, 45, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-blue);
-  border-radius: 15px;
   padding: 2rem;
-  transition: all 0.3s var(--transition-smooth);
+  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
 }
 
-.timeline-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 40px rgba(0, 247, 255, 0.3);
+.timeline-item:hover .timeline-content {
+  transform: translateX(10px);
+  border-color: var(--accent-violet);
 }
 
-.timeline-date {
-  color: var(--neon-pink);
+.timeline-title {
+  font-size: var(--text-xl);
+  color: var(--text-white);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.timeline-company {
+  font-size: var(--text-sm);
+  color: var(--accent-violet);
   font-weight: 600;
-  margin-bottom: 0.5rem;
-}
-
-.timeline-content h3 {
-  font-family: var(--font-title);
-  font-size: 1.5rem;
-  color: var(--neon-blue);
-  margin-bottom: 0.5rem;
-}
-
-.timeline-content h4 {
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 1rem;
 }
 
-.timeline-content p {
+.timeline-desc {
+  color: var(--text-secondary);
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: var(--text-sm);
 }
 
 .timeline-tech {
@@ -283,103 +335,83 @@
   gap: 0.5rem;
 }
 
-.timeline-item:nth-child(even) .timeline-tech {
-  justify-content: flex-end;
-}
-
-.timeline-tech span {
-  padding: 0.25rem 0.75rem;
-  background: rgba(0, 247, 255, 0.1);
-  border: 1px solid var(--neon-blue);
-  border-radius: 12px;
-  font-size: 0.85rem;
-  color: var(--neon-blue);
-}
-
-/* Education */
-.education-grid {
+/* ---- Education & Certifications ---- */
+.two-col-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+.education-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .education-card {
-  background: rgba(15, 15, 45, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-green);
-  border-radius: 15px;
-  padding: 2rem;
-  text-align: center;
-  transition: all 0.3s var(--transition-smooth);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
 }
 
 .education-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 40px rgba(0, 255, 127, 0.3);
+  transform: translateY(-5px);
+  border-color: var(--accent-cyan);
 }
 
 .education-icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-violet-10);
+  color: var(--accent-violet);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.education-card:hover .education-icon {
+  transform: scale(1.1) rotate(-10deg);
 }
 
 .education-card h3 {
-  font-family: var(--font-title);
-  font-size: 1.3rem;
-  color: var(--neon-green);
-  margin-bottom: 0.5rem;
+  font-size: var(--text-lg);
+  color: var(--text-white);
+  font-weight: 600;
 }
 
 .education-card h4 {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0.5rem;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
 }
 
 .education-date {
-  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: 0.5rem;
 }
 
+/* ---- Responsive ---- */
 @media (max-width: 1024px) {
   .about-intro {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3rem;
   }
   
   .about-photo-large {
+    position: static;
     max-width: 300px;
     margin: 0 auto;
-    position: static;
   }
-  
-  .timeline::before {
-    left: 20px;
-  }
-  
-  .timeline-item {
-    grid-template-columns: 1fr;
-    gap: 0;
-    padding-left: 60px;
-  }
-  
-  .timeline-item:nth-child(even) .timeline-content,
-  .timeline-item:nth-child(odd) .timeline-content {
-    grid-column: 1;
-    text-align: left;
-  }
-  
-  .timeline-marker {
-    left: 20px;
-  }
-  
-  .timeline-item:nth-child(even) .timeline-tech {
-    justify-content: flex-start;
-  }
-}
 
-@media (max-width: 768px) {
-  .education-grid {
+  .two-col-grid {
     grid-template-columns: 1fr;
+    gap: 3rem;
   }
 }
 </style>

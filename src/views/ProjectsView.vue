@@ -1,173 +1,151 @@
 <template>
-  <div class="projects-view">
+  <div class="projects-view page-transition">
     <section class="projects-hero section">
       <div class="container">
         <h1 class="section-title">{{ $t('projects.title') }}</h1>
-        <p class="section-subtitle">
-          {{ $t('projects.subtitle') }}
-        </p>
-        
+        <p class="section-subtitle">{{ $t('projects.subtitle') }}</p>
+
+        <!-- Filtros -->
         <div class="projects-filters">
-          <button 
-            v-for="category in categories" 
+          <button
+            v-for="category in categories"
             :key="category"
-            :class="['filter-btn', { active: selectedCategory === category }]"
+            class="filter-btn"
+            :class="{ active: selectedCategory === category }"
             @click="selectedCategory = category"
           >
             {{ $t(`projectsView.categories.${category}`) }}
           </button>
         </div>
-        
+
+        <!-- Búsqueda -->
         <div class="projects-search">
-          <input 
+          <svg class="search-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
             v-model="searchQuery"
-            type="text" 
+            type="text"
             :placeholder="$t('projectsView.searchPlaceholder')"
             class="search-input"
           />
         </div>
       </div>
     </section>
-    
-    <section class="projects-grid section">
+
+    <section class="projects-grid-section section">
       <div class="container">
-        <div v-if="loading" class="loading-state">
-          <div class="spinner"></div>
-          <p>{{ $t('projectsView.loading') }}</p>
-        </div>
         
-        <transition-group v-else name="project-list" tag="div" class="grid">
-          <div 
-            v-for="project in filteredProjects" 
-            :key="project.id"
-            class="project-card"
-            @click="openModal(project)"
-          >
-            <div class="project-image">
-              <img :src="project.image" :alt="project.name" @error="handleImageError" />
-              <div class="project-overlay">
-                <button class="btn-view">{{ $t('projects.viewDetails') }}</button>
-              </div>
-            </div>
-            
-            <div class="project-info">
-              <h3>{{ project.name }}</h3>
-              <p>{{ project.description || $t('projectsView.noDescription') }}</p>
-              
-              <div class="project-tech">
-                <span v-for="tech in project.technologies" :key="tech">
-                  {{ tech }}
-                </span>
-              </div>
-              
-              <div class="project-stats">
-                <span v-if="project.stargazers_count" class="stat">
-                  ⭐ {{ project.stargazers_count }}
-                </span>
-                <span v-if="project.forks_count" class="stat">
-                  🔱 {{ project.forks_count }}
-                </span>
-                <span v-if="project.language" class="stat">
-                  💻 {{ project.language }}
-                </span>
-              </div>
-              
-              <div class="project-links">
-                <a 
-                  :href="project.html_url" 
-                  target="_blank"
-                  @click.stop
-                  class="project-link"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                  </svg>
-                  GitHub
-                </a>
-                <a 
-                  v-if="project.homepage" 
-                  :href="project.homepage" 
-                  target="_blank"
-                  @click.stop
-                  class="project-link"
-                >
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                    <polyline points="15 3 21 3 21 9"></polyline>
-                    <line x1="10" y1="14" x2="21" y2="3"></line>
-                  </svg>
-                  Demo
-                </a>
+        <!-- Estado de carga: Skeletons -->
+        <div v-if="loading" class="grid">
+          <div v-for="i in 6" :key="i" class="project-card skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-content">
+              <div class="skeleton-title"></div>
+              <div class="skeleton-desc"></div>
+              <div class="skeleton-desc short"></div>
+              <div class="skeleton-tags">
+                <div class="skeleton-tag"></div>
+                <div class="skeleton-tag"></div>
+                <div class="skeleton-tag"></div>
               </div>
             </div>
           </div>
+        </div>
+
+        <!-- Grid de proyectos -->
+        <transition-group v-else name="fade-grid" tag="div" class="grid">
+          <article
+            v-for="project in filteredProjects"
+            :key="project.id"
+            class="project-card card"
+            @click="openModal(project)"
+          >
+            <div class="project-card__image">
+              <img :src="project.image" :alt="project.name" @error="handleImageError" loading="lazy" />
+              <div class="project-card__overlay">
+                <span class="btn btn-primary">{{ $t('projects.viewDetails') }}</span>
+              </div>
+            </div>
+
+            <div class="project-card__content">
+              <h3 class="project-card__title">{{ project.name }}</h3>
+              <p class="project-card__desc">
+                {{ project.description || $t('projectsView.noDescription') }}
+              </p>
+
+              <div class="project-card__tech">
+                <span v-for="tech in project.technologies" :key="tech" class="badge badge-violet">
+                  {{ tech }}
+                </span>
+              </div>
+
+              <div class="project-card__stats">
+                <span v-if="project.stargazers_count" class="stat">
+                  <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.122-6.545L.488 6.91l6.564-.955L10 0l2.948 5.955 6.564.955-4.756 4.635 1.122 6.545z"/></svg>
+                  {{ project.stargazers_count }}
+                </span>
+                <span v-if="project.language" class="stat">
+                  <span class="lang-dot"></span>
+                  {{ project.language }}
+                </span>
+              </div>
+            </div>
+          </article>
         </transition-group>
-        
+
+        <!-- Sin resultados -->
         <div v-if="!loading && filteredProjects.length === 0" class="no-results">
+          <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
           <p>{{ $t('projectsView.noResults') }}</p>
         </div>
       </div>
     </section>
-    
-    <!-- Modal -->
+
+    <!-- Modal de Detalles -->
     <transition name="modal">
       <div v-if="selectedProject" class="modal-backdrop" @click="closeModal">
         <div class="modal-content" @click.stop>
-          <button class="modal-close" @click="closeModal">×</button>
-          
+          <button class="modal-close" @click="closeModal" aria-label="Close">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+
           <div class="modal-image">
             <img :src="selectedProject.image" :alt="selectedProject.name" @error="handleImageError" />
           </div>
-          
-          <div class="modal-info">
-            <h2>{{ selectedProject.name }}</h2>
-            <p class="modal-description">{{ selectedProject.description }}</p>
+
+          <div class="modal-body">
+            <h2 class="modal-title">{{ selectedProject.name }}</h2>
             
-            <div v-if="selectedProject.topics && selectedProject.topics.length > 0">
+            <div class="modal-meta">
+              <span class="meta-item" v-if="selectedProject.language">
+                <span class="lang-dot"></span> {{ selectedProject.language }}
+              </span>
+              <span class="meta-item">
+                📅 {{ formatDate(selectedProject.updated_at) }}
+              </span>
+            </div>
+
+            <p class="modal-desc">{{ selectedProject.description }}</p>
+
+            <div v-if="selectedProject.topics && selectedProject.topics.length > 0" class="modal-section">
               <h3>{{ $t('projectsView.topics') }}</h3>
-              <div class="modal-tech">
-                <span v-for="topic in selectedProject.topics" :key="topic">
+              <div class="modal-tags">
+                <span v-for="topic in selectedProject.topics" :key="topic" class="badge badge-cyan">
                   {{ topic }}
                 </span>
               </div>
             </div>
-            
-            <h3>{{ $t('projects.technologies') }}</h3>
-            <div class="modal-tech">
-              <span v-for="tech in selectedProject.technologies" :key="tech">
-                {{ tech }}
-              </span>
-            </div>
-            
-            <div class="modal-stats">
-              <div class="stat-item">
-                <strong>⭐ {{ $t('projectsView.stars') }}:</strong> {{ selectedProject.stargazers_count }}
-              </div>
-              <div class="stat-item">
-                <strong>🔱 {{ $t('projectsView.forks') }}:</strong> {{ selectedProject.forks_count }}
-              </div>
-              <div v-if="selectedProject.language" class="stat-item">
-                <strong>💻 {{ $t('projectsView.language') }}:</strong> {{ selectedProject.language }}
-              </div>
-              <div class="stat-item">
-                <strong>📅 {{ $t('projectsView.updated') }}:</strong> {{ formatDate(selectedProject.updated_at) }}
-              </div>
-            </div>
-            
-            <div class="modal-links">
-              <a 
-                :href="selectedProject.html_url" 
-                target="_blank"
-                class="btn btn-primary"
-              >
+
+            <div class="modal-actions">
+              <a :href="selectedProject.html_url" target="_blank" rel="noopener" class="btn btn-primary">
                 {{ $t('projects.github') }}
               </a>
-              <a 
-                v-if="selectedProject.homepage" 
-                :href="selectedProject.homepage" 
-                target="_blank"
-                class="btn btn-secondary"
-              >
+              <a v-if="selectedProject.homepage" :href="selectedProject.homepage" target="_blank" rel="noopener" class="btn btn-secondary">
                 {{ $t('projects.demo') }}
               </a>
             </div>
@@ -188,7 +166,6 @@ const selectedProject = ref(null)
 const projects = ref([])
 const loading = ref(true)
 
-// Fetch projects from GitHub
 const fetchGitHubProjects = async () => {
   loading.value = true
   try {
@@ -196,79 +173,62 @@ const fetchGitHubProjects = async () => {
     if (response.ok) {
       const repos = await response.json()
       
-      // Filter and map repos
       projects.value = repos
         .filter(repo => !repo.fork && !repo.private)
         .map(repo => {
-          // Determine category from topics
           let category = 'other'
           if (repo.topics) {
-            if (repo.topics.includes('fullstack') || repo.topics.includes('full-stack')) {
-              category = 'fullstack'
-            } else if (repo.topics.includes('backend') || repo.topics.includes('api')) {
-              category = 'backend'
-            } else if (repo.topics.includes('frontend') || repo.topics.includes('ui')) {
-              category = 'frontend'
-            }
+            if (repo.topics.includes('fullstack') || repo.topics.includes('full-stack')) category = 'fullstack'
+            else if (repo.topics.includes('backend') || repo.topics.includes('api')) category = 'backend'
+            else if (repo.topics.includes('frontend') || repo.topics.includes('ui')) category = 'frontend'
           }
           
           return {
-            id: repo.id,
-            name: repo.name,
-            description: repo.description || '',
-            html_url: repo.html_url,
-            homepage: repo.homepage,
-            stargazers_count: repo.stargazers_count,
-            forks_count: repo.forks_count,
-            language: repo.language,
-            topics: repo.topics || [],
-            technologies: repo.topics ? repo.topics.slice(0, 6) : [],
-            updated_at: repo.updated_at,
-            created_at: repo.created_at,
+            ...repo,
+            technologies: repo.topics ? repo.topics.slice(0, 4) : [],
             image: `https://opengraph.githubassets.com/1/${repo.full_name}`,
-            category: category
+            category
           }
         })
         .sort((a, b) => b.stargazers_count - a.stargazers_count)
     }
   } catch (error) {
-    console.error('Error fetching GitHub projects:', error)
-    projects.value = []
+    console.error('Error fetching projects:', error)
   } finally {
     loading.value = false
   }
 }
 
-onMounted(() => {
-  fetchGitHubProjects()
-})
+onMounted(fetchGitHubProjects)
 
 const filteredProjects = computed(() => {
   return projects.value.filter(project => {
-    const matchesCategory = selectedCategory.value === 'all' || project.category === selectedCategory.value
-    const matchesSearch = project.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-                         project.description.toLowerCase().includes(searchQuery.value.toLowerCase())
-    return matchesCategory && matchesSearch
+    const matchCat = selectedCategory.value === 'all' || project.category === selectedCategory.value
+    const query = searchQuery.value.toLowerCase()
+    const matchSearch = project.name.toLowerCase().includes(query) || 
+                       (project.description && project.description.toLowerCase().includes(query))
+    return matchCat && matchSearch
   })
 })
 
-const openModal = (project) => {
-  selectedProject.value = project
+const openModal = (p) => {
+  selectedProject.value = p
   document.body.style.overflow = 'hidden'
 }
 
 const closeModal = () => {
   selectedProject.value = null
-  document.body.style.overflow = 'auto'
+  document.body.style.overflow = ''
 }
 
 const handleImageError = (e) => {
-  e.target.src = 'https://via.placeholder.com/600x400/0a0a1a/00f7ff?text=Project'
+  e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='400' viewBox='0 0 600 400'%3E%3Crect width='600' height='400' fill='%23111827'/%3E%3Cpath d='M200 200 L400 200 M300 100 L300 300' stroke='%236C63FF' stroke-width='2' stroke-dasharray='10 10' opacity='0.3'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='24' fill='%236C63FF' font-weight='bold' opacity='0.5'%3EPROJECT%3C/text%3E%3C/svg%3E"
 }
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+  return new Date(dateString).toLocaleDateString(undefined, { 
+    year: 'numeric', month: 'short', day: 'numeric' 
+  })
 }
 </script>
 
@@ -277,292 +237,290 @@ const formatDate = (dateString) => {
   padding-top: 5rem;
 }
 
-.section-subtitle {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 3rem;
-}
-
-/* Filters */
+/* ---- Filtros ---- */
 .projects-filters {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
 .filter-btn {
-  padding: 0.75rem 1.5rem;
-  background: rgba(15, 15, 45, 0.5);
-  border: 1px solid var(--neon-blue);
-  border-radius: 25px;
-  color: var(--neon-blue);
-  font-family: var(--font-mono);
+  padding: 0.6rem 1.25rem;
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.3s var(--transition-smooth);
+  transition: all var(--transition-normal);
 }
 
 .filter-btn:hover {
-  background: rgba(0, 247, 255, 0.1);
-  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
 }
 
 .filter-btn.active {
-  background: var(--neon-blue);
-  color: var(--dark-bg);
-  box-shadow: 0 0 30px var(--neon-blue);
+  background: var(--accent-violet-20);
+  color: var(--accent-violet);
+  border-color: var(--accent-violet);
 }
 
-/* Search */
+/* ---- Buscador ---- */
 .projects-search {
-  max-width: 500px;
-  margin: 0 auto 3rem;
+  max-width: 480px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
 }
 
 .search-input {
   width: 100%;
-  padding: 1rem 1.5rem;
-  background: rgba(15, 15, 45, 0.5);
-  border: 1px solid var(--neon-blue);
-  border-radius: 25px;
-  color: white;
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  transition: all 0.3s var(--transition-smooth);
+  padding: 1rem 1rem 1rem 3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  transition: all var(--transition-normal);
 }
 
 .search-input:focus {
   outline: none;
-  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 0 3px var(--accent-violet-10);
+  background: var(--bg-secondary);
 }
 
-/* Projects Grid */
+/* ---- Grid de Proyectos ---- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
 }
 
 .project-card {
-  background: rgba(15, 15, 45, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-blue);
-  border-radius: 15px;
+  padding: 0;
   overflow: hidden;
-  transition: all 0.3s var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
 }
 
-.project-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 10px 40px rgba(0, 247, 255, 0.3);
-}
-
-.project-image {
+.project-card__image {
   position: relative;
   width: 100%;
-  height: 250px;
+  aspect-ratio: 16/9;
+  border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
 }
 
-.project-image img {
+.project-card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s var(--transition-smooth);
+  transition: transform var(--transition-slow);
 }
 
-.project-card:hover .project-image img {
-  transform: scale(1.1);
+.project-card:hover .project-card__image img {
+  transform: scale(1.05);
 }
 
-.project-overlay {
+.project-card__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(8, 11, 20, 0.6);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s var(--transition-smooth);
+  transition: opacity var(--transition-normal);
 }
 
-.project-card:hover .project-overlay {
+.project-card:hover .project-card__overlay {
   opacity: 1;
 }
 
-.btn-view {
-  padding: 0.75rem 1.5rem;
-  background: var(--neon-blue);
-  color: var(--dark-bg);
-  border: none;
-  border-radius: 25px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s var(--transition-smooth);
-}
-
-.btn-view:hover {
-  box-shadow: 0 0 30px var(--neon-blue);
-}
-
-.project-info {
+.project-card__content {
   padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.project-info h3 {
-  font-family: var(--font-title);
-  font-size: 1.5rem;
-  color: var(--neon-blue);
+.project-card__title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-white);
   margin-bottom: 0.5rem;
 }
 
-.project-info p {
-  color: rgba(255, 255, 255, 0.8);
+.project-card__desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
 }
 
-.project-tech {
+.project-card__tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.4rem;
   margin-bottom: 1rem;
 }
 
-.project-tech span {
-  padding: 0.25rem 0.75rem;
-  background: rgba(0, 247, 255, 0.1);
-  border: 1px solid var(--neon-blue);
-  border-radius: 12px;
-  font-size: 0.8rem;
-  color: var(--neon-blue);
-}
-
-.project-stats {
+.project-card__stats {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1rem;
 }
 
-.project-stats .stat {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+.stat {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.3rem;
 }
 
-.project-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.project-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(255, 0, 247, 0.1);
-  border: 1px solid var(--neon-pink);
-  border-radius: 20px;
-  color: var(--neon-pink);
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: all 0.3s var(--transition-smooth);
-}
-
-.project-link:hover {
-  background: rgba(255, 0, 247, 0.2);
-  box-shadow: 0 0 20px rgba(255, 0, 247, 0.3);
-}
-
-/* Loading State */
-.loading-state {
-  text-align: center;
-  padding: 4rem 0;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.spinner {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto 1rem;
-  border: 3px solid rgba(0, 247, 255, 0.1);
-  border-top-color: var(--neon-blue);
+.lang-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  background: var(--accent-cyan);
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
+/* ---- Skeleton Loader ---- */
+.skeleton-card {
+  pointer-events: none;
 }
 
-/* No Results */
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-tertiary);
+  animation: pulse-bg 1.5s infinite;
+}
+
+.skeleton-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 60%;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  animation: pulse-bg 1.5s infinite;
+}
+
+.skeleton-desc {
+  height: 16px;
+  width: 100%;
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+  animation: pulse-bg 1.5s infinite;
+}
+.skeleton-desc.short { width: 80%; }
+
+.skeleton-tags {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.skeleton-tag {
+  height: 24px;
+  width: 60px;
+  background: var(--bg-tertiary);
+  border-radius: 12px;
+  animation: pulse-bg 1.5s infinite;
+}
+
+@keyframes pulse-bg {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ---- No Results ---- */
 .no-results {
   text-align: center;
-  padding: 4rem 0;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 1.2rem;
+  padding: 6rem 0;
+  color: var(--text-muted);
 }
+.no-results svg { margin-bottom: 1rem; }
 
-/* Modal */
+/* ---- Modal ---- */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(8, 11, 20, 0.85);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 2rem;
-  overflow-y: auto;
+  z-index: 1100;
+  padding: 1rem;
 }
 
 .modal-content {
   position: relative;
-  background: rgba(15, 15, 45, 0.95);
-  backdrop-filter: blur(20px);
-  border: 2px solid var(--neon-blue);
-  border-radius: 20px;
-  max-width: 900px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
   width: 100%;
+  max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 0 60px rgba(0, 247, 255, 0.5);
+  box-shadow: var(--glow-card);
 }
 
 .modal-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 0, 247, 0.2);
-  border: 1px solid var(--neon-pink);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
   border-radius: 50%;
-  color: var(--neon-pink);
-  font-size: 2rem;
+  color: white;
   cursor: pointer;
-  transition: all 0.3s var(--transition-smooth);
   z-index: 10;
+  transition: all var(--transition-fast);
 }
 
 .modal-close:hover {
-  background: var(--neon-pink);
-  color: var(--dark-bg);
-  box-shadow: 0 0 30px var(--neon-pink);
+  background: var(--accent-violet);
+  border-color: var(--accent-violet);
 }
 
 .modal-image {
   width: 100%;
-  height: 400px;
-  overflow: hidden;
-  border-radius: 20px 20px 0 0;
+  aspect-ratio: 21/9;
+  background: var(--bg-tertiary);
 }
 
 .modal-image img {
@@ -571,160 +529,95 @@ const formatDate = (dateString) => {
   object-fit: cover;
 }
 
-.modal-info {
-  padding: 2rem;
+.modal-body {
+  padding: 2.5rem;
 }
 
-.modal-info h2 {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  color: var(--neon-blue);
-  margin-bottom: 1rem;
+.modal-title {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--text-white);
+  margin-bottom: 0.5rem;
 }
 
-.modal-description {
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
+.modal-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.5rem;
+}
+
+.modal-desc {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.7;
   margin-bottom: 2rem;
 }
 
-.modal-info h3 {
-  font-family: var(--font-title);
-  font-size: 1.3rem;
-  color: var(--neon-pink);
-  margin: 2rem 0 1rem;
+.modal-section h3 {
+  font-size: var(--text-lg);
+  color: var(--text-white);
+  margin-bottom: 1rem;
 }
 
-.modal-features {
-  list-style: none;
-  padding: 0;
-}
-
-.modal-features li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.modal-features li::before {
-  content: '▹';
-  position: absolute;
-  left: 0;
-  color: var(--neon-green);
-  font-size: 1.2rem;
-}
-
-.modal-tech {
+.modal-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-}
-
-.modal-tech span {
-  padding: 0.5rem 1rem;
-  background: rgba(0, 247, 255, 0.1);
-  border: 1px solid var(--neon-blue);
-  border-radius: 15px;
-  color: var(--neon-blue);
-}
-
-.modal-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 2rem 0;
-  padding: 1.5rem;
-  background: rgba(15, 15, 45, 0.3);
-  border-radius: 15px;
-  border: 1px solid rgba(0, 247, 255, 0.2);
-}
-
-.modal-stats .stat-item {
-  display: flex;
-  flex-direction: column;
   gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2.5rem;
 }
 
-.modal-stats .stat-item strong {
-  color: var(--neon-blue);
-  font-size: 0.9rem;
-}
-
-.modal-links {
+.modal-actions {
   display: flex;
   gap: 1rem;
-  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
-/* Animations */
-.project-list-enter-active,
-.project-list-leave-active {
-  transition: all 0.3s var(--transition-smooth);
+/* Transiciones */
+.fade-grid-enter-active,
+.fade-grid-leave-active {
+  transition: all 0.4s var(--ease-smooth);
 }
-
-.project-list-enter-from {
+.fade-grid-enter-from,
+.fade-grid-leave-to {
   opacity: 0;
-  transform: translateY(30px);
-}
-
-.project-list-leave-to {
-  opacity: 0;
-  transform: scale(0.9);
+  transform: translateY(15px);
 }
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.3s var(--transition-smooth);
+  transition: opacity 0.3s var(--ease-smooth);
 }
-
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
 }
-
 .modal-enter-active .modal-content,
 .modal-leave-active .modal-content {
-  transition: transform 0.3s var(--transition-smooth);
+  transition: transform 0.3s var(--ease-smooth);
 }
-
-.modal-enter-from .modal-content {
-  transform: scale(0.9);
-}
-
+.modal-enter-from .modal-content,
 .modal-leave-to .modal-content {
-  transform: scale(0.9);
+  transform: scale(0.95);
 }
 
-@media (max-width: 768px) {
-  .grid {
+@media (max-width: 640px) {
+  .projects-grid {
     grid-template-columns: 1fr;
   }
-  
-  .projects-filters {
-    gap: 0.5rem;
-  }
-  
-  .filter-btn {
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-  }
-  
-  .modal-backdrop {
-    padding: 1rem;
-  }
-  
-  .modal-image {
-    height: 250px;
-  }
-  
-  .modal-info {
+  .modal-body {
     padding: 1.5rem;
   }
-  
-  .modal-links {
+  .modal-actions {
     flex-direction: column;
+  }
+  .modal-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

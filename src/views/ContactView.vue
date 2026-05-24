@@ -1,156 +1,115 @@
 <template>
-  <div class="contact-view">
-    <section class="contact-hero section">
+  <div class="contact-view page-transition">
+    <section class="contact-section section">
       <div class="container">
         <h1 class="section-title">{{ $t('contact.title') }}</h1>
-        <p class="section-subtitle">
-          {{ $t('contact.subtitle') }}
-        </p>
-      </div>
-    </section>
-    
-    <section class="contact-content section">
-      <div class="container">
+        <p class="section-subtitle">{{ $t('contact.subtitle') }}</p>
+
         <div class="contact-grid">
-          <!-- Contact Form -->
-          <div class="contact-form-container">
-            <h2>{{ $t('contact.form.title') }}</h2>
+          <!-- Info -->
+          <div class="contact-info">
+            <div class="info-card card">
+              <div class="info-icon">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div class="info-content">
+                <h3>{{ $t('contact.info.email') }}</h3>
+                <p>javierespanapacheco@gmail.com</p>
+                <a href="mailto:javierespanapacheco@gmail.com" class="info-link">{{ $t('contact.info.writeMe') }}</a>
+              </div>
+            </div>
+
+            <div class="info-card card">
+              <div class="info-icon">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div class="info-content">
+                <h3>{{ $t('contact.info.location') }}</h3>
+                <p>Guatemala, Guatemala</p>
+                <span class="info-status"><span class="glow-dot"></span> {{ $t('contact.info.availability') }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario -->
+          <div class="contact-form-wrapper card">
+            <h2 class="form-title">{{ $t('contact.form.title') }}</h2>
             
-            <form @submit.prevent="handleSubmit" class="contact-form">
+            <!-- Integración Formspree -->
+            <form 
+              action="https://formspree.io/f/xvgoewpj" 
+              method="POST" 
+              class="contact-form"
+              @submit.prevent="handleSubmit"
+            >
               <div class="form-group">
                 <label for="name">{{ $t('contact.form.name') }}</label>
-                <input
-                  id="name"
-                  v-model="formData.name"
-                  type="text"
-                  :placeholder="$t('contact.form.namePlaceholder')"
-                  :class="{ error: errors.name }"
-                />
-                <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  v-model="form.name" 
+                  required 
+                  class="form-input"
+                  :placeholder="$t('contact.form.name')"
+                >
               </div>
-              
+
               <div class="form-group">
                 <label for="email">{{ $t('contact.form.email') }}</label>
-                <input
-                  id="email"
-                  v-model="formData.email"
-                  type="email"
-                  :placeholder="$t('contact.form.emailPlaceholder')"
-                  :class="{ error: errors.email }"
-                />
-                <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  v-model="form.email" 
+                  required 
+                  class="form-input"
+                  :placeholder="$t('contact.form.email')"
+                >
               </div>
-              
+
               <div class="form-group">
                 <label for="subject">{{ $t('contact.form.subject') }}</label>
-                <input
-                  id="subject"
-                  v-model="formData.subject"
-                  type="text"
-                  :placeholder="$t('contact.form.subjectPlaceholder')"
-                  :class="{ error: errors.subject }"
-                />
-                <span v-if="errors.subject" class="error-message">{{ errors.subject }}</span>
+                <input 
+                  type="text" 
+                  id="subject" 
+                  name="subject" 
+                  v-model="form.subject" 
+                  required 
+                  class="form-input"
+                  :placeholder="$t('contact.form.subject')"
+                >
               </div>
-              
+
               <div class="form-group">
                 <label for="message">{{ $t('contact.form.message') }}</label>
-                <textarea
-                  id="message"
-                  v-model="formData.message"
-                  rows="6"
-                  :placeholder="$t('contact.form.messagePlaceholder')"
-                  :class="{ error: errors.message }"
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  v-model="form.message" 
+                  required 
+                  rows="5" 
+                  class="form-input form-textarea"
+                  :placeholder="$t('contact.form.message')"
                 ></textarea>
-                <span v-if="errors.message" class="error-message">{{ errors.message }}</span>
               </div>
-              
-              <button 
-                type="submit" 
-                class="btn btn-primary"
-                :disabled="isSubmitting"
-              >
-                {{ isSubmitting ? $t('contact.form.sending') : $t('contact.form.submit') }}
+
+              <button type="submit" class="btn btn-primary btn-submit" :disabled="isSubmitting">
+                <span v-if="!isSubmitting">{{ $t('contact.form.send') }}</span>
+                <span v-else class="loading-spinner"></span>
               </button>
-              
+
               <transition name="fade">
-                <div v-if="submitSuccess" class="success-message">
-                  {{ $t('contact.form.success') }}
-                </div>
-              </transition>
-              
-              <transition name="fade">
-                <div v-if="submitError" class="error-message">
-                  {{ $t('contact.form.error') }}
+                <div v-if="submitStatus" :class="['status-message', submitStatus.type]">
+                  {{ submitStatus.message }}
                 </div>
               </transition>
             </form>
-          </div>
-          
-          <!-- Contact Info -->
-          <div class="contact-info">
-            <h2>{{ $t('contact.info.title') }}</h2>
-            
-            <div class="info-cards">
-              <div class="info-card">
-                <div class="info-icon">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                    <polyline points="22,6 12,13 2,6"></polyline>
-                  </svg>
-                </div>
-                <h3>📧 Email</h3>
-                <a href="mailto:javier.eduardo.espana@gmail.com">javier.eduardo.espana@gmail.com</a>
-              </div>
-              
-              <div class="info-card">
-                <div class="info-icon">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                  </svg>
-                </div>
-                <h3>📱 Teléfono</h3>
-                <a href="tel:+50244112332">+502 4411 2332</a>
-              </div>
-              
-              <div class="info-card">
-                <div class="info-icon">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                  </svg>
-                </div>
-                <h3>💻 GitHub</h3>
-                <a href="https://github.com/Javier-Espana" target="_blank">github.com/Javier-Espana</a>
-              </div>
-              
-              <div class="info-card">
-                <div class="info-icon">
-                  <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                </div>
-                <h3>💼 LinkedIn</h3>
-                <a href="https://www.linkedin.com/in/javier-eduardo-espa%C3%B1a-pacheco-1a8211325/" target="_blank">linkedin.com/in/javier-eduardo-españa-pacheco</a>
-              </div>
-            </div>
-            
-            <div class="availability">
-              <div class="status-indicator"></div>
-              <p>{{ $t('contact.info.availability') }}</p>
-            </div>
-            
-            <div class="social-links">
-              <a href="https://github.com/Javier-Espana" target="_blank" class="social-link">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                </svg>
-              </a>
-              <a href="https://www.linkedin.com/in/javier-eduardo-espa%C3%B1a-pacheco-1a8211325/" target="_blank" class="social-link">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -159,19 +118,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const formData = reactive({
-  name: '',
-  email: '',
-  subject: '',
-  message: ''
-})
-
-const errors = reactive({
+const form = ref({
   name: '',
   email: '',
   subject: '',
@@ -179,92 +131,42 @@ const errors = reactive({
 })
 
 const isSubmitting = ref(false)
-const submitSuccess = ref(false)
-const submitError = ref(false)
+const submitStatus = ref(null)
 
-const validateForm = () => {
-  let isValid = true
-  
-  // Reset errors
-  errors.name = ''
-  errors.email = ''
-  errors.subject = ''
-  errors.message = ''
-  
-  // Validate name
-  if (!formData.name.trim()) {
-    errors.name = t('contact.form.errors.nameRequired')
-    isValid = false
-  }
-  
-  // Validate email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-  if (!formData.email.trim()) {
-    errors.email = t('contact.form.errors.emailRequired')
-    isValid = false
-  } else if (!emailRegex.test(formData.email)) {
-    errors.email = t('contact.form.errors.emailInvalid')
-    isValid = false
-  }
-  
-  // Validate subject
-  if (!formData.subject.trim()) {
-    errors.subject = t('contact.form.errors.subjectRequired')
-    isValid = false
-  }
-  
-  // Validate message
-  if (!formData.message.trim()) {
-    errors.message = t('contact.form.errors.messageRequired')
-    isValid = false
-  } else if (formData.message.trim().length < 10) {
-    errors.message = t('contact.form.errors.messageMin')
-    isValid = false
-  }
-  
-  return isValid
-}
-
-const handleSubmit = async () => {
-  if (!validateForm()) {
-    return
-  }
-  
+const handleSubmit = async (e) => {
   isSubmitting.value = true
-  submitSuccess.value = false
-  submitError.value = false
+  submitStatus.value = null
   
+  const formElement = e.target
+
   try {
-    // Simulate API call
-    // In production, replace with actual API endpoint
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    const response = await fetch(formElement.action, {
+      method: formElement.method,
+      body: new FormData(formElement),
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
     
-    // For demonstration, we'll just log the data
-    console.log('Form submitted:', formData)
-    
-    // Show success message
-    submitSuccess.value = true
-    
-    // Reset form
-    formData.name = ''
-    formData.email = ''
-    formData.subject = ''
-    formData.message = ''
-    
-    // Hide success message after 5 seconds
-    setTimeout(() => {
-      submitSuccess.value = false
-    }, 5000)
+    if (response.ok) {
+      submitStatus.value = {
+        type: 'success',
+        message: '¡Mensaje enviado con éxito! Me pondré en contacto pronto.'
+      }
+      form.value = { name: '', email: '', subject: '', message: '' }
+    } else {
+      throw new Error('Error de red')
+    }
   } catch (error) {
-    console.error('Error submitting form:', error)
-    submitError.value = true
-    
-    // Hide error message after 5 seconds
-    setTimeout(() => {
-      submitError.value = false
-    }, 5000)
+    submitStatus.value = {
+      type: 'error',
+      message: 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.'
+    }
   } finally {
     isSubmitting.value = false
+    setTimeout(() => {
+      submitStatus.value = null
+    }, 5000)
   }
 }
 </script>
@@ -274,27 +176,87 @@ const handleSubmit = async () => {
   padding-top: 5rem;
 }
 
-.section-subtitle {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 1.2rem; /* reduce space below subtitle */
-}
-
 .contact-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 2rem; /* tighter spacing between form and info */
+  grid-template-columns: 1fr 1.5fr;
+  gap: 4rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-/* Contact Form */
-.contact-form-container h2,
-.contact-info h2 {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  color: var(--neon-blue);
-  margin-bottom: 1rem; /* reduce heading bottom margin */
+/* ---- Info Cards ---- */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-card {
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.info-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--accent-violet-10);
+  color: var(--accent-violet);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.info-content h3 {
+  font-size: var(--text-lg);
+  color: var(--text-white);
+  margin-bottom: 0.5rem;
+}
+
+.info-content p {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  margin-bottom: 0.75rem;
+}
+
+.info-link {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.info-link:hover {
+  text-decoration: underline;
+}
+
+.info-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+/* ---- Formulario ---- */
+.contact-form-wrapper {
+  padding: 3rem;
+}
+
+.form-title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 2rem;
 }
 
 .contact-form {
@@ -310,176 +272,93 @@ const handleSubmit = async () => {
 }
 
 .form-group label {
-  color: var(--neon-pink);
-  font-weight: 600;
-  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
-.form-group input,
-.form-group textarea {
-  padding: 1rem;
-  background: rgba(15, 15, 45, 0.5);
-  border: 1px solid var(--neon-blue);
-  border-radius: 10px;
-  color: white;
-  font-family: var(--font-primary);
-  font-size: 1rem;
-  transition: all 0.3s var(--transition-smooth);
+.form-input {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  transition: all var(--transition-fast);
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.form-input:focus {
   outline: none;
-  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
-  border-color: var(--neon-blue);
+  border-color: var(--accent-violet);
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 0 3px var(--accent-violet-10);
 }
 
-.form-group input.error,
-.form-group textarea.error {
-  border-color: #ff4444;
-}
-
-.form-group textarea {
+.form-textarea {
   resize: vertical;
-  min-height: 150px;
+  min-height: 120px;
 }
 
-.error-message {
-  color: #ff4444;
-  font-size: 0.85rem;
-  margin-top: 0.25rem;
-}
-
-.success-message {
-  padding: 1rem;
-  background: rgba(0, 255, 127, 0.1);
-  border: 1px solid var(--neon-green);
-  border-radius: 10px;
-  color: var(--neon-green);
-  text-align: center;
+.btn-submit {
   margin-top: 1rem;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Contact Info */
-.info-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem; /* less vertical gap between cards */
-  margin-bottom: 1rem; /* compact bottom spacing */
-}
-
-.info-card {
-  background: rgba(15, 15, 45, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-blue);
-  border-radius: 15px;
-  padding: 1.5rem;
-  transition: all 0.3s var(--transition-smooth);
-}
-
-.info-card:hover {
-  transform: translateX(10px);
-  box-shadow: 0 10px 40px rgba(0, 247, 255, 0.3);
-}
-
-.info-icon {
-  color: var(--neon-blue);
-  margin-bottom: 0.5rem;
-}
-
-.info-card h3 {
-  font-family: var(--font-title);
-  color: var(--neon-pink);
-  margin-bottom: 0.5rem;
-}
-
-.info-card a {
-  color: rgba(255, 255, 255, 0.8);
-  text-decoration: none;
-  transition: color 0.3s var(--transition-smooth);
-}
-
-.info-card a:hover {
-  color: var(--neon-blue);
-}
-
-.info-card p {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* Availability */
-.availability {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem; /* slightly smaller padding */
-  background: rgba(0, 255, 127, 0.08);
-  border: 1px solid var(--neon-green);
-  border-radius: 12px;
-  margin-bottom: 1rem; /* reduce spacing below availability */
-}
-
-.status-indicator {
-  width: 12px;
-  height: 12px;
-  background: var(--neon-green);
-  border-radius: 50%;
-  animation: pulse 2s infinite;
-}
-
-.availability p {
-  color: var(--neon-green);
-  font-weight: 600;
-  margin: 0;
-}
-
-/* Social Links */
-.social-links {
-  display: flex;
-  gap: 1rem;
+  width: 100%;
   justify-content: center;
+  padding: 1rem;
 }
 
-.social-link {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(15, 15, 45, 0.5);
-  border: 1px solid var(--neon-blue);
+/* Loading state */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255,255,255,0.3);
   border-radius: 50%;
-  color: var(--neon-blue);
-  transition: all 0.3s var(--transition-smooth);
+  border-top-color: white;
+  animation: spin 1s linear infinite;
 }
 
-.social-link:hover {
-  background: var(--neon-blue);
-  color: var(--dark-bg);
-  box-shadow: 0 0 30px var(--neon-blue);
-  transform: translateY(-5px);
+/* Status message */
+.status-message {
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 500;
 }
 
-/* Animations */
+.status-message.success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--accent-green);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.status-message.error {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.3s var(--transition-smooth);
+  transition: opacity 0.3s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
 
-@media (max-width: 1024px) {
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
   .contact-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .contact-form-wrapper {
+    padding: 2rem 1.5rem;
   }
 }
 </style>

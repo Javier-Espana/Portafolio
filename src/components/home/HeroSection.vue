@@ -1,108 +1,153 @@
 <template>
-  <section class="hero">
-    <div class="hero__particles" id="particles-js"></div>
-    <div class="hero__grid"></div>
-    <div class="hero__orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-    </div>
+  <section class="hero" ref="heroRef" @mousemove="handleMouseMove">
+    <!-- Partículas Dinámicas Interactivas (particles.js) -->
+    <div id="particles-js" class="hero__particles" aria-hidden="true"></div>
     
-    <div class="hero__content">
-      <p class="hero__greeting">{{ $t('hero.greeting') }}</p>
-      
-      <h1 class="hero__title glitch" :data-text="$t('hero.name')">
-        {{ $t('hero.name') }}
-      </h1>
-      
-      <div class="hero__typewriter">
-        <span class="typewriter-text">{{ displayedText }}</span>
-        <span class="typewriter-cursor">|</span>
+    <div class="grid-background" aria-hidden="true"></div>
+
+    <div class="hero__content" ref="contentRef" :style="tiltStyle">
+      <!-- Greeting badge -->
+      <div class="hero__badge gsap-reveal">
+        <span class="glow-dot"></span>
+        <span>{{ $t('hero.greeting') }} Javier España</span>
       </div>
-      
-      <p class="hero__description">
+
+      <!-- Título principal con efecto Scramble (Hacker) -->
+      <h1 class="hero__title gsap-reveal" @mouseenter="scrambleName">
+        <span class="title-word">{{ scrambledName }}</span>
+      </h1>
+
+      <!-- Typewriter -->
+      <div class="hero__typewriter gsap-reveal" aria-live="polite">
+        <span class="typewriter-prefix">// </span>
+        <span class="typewriter-text">{{ displayedText }}</span>
+        <span class="typewriter-cursor" aria-hidden="true">|</span>
+      </div>
+
+      <!-- Descripción -->
+      <p class="hero__description gsap-reveal">
         {{ $t('hero.subtitle') }}
       </p>
-      
-      <div class="hero__stats">
-        <div class="stat">
-          <span class="stat-number">6º</span>
+
+      <!-- Stats -->
+      <div class="hero__stats gsap-reveal">
+        <div class="stat-item magnetic" data-strength="20">
+          <span class="stat-number">7°</span>
           <span class="stat-label">{{ $t('about.semester') }}</span>
         </div>
-        <div class="stat">
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item magnetic" data-strength="20">
           <span class="stat-number">11+</span>
           <span class="stat-label">{{ $t('about.solar') }}</span>
         </div>
-        <div class="stat">
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item magnetic" data-strength="20">
           <span class="stat-number">∞</span>
           <span class="stat-label">Passion</span>
         </div>
       </div>
-      
-      <div class="hero__cta">
-        <router-link to="/projects" class="btn btn-primary">
+
+      <!-- CTAs -->
+      <div class="hero__cta gsap-reveal">
+        <router-link to="/projects" class="btn btn-primary magnetic" data-strength="50">
           {{ $t('hero.cta.projects') }}
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
         </router-link>
-        <router-link to="/contact" class="btn btn-secondary">
+        <router-link to="/contact" class="btn btn-secondary magnetic" data-strength="30">
           {{ $t('hero.cta.contact') }}
         </router-link>
       </div>
-      
-      <div class="hero__scroll">
+
+      <!-- Full Experience Button -->
+      <div class="hero__cinematic gsap-reveal">
+        <button class="btn-cinematic magnetic" data-strength="20" @click="startCinematic">
+          <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          Full Experience
+        </button>
+        <span class="cinematic-warning">{{ $t('cinematic.warning') }}</span>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="hero__scroll gsap-reveal" aria-hidden="true">
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
         <span>{{ $t('hero.scroll') }}</span>
-        <div class="hero__scroll-line"></div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
+import gsap from 'gsap'
+import { audioManager } from '../../utils/audioManager'
+import { appState } from '../../store/appState'
 
 const { t, tm, locale } = useI18n()
 
+const startCinematic = () => {
+  appState.isCinematicMode = true
+}
+
+// ---- Scramble Text Effect (Hacker Effect) ----
+const originalName = computed(() => t('hero.name'))
+const scrambledName = ref(originalName.value)
+const chars = '!<>-_\\/[]{}—=+*^?#________'
+let scrambleInterval = null
+
+const scrambleName = () => {
+  if (scrambleInterval) clearInterval(scrambleInterval)
+  let iterations = 0
+  
+  audioManager.playScramble()
+  
+  scrambleInterval = setInterval(() => {
+    scrambledName.value = originalName.value.split('').map((char, index) => {
+      if (index < iterations) return originalName.value[index]
+      if (char === ' ') return ' '
+      return chars[Math.floor(Math.random() * chars.length)]
+    }).join('')
+
+    if (iterations >= originalName.value.length) {
+      clearInterval(scrambleInterval)
+      scrambledName.value = originalName.value
+    }
+    iterations += 1/3 // Velocidad de resolución
+  }, 30)
+}
+
+// Scramble at start
+watch(originalName, () => {
+  scrambledName.value = originalName.value
+  scrambleName()
+})
+
+// ---- Typewriter logic ----
 const displayedText = ref('')
 let currentPhraseIndex = 0
-let currentCharIndex = 0
-let isDeleting = false
-let typingTimeout = null
+let currentCharIndex   = 0
+let isDeleting         = false
+let typingTimeout      = null
 
-// Función para obtener las frases actuales
 const getPhrases = () => {
   const titles = tm('hero.titles')
-  console.log('Getting phrases:', titles, 'Locale:', locale.value)
-  
-  // Si tm no devuelve un array válido, usar valores por defecto
   if (!Array.isArray(titles) || titles.length === 0) {
-    console.warn('Titles not loaded correctly, using fallback')
-    return locale.value === 'es' 
-      ? [
-          'Desarrollador Full Stack',
-          'Estudiante de Ciencias de la Computación',
-          'Entusiasta del Backend',
-          'Amante de IA y Data Science'
-        ]
-      : [
-          'Full Stack Developer',
-          'Computer Science Student',
-          'Backend Enthusiast',
-          'AI & Data Science Lover'
-        ]
+    return locale.value === 'es'
+      ? ['Desarrollador Full Stack', 'Estudiante de Computación', 'Entusiasta del Backend', 'Amante de IA']
+      : ['Full Stack Developer', 'CS Student', 'Backend Enthusiast', 'AI Lover']
   }
-  
   return titles
 }
 
 const type = () => {
   const phrases = getPhrases()
   const currentPhrase = phrases[currentPhraseIndex]
-  
-  if (!currentPhrase) {
-    console.error('No phrase found at index', currentPhraseIndex)
-    return
-  }
-  
+  if (!currentPhrase) return
+
   if (isDeleting) {
     currentCharIndex--
     displayedText.value = currentPhrase.substring(0, currentCharIndex)
@@ -110,167 +155,126 @@ const type = () => {
     currentCharIndex++
     displayedText.value = currentPhrase.substring(0, currentCharIndex)
   }
-  
-  let delay = isDeleting ? 50 : 100
-  
+
+  let delay = isDeleting ? 40 : 85
+
   if (!isDeleting && currentCharIndex === currentPhrase.length) {
-    delay = 2500 // Pausa al terminar de escribir
+    delay = 2200
     isDeleting = true
   } else if (isDeleting && currentCharIndex === 0) {
     isDeleting = false
     currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length
-    delay = 500 // Pequeña pausa antes de escribir la siguiente frase
+    delay = 400
   }
-  
+
   typingTimeout = setTimeout(type, delay)
 }
 
-// Reiniciar animación cuando cambie el idioma
-watch(locale, () => {
-  console.log('Locale changed to:', locale.value)
-  if (typingTimeout) {
-    clearTimeout(typingTimeout)
-  }
+const resetTypewriter = () => {
+  if (typingTimeout) clearTimeout(typingTimeout)
   currentPhraseIndex = 0
-  currentCharIndex = 0
-  isDeleting = false
+  currentCharIndex   = 0
+  isDeleting         = false
   displayedText.value = ''
-  setTimeout(() => {
-    type()
-  }, 300)
-})
+  setTimeout(type, 300)
+}
 
+watch(locale, resetTypewriter)
+
+// ---- Interactividad (3D Tilt) ----
+const heroRef = ref(null)
+const contentRef = ref(null)
+const mouseX = ref(0)
+const mouseY = ref(0)
+const windowWidth = ref(window.innerWidth)
+const windowHeight = ref(window.innerHeight)
+
+const handleMouseMove = (e) => {
+  // Coordenadas normalizadas (-1 a 1)
+  mouseX.value = (e.clientX / windowWidth.value) * 2 - 1
+  mouseY.value = (e.clientY / windowHeight.value) * 2 - 1
+}
+
+const tiltStyle = computed(() => ({
+  transform: `perspective(1000px) rotateY(${mouseX.value * 4}deg) rotateX(${mouseY.value * -4}deg) translateZ(10px)`
+}))
+
+// ---- Inicialización ----
 onMounted(() => {
-  console.log('HeroSection mounted')
-  console.log('Initial locale:', locale.value)
-  console.log('Initial phrases:', getPhrases())
-  
-  // Iniciar typewriter después de un pequeño delay
-  setTimeout(() => {
-    console.log('Starting typewriter animation')
-    type()
-  }, 500)
-  
-  // Inicializar particles.js solo si el elemento existe
-  const particlesElement = document.getElementById('particles-js')
-  if (window.particlesJS && particlesElement) {
-    console.log('Initializing particles.js')
+  windowWidth.value = window.innerWidth
+  windowHeight.value = window.innerHeight
+  window.addEventListener('resize', () => {
+    windowWidth.value = window.innerWidth
+    windowHeight.value = window.innerHeight
+  })
+
+  setTimeout(type, 600)
+  setTimeout(scrambleName, 100)
+
+  // Iniciar Particles.js (El script global se carga en index.html)
+  if (window.particlesJS) {
     window.particlesJS('particles-js', {
       particles: {
-        number: {
-          value: 80,
-          density: {
-            enable: true,
-            value_area: 800
-          }
-        },
-        color: {
-          value: '#00f7ff'
-        },
-        shape: {
-          type: 'circle',
-          stroke: {
-            width: 0,
-            color: '#000000'
-          },
-          polygon: {
-            nb_sides: 5
-          }
-        },
-        opacity: {
-          value: 0.5,
-          random: false,
-          anim: {
-            enable: false,
-            speed: 1,
-            opacity_min: 0.1,
-            sync: false
-          }
-        },
-        size: {
-          value: 3,
-          random: true,
-          anim: {
-            enable: false,
-            speed: 40,
-            size_min: 0.1,
-            sync: false
-          }
-        },
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: ["#6C63FF", "#00D9FF", "#E2E8F0"] },
+        shape: { type: "circle" },
+        opacity: { value: 0.5, random: true },
+        size: { value: 3, random: true },
         line_linked: {
           enable: true,
           distance: 150,
-          color: '#00f7ff',
-          opacity: 0.4,
+          color: "#6C63FF",
+          opacity: 0.2,
           width: 1
         },
         move: {
           enable: true,
           speed: 2,
-          direction: 'none',
-          random: false,
+          direction: "none",
+          random: true,
           straight: false,
-          out_mode: 'out',
+          out_mode: "out",
           bounce: false,
-          attract: {
-            enable: false,
-            rotateX: 600,
-            rotateY: 1200
-          }
         }
       },
       interactivity: {
-        detect_on: 'canvas',
+        detect_on: "canvas",
         events: {
-          onhover: {
-            enable: true,
-            mode: 'repulse'
-          },
-          onclick: {
-            enable: true,
-            mode: 'push'
-          },
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
           resize: true
         },
         modes: {
-          grab: {
-            distance: 400,
-            line_linked: {
-              opacity: 1
-            }
-          },
-          bubble: {
-            distance: 400,
-            size: 40,
-            duration: 2,
-            opacity: 8,
-            speed: 3
-          },
-          repulse: {
-            distance: 200,
-            duration: 0.4
-          },
-          push: {
-            particles_nb: 4
-          },
-          remove: {
-            particles_nb: 2
-          }
+          grab: { distance: 200, line_linked: { opacity: 0.5 } },
+          push: { particles_nb: 4 }
         }
       },
       retina_detect: true
     })
   }
+
+  // GSAP Reveal Sequence
+  nextTick(() => {
+    // Para asegurarnos que se vea si falla GSAP, inicializamos opacity en 1 en CSS y usamos .from
+    gsap.from('.gsap-reveal', {
+      y: 50,
+      opacity: 0,
+      duration: 1,
+      stagger: 0.15,
+      ease: "power4.out",
+      delay: 0.2
+    })
+  })
 })
 
 onUnmounted(() => {
-  if (typingTimeout) {
-    clearTimeout(typingTimeout)
-  }
+  if (typingTimeout) clearTimeout(typingTimeout)
+  if (scrambleInterval) clearInterval(scrambleInterval)
 })
 </script>
 
 <style scoped>
+/* ---- Sección ---- */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -278,354 +282,220 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 6rem 2rem 2rem;
+  padding: 7rem 2rem 4rem;
 }
 
+/* ---- Partículas Background ---- */
 .hero__particles {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: 0;
 }
 
-.hero__grid {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: 
-    linear-gradient(var(--neon-blue) 1px, transparent 1px),
-    linear-gradient(90deg, var(--neon-blue) 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.1;
-  animation: grid-move 20s linear infinite;
-  z-index: 1;
-}
-
+/* ---- Contenido ---- */
 .hero__content {
   position: relative;
   z-index: 10;
   text-align: center;
-  max-width: 1100px;
-  animation: fadeInUp 1s ease-out;
+  max-width: 800px;
+  width: 100%;
+  transition: transform 0.1s linear;
+  transform-style: preserve-3d;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.title-word { display: inline-block; }
 
-.hero__greeting {
-  font-family: var(--font-text);
-  font-size: var(--text-2xl);
-  color: var(--neon-green);
-  margin-bottom: 1rem;
+/* ---- Badge greeting ---- */
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 1rem;
+  background: var(--accent-violet-10);
+  border: 1px solid rgba(108, 99, 255, 0.25);
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  animation: fadeIn 0.8s ease-out;
+  color: var(--accent-violet);
+  margin-bottom: 1.5rem;
+  transform: translateZ(30px);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
+/* ---- Título ---- */
 .hero__title {
-  font-family: var(--font-title);
-  font-size: clamp(4rem, 10vw, var(--text-7xl));
+  font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 900;
-  margin-bottom: 2rem;
-  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink), var(--neon-blue));
-  background-size: 200% auto;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 1.25rem;
+  background: linear-gradient(135deg, var(--text-white) 30%, var(--text-secondary) 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: 6px;
-  animation: shine 4s ease-in-out infinite;
-  text-shadow: 0 0 80px rgba(0, 247, 255, 0.5);
-  filter: drop-shadow(0 0 30px rgba(0, 247, 255, 0.6));
+  padding-bottom: 0.2em;
+  transform: translateZ(50px);
+  cursor: default;
 }
 
-@keyframes shine {
-  0%, 100% { background-position: 0% center; }
-  50% { background-position: 100% center; }
-}
-
+/* ---- Typewriter ---- */
 .hero__typewriter {
-  font-family: 'Courier New', monospace;
-  font-size: clamp(1.8rem, 5vw, var(--text-4xl));
-  color: var(--neon-pink);
-  margin-bottom: 2.5rem;
-  min-height: 4rem;
+  font-family: var(--font-mono);
+  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+  min-height: 2.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.3rem;
-  font-weight: 600;
-  text-shadow: 0 0 20px rgba(255, 0, 247, 0.8);
+  gap: 0.15rem;
+  transform: translateZ(20px);
 }
 
+.typewriter-prefix { color: var(--text-muted); font-weight: 500; }
+.typewriter-text { color: var(--accent-cyan); font-weight: 500; }
 .typewriter-cursor {
-  animation: blink 0.8s infinite;
-  color: var(--neon-blue);
-  font-weight: bold;
-  font-size: 1.2em;
+  color: var(--accent-violet);
+  font-weight: 300;
+  animation: blink 0.9s step-end infinite;
 }
 
-@keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
-}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
+/* ---- Descripción ---- */
 .hero__description {
-  font-size: clamp(1.2rem, 2.5vw, var(--text-xl));
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 3rem;
+  font-size: clamp(0.9rem, 1.8vw, var(--text-lg));
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto 2.5rem;
   line-height: 1.8;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  transform: translateZ(20px);
 }
 
+/* ---- Stats ---- */
 .hero__stats {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 4rem;
-  margin-bottom: 3rem;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
   flex-wrap: wrap;
+  transform: translateZ(30px);
 }
 
-.stat {
+.stat-item { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  gap: 0.25rem;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  transition: background 0.3s ease;
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stat-number {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+.stat-label { font-size: var(--text-xs); color: var(--text-muted); text-transform: uppercase; font-weight: 600; }
+.stat-divider { width: 1px; height: 40px; background: var(--border-default); }
+
+/* ---- CTAs ---- */
+.hero__cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  transform: translateZ(40px);
+}
+
+/* ---- Cinematic ---- */
+.hero__cinematic {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 1.5rem 2rem;
-  background: rgba(0, 247, 255, 0.05);
-  border: 2px solid var(--neon-blue);
-  border-radius: 15px;
-  transition: all 0.4s ease;
-  animation: statFadeIn 1s ease-out backwards;
+  margin-bottom: 4rem;
+  transform: translateZ(30px);
 }
 
-.stat:nth-child(1) { animation-delay: 0.2s; }
-.stat:nth-child(2) { animation-delay: 0.4s; }
-.stat:nth-child(3) { animation-delay: 0.6s; }
-
-@keyframes statFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-.stat:hover {
-  transform: translateY(-5px) scale(1.05);
-  background: rgba(0, 247, 255, 0.1);
-  box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
-  border-color: var(--neon-pink);
-}
-
-.stat-number {
-  font-family: var(--font-title);
-  font-size: var(--text-4xl);
-  font-weight: 900;
-  color: var(--neon-blue);
-  text-shadow: 0 0 20px var(--neon-blue);
-}
-
-.stat:hover .stat-number {
-  color: var(--neon-pink);
-  text-shadow: 0 0 25px var(--neon-pink);
-}
-
-.stat-label {
-  font-size: var(--text-sm);
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-weight: 600;
-}
-
-.hero__cta {
+.btn-cinematic {
+  background: linear-gradient(135deg, rgba(255, 95, 86, 0.1), rgba(255, 95, 86, 0.2));
+  border: 1px solid rgba(255, 95, 86, 0.5);
+  color: #FF5F56;
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-base);
+  font-weight: 700;
   display: flex;
-  gap: 2rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 5rem;
-  animation: ctaSlideIn 1.2s ease-out backwards;
-  animation-delay: 0.8s;
+  align-items: center;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(255, 95, 86, 0.2);
 }
 
-@keyframes ctaSlideIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.btn-cinematic:hover {
+  background: linear-gradient(135deg, rgba(255, 95, 86, 0.2), rgba(255, 95, 86, 0.4));
+  box-shadow: 0 0 30px rgba(255, 95, 86, 0.4);
+  transform: scale(1.05);
 }
 
+.cinematic-warning {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ---- Scroll indicator ---- */
 .hero__scroll {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.8rem;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: var(--text-base);
+  gap: 0.6rem;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 3px;
-  font-weight: 600;
-  animation: float 3s ease-in-out infinite;
+  animation: floatY 3s ease-in-out infinite;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.scroll-mouse {
+  width: 22px;
+  height: 36px;
+  border: 2px solid var(--border-default);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
 }
-
-.hero__scroll-line {
+.scroll-wheel {
   width: 3px;
-  height: 50px;
-  background: linear-gradient(180deg, var(--neon-blue), transparent);
-  animation: scroll-line 2s ease-in-out infinite;
+  height: 8px;
+  background: var(--accent-violet);
   border-radius: 2px;
-  box-shadow: 0 0 10px var(--neon-blue);
+  animation: scrollWheel 1.8s ease-in-out infinite;
 }
 
-@keyframes scroll-line {
-  0%, 100% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  50% {
-    transform: translateY(25px);
-    opacity: 1;
-  }
-}
+@keyframes scrollWheel { 0% { transform: translateY(0); opacity: 1; } 80% { transform: translateY(10px); opacity: 0; } 100% { transform: translateY(0); opacity: 0; } }
 
-/* Orbs flotantes de fondo */
-.hero__orbs {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.3;
-  animation: orbFloat 20s ease-in-out infinite;
-}
-
-.orb-1 {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, var(--neon-blue), transparent);
-  top: 10%;
-  left: 10%;
-  animation-delay: 0s;
-}
-
-.orb-2 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, var(--neon-pink), transparent);
-  bottom: 20%;
-  right: 15%;
-  animation-delay: 5s;
-}
-
-.orb-3 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, var(--neon-green), transparent);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  animation-delay: 10s;
-}
-
-@keyframes orbFloat {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(50px, -50px);
-  }
-  50% {
-    transform: translate(-30px, 30px);
-  }
-  75% {
-    transform: translate(30px, 50px);
-  }
-}
-
+/* ---- Responsive ---- */
 @media (max-width: 768px) {
-  .hero {
-    padding: 5rem 1rem 2rem;
-  }
-  
-  .hero__stats {
-    gap: 1.5rem;
-  }
-  
-  .stat {
-    padding: 1rem 1.5rem;
-  }
-  
-  .stat-number {
-    font-size: var(--text-3xl);
-  }
-  
-  .orb {
-    filter: blur(40px);
-  }
-  
-  .orb-1, .orb-2, .orb-3 {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .hero__title {
-    margin-bottom: 1.5rem;
-  }
-  
-  .hero__description {
-    margin-bottom: 2rem;
-  }
-  
-  .hero__cta {
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .btn {
-    width: 100%;
-    max-width: 300px;
-  }
+  .hero { padding: 6rem 1rem 3rem; }
+  .hero__stats { gap: 1.5rem; }
+  .stat-divider { display: none; }
+  .hero__cta { flex-direction: column; align-items: center; }
+  .hero__cta .btn { width: 100%; max-width: 280px; justify-content: center; }
+  .hero__content { transform: none !important; }
 }
 </style>

@@ -1,32 +1,33 @@
 <template>
-  <div class="skills-view">
+  <div class="skills-view page-transition">
     <section class="skills-hero section">
       <div class="container">
-        <h1 class="section-title">{{ $t('skills.title') }}</h1>
-        <p class="section-subtitle">
+        <h1 class="section-title gsap-reveal">{{ $t('skills.title') }}</h1>
+        <p class="section-subtitle gsap-reveal">
           {{ $t('skills.subtitle') }}
         </p>
       </div>
     </section>
-    
-    <section class="radar-section section">
+
+    <!-- Radar Chart -->
+    <section class="radar-section section" ref="radarSectionRef">
       <div class="container">
-        <div class="radar-container">
+        <div class="radar-container card gsap-radar">
           <h2 class="radar-title">{{ $t('skills.radar') }}</h2>
-          <div class="radar-chart" ref="radarChart">
+          <div class="radar-chart" ref="radarChartRef">
             <svg :width="radarSize" :height="radarSize" class="radar-svg">
-              <!-- Background circles -->
               <g :transform="`translate(${radarSize/2}, ${radarSize/2})`">
+                <!-- Grid bg -->
                 <circle
                   v-for="i in 5"
                   :key="`circle-${i}`"
                   :r="(radarSize/2 - 40) * (i/5)"
                   fill="none"
-                  :stroke="`rgba(0, 247, 255, ${0.1 * i})`"
+                  stroke="rgba(255, 255, 255, 0.05)"
                   stroke-width="1"
                 />
                 
-                <!-- Axis lines -->
+                <!-- Axis -->
                 <line
                   v-for="(skill, index) in radarSkills"
                   :key="`axis-${index}`"
@@ -34,41 +35,40 @@
                   y1="0"
                   :x2="getAxisPoint(index).x"
                   :y2="getAxisPoint(index).y"
-                  stroke="rgba(0, 247, 255, 0.2)"
+                  stroke="rgba(255, 255, 255, 0.1)"
                   stroke-width="1"
                 />
                 
-                <!-- Skill polygon -->
+                <!-- Polygon -->
                 <polygon
-                  :points="skillPolygonPoints"
-                  fill="rgba(0, 247, 255, 0.2)"
-                  stroke="var(--neon-blue)"
+                  :points="isRadarVisible ? skillPolygonPoints : centerPolygonPoints"
+                  fill="rgba(108, 99, 255, 0.2)"
+                  stroke="var(--accent-violet)"
                   stroke-width="2"
+                  class="radar-polygon"
                 />
                 
-                <!-- Skill points -->
+                <!-- Points -->
                 <circle
                   v-for="(point, index) in skillPoints"
                   :key="`point-${index}`"
-                  :cx="point.x"
-                  :cy="point.y"
-                  r="6"
-                  :fill="point.color"
-                  :stroke="point.color"
-                  stroke-width="2"
-                  class="skill-point"
+                  :cx="isRadarVisible ? point.x : 0"
+                  :cy="isRadarVisible ? point.y : 0"
+                  r="4"
+                  fill="var(--accent-cyan)"
+                  class="radar-point"
                 />
                 
-                <!-- Skill labels -->
+                <!-- Labels -->
                 <text
                   v-for="(skill, index) in radarSkills"
                   :key="`label-${index}`"
                   :x="getLabelPoint(index).x"
                   :y="getLabelPoint(index).y"
                   text-anchor="middle"
-                  :fill="skill.color"
-                  font-size="14"
-                  font-weight="600"
+                  fill="var(--text-secondary)"
+                  font-size="12"
+                  font-family="var(--font-mono)"
                   class="skill-label"
                 >
                   {{ skill.name }}
@@ -79,41 +79,39 @@
         </div>
       </div>
     </section>
-    
+
+    <!-- Skills List -->
     <section class="skills-categories section">
       <div class="container">
-        <div 
-          v-for="category in skillCategories" 
-          :key="category.name"
-          class="category-section"
+        <div
+          v-for="(category, index) in skillCategories"
+          :key="category.nameKey"
+          class="category-section gsap-category"
         >
           <h2 class="category-title">{{ $t(category.nameKey) }}</h2>
           
           <div class="skills-grid">
-            <div 
-              v-for="skill in category.skills" 
+            <div
+              v-for="skill in category.skills"
               :key="skill.name"
-              class="skill-card"
+              class="skill-card card gsap-skill-card"
             >
               <div class="skill-header">
-                <div class="skill-icon" v-html="skill.icon"></div>
-                <h3>{{ skill.name }}</h3>
+                <span class="skill-icon">{{ skill.icon }}</span>
+                <h3 class="skill-name">{{ skill.name }}</h3>
               </div>
               
               <div class="skill-level">
                 <div class="skill-bar">
-                  <div 
-                    class="skill-fill" 
-                    :style="{ width: skill.level + '%', backgroundColor: category.color }"
+                  <div
+                    class="skill-fill"
+                    :style="{ 
+                      width: visibleCategories[index] ? skill.level + '%' : '0%',
+                      background: category.color
+                    }"
                   ></div>
                 </div>
-                <span class="skill-percentage">{{ skill.level }}%</span>
-              </div>
-              
-              <p class="skill-description">{{ skill.description }}</p>
-              
-              <div class="skill-years">
-                {{ skill.years }} {{ $t('skills.years') }}
+                <span class="skill-percentage">{{ visibleCategories[index] ? skill.level : 0 }}%</span>
               </div>
             </div>
           </div>
@@ -124,257 +122,76 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, nextTick } from 'vue'
+import gsap from 'gsap'
+import ScrollTrigger from 'gsap/ScrollTrigger'
 
-const radarSize = ref(600)
-const radarChart = ref(null)
+gsap.registerPlugin(ScrollTrigger)
 
+const radarSize = ref(400)
+const radarChartRef = ref(null)
+const radarSectionRef = ref(null)
+const isRadarVisible = ref(false)
+const visibleCategories = ref({})
+
+// Ajustados a un perfil de estudiante 7mo semestre
 const radarSkills = [
-  { name: 'Frontend', level: 95, color: '#00f7ff' },
-  { name: 'Backend', level: 90, color: '#ff00f7' },
-  { name: 'Databases', level: 85, color: '#00ff7f' },
-  { name: 'DevOps', level: 80, color: '#ffd700' },
-  { name: 'Cloud', level: 85, color: '#ff6b6b' },
-  { name: 'Testing', level: 88, color: '#a78bfa' }
+  { name: 'Frontend', level: 85 },
+  { name: 'Backend',  level: 80 },
+  { name: 'Database', level: 75 },
+  { name: 'DevOps',   level: 60 },
+  { name: 'Cloud',    level: 65 },
+  { name: 'Testing',  level: 70 }
 ]
 
 const skillCategories = [
   {
-    name: 'languages',
     nameKey: 'skills.categories.languages',
-    color: '#00f7ff',
+    color: 'var(--accent-violet)',
     skills: [
-      {
-        name: 'JavaScript / TypeScript',
-        icon: '💛',
-        level: 95,
-        years: 5,
-        description: 'Desarrollo avanzado con ES6+, TypeScript, async/await, y patrones modernos'
-      },
-      {
-        name: 'Python',
-        icon: '🐍',
-        level: 90,
-        years: 4,
-        description: 'Backend con FastAPI, Django, Flask. Data science con pandas y numpy'
-      },
-      {
-        name: 'Java',
-        icon: '☕',
-        level: 85,
-        years: 3,
-        description: 'Spring Boot, microservicios, JPA/Hibernate, y aplicaciones enterprise'
-      },
-      {
-        name: 'Go',
-        icon: '🔵',
-        level: 75,
-        years: 2,
-        description: 'APIs RESTful, microservicios, concurrencia con goroutines'
-      },
-      {
-        name: 'Rust',
-        icon: '🦀',
-        level: 70,
-        years: 1,
-        description: 'Sistemas de bajo nivel, performance crítico, memory safety'
-      },
-      {
-        name: 'C/C++',
-        icon: '⚙️',
-        level: 80,
-        years: 4,
-        description: 'Sistemas embebidos, optimización de performance, algoritmos'
-      }
+      { name: 'JavaScript / TypeScript', icon: 'JS', level: 85 },
+      { name: 'Python', icon: 'Py', level: 80 },
+      { name: 'Java', icon: 'Jv', level: 75 },
+      { name: 'Go', icon: 'Go', level: 60 },
+      { name: 'C/C++', icon: 'C+', level: 70 }
     ]
   },
   {
-    name: 'frontend',
     nameKey: 'skills.categories.frontend',
-    color: '#ff00f7',
+    color: 'var(--accent-cyan)',
     skills: [
-      {
-        name: 'Vue.js',
-        icon: '💚',
-        level: 95,
-        years: 4,
-        description: 'Composition API, Vuex/Pinia, Vue Router, Nuxt.js'
-      },
-      {
-        name: 'React',
-        icon: '⚛️',
-        level: 90,
-        years: 4,
-        description: 'Hooks, Redux, Context API, Next.js, React Query'
-      },
-      {
-        name: 'HTML5 / CSS3',
-        icon: '🎨',
-        level: 98,
-        years: 6,
-        description: 'Semantic HTML, CSS Grid, Flexbox, Animations, Custom Properties'
-      },
-      {
-        name: 'Tailwind CSS',
-        icon: '🌊',
-        level: 92,
-        years: 3,
-        description: 'Utility-first CSS, custom config, componentes reutilizables'
-      },
-      {
-        name: 'GSAP / Framer Motion',
-        icon: '✨',
-        level: 85,
-        years: 2,
-        description: 'Animaciones avanzadas, transiciones, micro-interactions'
-      }
+      { name: 'Vue.js', icon: 'V', level: 85 },
+      { name: 'React', icon: 'Re', level: 80 },
+      { name: 'HTML/CSS', icon: 'UI', level: 90 },
+      { name: 'Tailwind CSS', icon: 'Tw', level: 85 }
     ]
   },
   {
-    name: 'backend',
     nameKey: 'skills.categories.backend',
-    color: '#00ff7f',
+    color: 'var(--accent-green)',
     skills: [
-      {
-        name: 'Node.js / Express',
-        icon: '🟢',
-        level: 92,
-        years: 5,
-        description: 'APIs RESTful, middleware, autenticación, WebSockets'
-      },
-      {
-        name: 'FastAPI',
-        icon: '⚡',
-        level: 88,
-        years: 3,
-        description: 'APIs async, validación con Pydantic, documentación automática'
-      },
-      {
-        name: 'Spring Boot',
-        icon: '🍃',
-        level: 85,
-        years: 3,
-        description: 'Microservicios, Spring Security, JPA, REST APIs'
-      },
-      {
-        name: 'GraphQL',
-        icon: '🔷',
-        level: 80,
-        years: 2,
-        description: 'Apollo Server, schemas, resolvers, subscriptions'
-      }
+      { name: 'Node.js / Express', icon: 'No', level: 80 },
+      { name: 'FastAPI', icon: 'Fa', level: 75 },
+      { name: 'Spring Boot', icon: 'Sp', level: 70 }
     ]
   },
   {
-    name: 'databases',
     nameKey: 'skills.categories.databases',
-    color: '#ffd700',
+    color: 'var(--accent-pink)',
     skills: [
-      {
-        name: 'PostgreSQL',
-        icon: '🐘',
-        level: 90,
-        years: 5,
-        description: 'Queries complejas, optimización, índices, JSON support'
-      },
-      {
-        name: 'MongoDB',
-        icon: '🍃',
-        level: 88,
-        years: 4,
-        description: 'Aggregation pipeline, índices, replicación, sharding'
-      },
-      {
-        name: 'Redis',
-        icon: '🔴',
-        level: 85,
-        years: 3,
-        description: 'Caché, pub/sub, rate limiting, sesiones'
-      },
-      {
-        name: 'MySQL',
-        icon: '🐬',
-        level: 87,
-        years: 4,
-        description: 'Queries optimization, stored procedures, triggers'
-      }
+      { name: 'PostgreSQL', icon: 'Pg', level: 75 },
+      { name: 'MongoDB', icon: 'Mg', level: 70 },
+      { name: 'Redis', icon: 'Rd', level: 65 }
     ]
   },
   {
-    name: 'devops',
     nameKey: 'skills.categories.devops',
-    color: '#ff6b6b',
+    color: 'var(--accent-orange)',
     skills: [
-      {
-        name: 'Docker',
-        icon: '🐳',
-        level: 90,
-        years: 4,
-        description: 'Containerización, multi-stage builds, docker-compose'
-      },
-      {
-        name: 'Kubernetes',
-        icon: '☸️',
-        level: 80,
-        years: 2,
-        description: 'Deployments, services, ingress, ConfigMaps'
-      },
-      {
-        name: 'AWS',
-        icon: '☁️',
-        level: 85,
-        years: 3,
-        description: 'EC2, S3, Lambda, RDS, CloudFront, API Gateway'
-      },
-      {
-        name: 'CI/CD',
-        icon: '🔄',
-        level: 88,
-        years: 4,
-        description: 'GitHub Actions, GitLab CI, Jenkins, automated testing'
-      },
-      {
-        name: 'Linux',
-        icon: '🐧',
-        level: 87,
-        years: 5,
-        description: 'Shell scripting, system administration, networking'
-      }
-    ]
-  },
-  {
-    name: 'tools',
-    nameKey: 'skills.categories.tools',
-    color: '#a78bfa',
-    skills: [
-      {
-        name: 'Git',
-        icon: '📦',
-        level: 95,
-        years: 6,
-        description: 'Git flow, rebasing, cherry-picking, conventional commits'
-      },
-      {
-        name: 'Testing',
-        icon: '🧪',
-        level: 88,
-        years: 4,
-        description: 'Jest, Vitest, Pytest, Cypress, unit & integration tests'
-      },
-      {
-        name: 'Webpack / Vite',
-        icon: '⚡',
-        level: 85,
-        years: 3,
-        description: 'Build optimization, code splitting, tree shaking'
-      },
-      {
-        name: 'Figma',
-        icon: '🎨',
-        level: 80,
-        years: 3,
-        description: 'UI/UX design, prototyping, design systems'
-      }
+      { name: 'Docker', icon: 'Dk', level: 75 },
+      { name: 'AWS', icon: 'Aw', level: 65 },
+      { name: 'CI/CD Actions', icon: 'Ci', level: 70 },
+      { name: 'Linux', icon: 'Lx', level: 80 }
     ]
   }
 ]
@@ -390,10 +207,10 @@ const getAxisPoint = (index) => {
 
 const getLabelPoint = (index) => {
   const angle = (Math.PI * 2 * index) / radarSkills.length - Math.PI / 2
-  const radius = radarSize.value / 2 - 20
+  const radius = radarSize.value / 2 - 15
   return {
     x: Math.cos(angle) * radius,
-    y: Math.sin(angle) * radius + 5
+    y: Math.sin(angle) * radius + 4
   }
 }
 
@@ -404,28 +221,80 @@ const skillPoints = computed(() => {
     const radius = (maxRadius * skill.level) / 100
     return {
       x: Math.cos(angle) * radius,
-      y: Math.sin(angle) * radius,
-      color: skill.color
+      y: Math.sin(angle) * radius
     }
   })
 })
 
 const skillPolygonPoints = computed(() => {
-  return skillPoints.value
-    .map(point => `${point.x},${point.y}`)
-    .join(' ')
+  return skillPoints.value.map(point => `${point.x},${point.y}`).join(' ')
+})
+
+const centerPolygonPoints = computed(() => {
+  return skillPoints.value.map(() => `0,0`).join(' ')
 })
 
 onMounted(() => {
-  const updateRadarSize = () => {
-    if (radarChart.value) {
-      const containerWidth = radarChart.value.offsetWidth
-      radarSize.value = Math.min(containerWidth, 600)
+  const updateSize = () => {
+    if (radarChartRef.value) {
+      const w = radarChartRef.value.offsetWidth
+      radarSize.value = Math.min(w, 500)
     }
   }
-  
-  updateRadarSize()
-  window.addEventListener('resize', updateRadarSize)
+  updateSize()
+  window.addEventListener('resize', updateSize)
+
+  nextTick(() => {
+    // Reveal Hero
+    gsap.fromTo('.gsap-reveal',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" }
+    )
+
+    // Reveal Radar Chart Container
+    gsap.fromTo('.gsap-radar',
+      { y: 50, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power4.out",
+        scrollTrigger: {
+          trigger: radarSectionRef.value,
+          start: "top 75%",
+          onEnter: () => {
+            isRadarVisible.value = true
+          }
+        }
+      }
+    )
+
+    // Reveal Categories and Skill Cards
+    const categoriesEls = document.querySelectorAll('.gsap-category')
+    categoriesEls.forEach((el, index) => {
+      
+      // Title
+      gsap.fromTo(el.querySelector('.category-title'),
+        { x: -30, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            onEnter: () => {
+              visibleCategories.value[index] = true
+            }
+          }
+        }
+      )
+
+      // Cards stagger
+      gsap.fromTo(el.querySelectorAll('.gsap-skill-card'),
+        { y: 30, opacity: 0, scale: 0.9 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 75%"
+          }
+        }
+      )
+    })
+  })
 })
 </script>
 
@@ -434,158 +303,140 @@ onMounted(() => {
   padding-top: 5rem;
 }
 
-.section-subtitle {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 1.2rem;
-  max-width: 700px;
-  margin: 0 auto 3rem;
-}
-
-/* Radar Chart */
-.radar-section {
-  background: rgba(15, 15, 45, 0.3);
-}
-
+/* ---- Radar ---- */
 .radar-container {
-  max-width: 700px;
+  max-width: 600px;
   margin: 0 auto;
-  text-align: center;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .radar-title {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  color: var(--neon-blue);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-white);
   margin-bottom: 2rem;
-  text-align: center;
 }
 
 .radar-chart {
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 2rem;
 }
 
-.radar-svg {
-  filter: drop-shadow(0 0 20px rgba(0, 247, 255, 0.3));
+.radar-polygon {
+  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.skill-point {
-  cursor: pointer;
-  transition: all 0.3s var(--transition-smooth);
+.radar-point {
+  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.skill-point:hover {
-  r: 8;
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-.skill-label {
-  font-family: var(--font-mono);
-  text-shadow: 0 0 10px currentColor;
-}
-
-/* Skills Categories */
+/* ---- Categories ---- */
 .category-section {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 }
 
 .category-title {
-  font-family: var(--font-title);
-  font-size: 2rem;
-  color: var(--neon-pink);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-white);
   margin-bottom: 2rem;
-  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: inline-block;
+  padding-right: 2rem;
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
 }
 
 .skill-card {
-  background: rgba(15, 15, 45, 0.5);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--neon-blue);
-  border-radius: 15px;
   padding: 1.5rem;
-  transition: all 0.3s var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
 }
 
 .skill-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 40px rgba(0, 247, 255, 0.3);
+  box-shadow: var(--glow-card);
+  border-color: rgba(255,255,255,0.2);
 }
 
 .skill-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .skill-icon {
-  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.skill-header h3 {
-  font-family: var(--font-title);
-  font-size: 1.2rem;
-  color: var(--neon-blue);
+.skill-card:hover .skill-icon {
+  color: var(--text-white);
+  border-color: var(--text-white);
+}
+
+.skill-name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-white);
 }
 
 .skill-level {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
 }
 
 .skill-bar {
   flex: 1;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-full);
   overflow: hidden;
 }
 
 .skill-fill {
   height: 100%;
-  border-radius: 10px;
-  transition: width 1s var(--transition-smooth);
-  box-shadow: 0 0 10px currentColor;
+  border-radius: var(--radius-full);
+  transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .skill-percentage {
   font-family: var(--font-mono);
-  font-weight: 600;
-  color: var(--neon-blue);
-  min-width: 45px;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  width: 32px;
   text-align: right;
+  transition: color 0.3s ease;
 }
 
-.skill-description {
-  color: rgba(255, 255, 255, 0.8);
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
+.skill-card:hover .skill-percentage {
+  color: var(--text-secondary);
 }
 
-.skill-years {
-  color: var(--neon-green);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-@media (max-width: 768px) {
-  .radar-chart {
-    padding: 1rem;
-  }
-  
+@media (max-width: 640px) {
   .skills-grid {
     grid-template-columns: 1fr;
   }
