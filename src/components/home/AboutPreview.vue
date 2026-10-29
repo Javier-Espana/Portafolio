@@ -66,7 +66,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-const { tm } = useI18n()
+const { tm  } = useI18n({ useScope: 'global' })
 
 // Solo mostrar el primer párrafo de la bio en la preview
 const firstBioParagraph = computed(() => {

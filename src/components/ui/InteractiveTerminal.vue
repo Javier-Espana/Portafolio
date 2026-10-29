@@ -52,7 +52,7 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 
 const router = useRouter()
-const { t } = useI18n()
+const { t  } = useI18n({ useScope: 'global' })
 
 const terminalBody = ref(null)
 const commandInput = ref(null)

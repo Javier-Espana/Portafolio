@@ -1,145 +1,208 @@
-// Gestor de Audio Sintético (Web Audio API)
-// Genera sonidos premium sin requerir archivos externos.
+// Gestor de Audio Sintético (Web Audio API) y HTML5 Audio
+// Centraliza el control de volumen y mute global de todo el portafolio
 
 class AudioManager {
   constructor() {
     this.ctx = null
-    this.uiMuted = true // UI sounds apagados por defecto
     this.initialized = false
-    
+
+    // Estado de mute global (persistido)
+    const savedMute = typeof localStorage !== 'undefined' ? localStorage.getItem('audio_globally_muted') : null
+    this.isGloballyMuted = savedMute !== null ? savedMute === 'true' : false
+    this.uiMuted = this.isGloballyMuted
+
     // Reproductores HTML5 para música
-    this.cinematicAudio = new Audio('/sounds/cinematic-theme.mp3')
-    this.cinematicAudio.preload = 'auto'
+    this.cinematicAudio = typeof Audio !== 'undefined' ? new Audio('/sounds/cinematic-theme.mp3') : null
+    if (this.cinematicAudio) this.cinematicAudio.preload = 'auto'
     
-    this.loopAudio = new Audio('/sounds/musica.mp3')
-    this.loopAudio.loop = true
-    this.loopAudio.preload = 'auto'
+    this.loopAudio = typeof Audio !== 'undefined' ? new Audio('/sounds/musica.mp3') : null
+    if (this.loopAudio) {
+      this.loopAudio.loop = true
+      this.loopAudio.preload = 'auto'
+    }
+
+    this.listeners = new Set()
   }
 
   init() {
     if (this.initialized) return
     try {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)()
-      this.initialized = true
-      
-      // Manejar la política de autoplay (requiere que el usuario interactúe con la página primero)
-      if (this.ctx.state === 'suspended') {
-        const resumeAudio = () => {
-          this.ctx.resume()
-          document.removeEventListener('click', resumeAudio)
-          document.removeEventListener('keydown', resumeAudio)
+      if (typeof window !== 'undefined') {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext
+        if (AudioContextClass) {
+          this.ctx = new AudioContextClass()
+          this.initialized = true
+
+          if (this.ctx.state === 'suspended') {
+            const resumeAudio = () => {
+              if (this.ctx && !this.isGloballyMuted) {
+                this.ctx.resume()
+              }
+              document.removeEventListener('click', resumeAudio)
+              document.removeEventListener('keydown', resumeAudio)
+            }
+            document.addEventListener('click', resumeAudio)
+            document.addEventListener('keydown', resumeAudio)
+          }
         }
-        document.addEventListener('click', resumeAudio)
-        document.addEventListener('keydown', resumeAudio)
       }
     } catch (e) {
-      console.warn('AudioContext no soportado en este navegador')
-      this.muted = true
+      console.warn('AudioContext no disponible')
     }
   }
 
-  toggleUIMute() {
-    this.uiMuted = !this.uiMuted
-    return this.uiMuted
+  subscribe(callback) {
+    this.listeners.add(callback)
+    callback(this.isGloballyMuted)
+    return () => this.listeners.delete(callback)
   }
 
-  enableUIAudio() {
-    this.uiMuted = false
+  notify() {
+    this.listeners.forEach(cb => cb(this.isGloballyMuted))
   }
 
-  // --- Música y Temas ---
+  toggleGlobalMute() {
+    this.isGloballyMuted = !this.isGloballyMuted
+    this.uiMuted = this.isGloballyMuted
+
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('audio_globally_muted', this.isGloballyMuted.toString())
+    }
+
+    if (this.isGloballyMuted) {
+      this.stopAllAudio()
+    }
+
+    this.notify()
+    return this.isGloballyMuted
+  }
+
+  setMute(state) {
+    this.isGloballyMuted = !!state
+    this.uiMuted = this.isGloballyMuted
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('audio_globally_muted', this.isGloballyMuted.toString())
+    }
+    if (this.isGloballyMuted) {
+      this.stopAllAudio()
+    }
+    this.notify()
+  }
+
+  stopAllAudio() {
+    if (this.cinematicAudio) {
+      this.cinematicAudio.pause()
+      this.cinematicAudio.currentTime = 0
+    }
+    if (this.loopAudio) {
+      this.loopAudio.pause()
+      this.loopAudio.currentTime = 0
+    }
+    if (this.ctx && this.ctx.state === 'running') {
+      try {
+        this.ctx.suspend()
+      } catch (e) {}
+    }
+  }
 
   playCinematicTheme(onEndCallback) {
+    if (this.isGloballyMuted) return
+
     if (this.loopAudio) {
       this.loopAudio.pause()
       this.loopAudio.currentTime = 0
     }
     
-    this.cinematicAudio.volume = 1
-    this.cinematicAudio.play().catch(e => console.warn('Autoplay bloqueado:', e))
-    
-    this.cinematicAudio.onended = () => {
-      if (onEndCallback) onEndCallback()
+    if (this.cinematicAudio) {
+      this.cinematicAudio.volume = 1
+      this.cinematicAudio.play().catch(() => {})
+      
+      this.cinematicAudio.onended = () => {
+        if (onEndCallback) onEndCallback()
+      }
     }
   }
 
   stopCinematicTheme() {
-    this.cinematicAudio.pause()
-    this.cinematicAudio.currentTime = 0
+    if (this.cinematicAudio) {
+      this.cinematicAudio.pause()
+      this.cinematicAudio.currentTime = 0
+    }
   }
 
   playLoopMusic() {
-    this.loopAudio.volume = 0
-    this.loopAudio.play().catch(e => console.warn('Autoplay bloqueado:', e))
-    
-    // Fade in
-    let vol = 0
-    const fade = setInterval(() => {
-      vol += 0.05
-      if (vol >= 0.5) {
-        this.loopAudio.volume = 0.5 // Volumen moderado para fondo
-        clearInterval(fade)
-      } else {
-        this.loopAudio.volume = vol
-      }
-    }, 100)
+    if (this.isGloballyMuted || !this.loopAudio) return
+    this.loopAudio.volume = 0.4
+    this.loopAudio.play().catch(() => {})
+  }
+
+  stopLoopMusic() {
+    if (this.loopAudio) {
+      this.loopAudio.pause()
+    }
   }
 
   playTone(freq, type, duration, vol = 0.1) {
-    if (this.uiMuted || !this.ctx) return
+    if (this.isGloballyMuted || this.uiMuted || !this.ctx) return
 
-    const osc = this.ctx.createOscillator()
-    const gainNode = this.ctx.createGain()
+    try {
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume()
+      }
 
-    osc.type = type
-    osc.frequency.setValueAtTime(freq, this.ctx.currentTime)
+      const osc = this.ctx.createOscillator()
+      const gainNode = this.ctx.createGain()
 
-    gainNode.gain.setValueAtTime(vol, this.ctx.currentTime)
-    gainNode.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration)
+      osc.type = type
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime)
 
-    osc.connect(gainNode)
-    gainNode.connect(this.ctx.destination)
+      gainNode.gain.setValueAtTime(vol, this.ctx.currentTime)
+      gainNode.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration)
 
-    osc.start()
-    osc.stop(this.ctx.currentTime + duration)
+      osc.connect(gainNode)
+      gainNode.connect(this.ctx.destination)
+
+      osc.start()
+      osc.stop(this.ctx.currentTime + duration)
+    } catch (e) {}
   }
 
-  // --- Sonidos Específicos de UI ---
-
   playHover() {
+    if (this.isGloballyMuted) return
     if (!this.initialized) this.init()
-    // Sonido sutil tipo "tic" de cristal
-    this.playTone(800, 'sine', 0.05, 0.03)
+    this.playTone(800, 'sine', 0.04, 0.02)
   }
 
   playClick() {
+    if (this.isGloballyMuted) return
     if (!this.initialized) this.init()
-    // Sonido de confirmación moderno (acorde doble)
-    this.playTone(600, 'sine', 0.1, 0.05)
-    setTimeout(() => this.playTone(800, 'sine', 0.15, 0.05), 50)
+    this.playTone(600, 'sine', 0.08, 0.04)
+    setTimeout(() => this.playTone(800, 'sine', 0.1, 0.04), 40)
   }
 
   playTerminalOpen() {
+    if (this.isGloballyMuted) return
     if (!this.initialized) this.init()
-    // Sonido futurista al abrir terminal
-    this.playTone(300, 'square', 0.1, 0.02)
-    setTimeout(() => this.playTone(150, 'square', 0.2, 0.02), 80)
+    this.playTone(300, 'square', 0.08, 0.02)
+    setTimeout(() => this.playTone(150, 'square', 0.15, 0.02), 70)
   }
 
   playScramble() {
+    if (this.isGloballyMuted || !this.ctx) return
     if (!this.initialized) this.init()
-    // Ruido electrónico rápido para el efecto de texto
-    const length = 0.2
-    const bufferSize = this.ctx.sampleRate * length
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
-    const data = buffer.getChannelData(0)
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.02
-    }
-    const noise = this.ctx.createBufferSource()
-    noise.buffer = buffer
-    noise.connect(this.ctx.destination)
-    noise.start()
+    try {
+      const length = 0.15
+      const bufferSize = this.ctx.sampleRate * length
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
+      const data = buffer.getChannelData(0)
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * 0.015
+      }
+      const noise = this.ctx.createBufferSource()
+      noise.buffer = buffer
+      noise.connect(this.ctx.destination)
+      noise.start()
+    } catch (e) {}
   }
 }
 

@@ -99,10 +99,15 @@ body {
 }
 
 /* Ocultar cursor nativo en desktop para el Custom Cursor */
-@media (hover: hover) and (pointer: fine) {
-  body, a, button, input, textarea, select {
-    cursor: none !important;
-  }
+/* Cursor nativo accesible y visible en todo momento */
+body {
+  cursor: auto;
+}
+a, button, [role="button"] {
+  cursor: pointer;
+}
+input, textarea {
+  cursor: text;
 }
 
 #app {
@@ -391,3 +396,6 @@ body {
 @media (max-width: 480px) {
   .section-title { font-size: var(--text-2xl); }
 }
+
+/* Modal cursor safety */
+.modal-backdrop, .modal-content { cursor: auto; }

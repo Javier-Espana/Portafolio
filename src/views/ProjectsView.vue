@@ -152,6 +152,9 @@
             </div>
 
             <div class="modal-actions">
+              <button @click="closeModal" class="btn btn-secondary" type="button" style="cursor: pointer;">
+                ✕ Cerrar
+              </button>
               <a v-if="selectedProject.html_url || selectedProject.github" :href="selectedProject.html_url || selectedProject.github" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
                 {{ $t('projects.github') || 'GitHub' }}
               </a>
@@ -171,7 +174,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { featuredProjectsData } from '../data/projects.js'
 
-const { locale } = useI18n()
+const { locale  } = useI18n({ useScope: 'global' })
 
 const categories = ['all', 'frontend', 'backend', 'fullstack', 'other']
 const selectedCategory = ref('all')
@@ -280,12 +283,18 @@ const filteredProjects = computed(() => {
   })
 })
 
+const handleKeydown = (e) => {
+  if (e.key === 'Escape') closeModal()
+}
+
 const openModal = (p) => {
+  window.addEventListener('keydown', handleKeydown)
   selectedProject.value = p
   document.body.style.overflow = 'hidden'
 }
 
 const closeModal = () => {
+  window.removeEventListener('keydown', handleKeydown)
   selectedProject.value = null
   document.body.style.overflow = ''
 }
@@ -479,6 +488,7 @@ const formatDate = (dateString) => {
 
 /* ---- Modal ---- */
 .modal-backdrop {
+  cursor: pointer;
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.8);
@@ -491,6 +501,7 @@ const formatDate = (dateString) => {
 }
 
 .modal-content {
+  cursor: default;
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-xl);

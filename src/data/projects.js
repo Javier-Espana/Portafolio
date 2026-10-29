@@ -5,8 +5,8 @@ export const featuredProjectsData = [
   {
     id: 'bam-cobranza-2026',
     title: {
-      es: 'Optimización de Cobranza (1.er Lugar Hackatón BAM 2026)',
-      en: 'Debt Collection Optimization (1st Place BAM Hackathon 2026)'
+      es: 'Optimización de Cobranza (1.er Lugar Hackatón BAM 2026 - Octubre)',
+      en: 'Debt Collection Optimization (1st Place BAM Hackathon Oct 2026)'
     },
     description: {
       es: 'Solución end-to-end con resolvedor de direcciones de Guatemala y modelo LightGBM para priorización de llamadas por cliente, canal y horario. 92% de promesas de pago con solo el 30% de llamadas.',
@@ -14,7 +14,7 @@ export const featuredProjectsData = [
     },
     technologies: ['Python', 'LightGBM', 'Optuna', 'Data Science', 'FastAPI'],
     category: 'backend',
-    award: '1.er Lugar Hackatón BAM 2026',
+    award: '1.er Lugar Hackatón BAM 2026 (Octubre)',
     github: 'https://github.com/Javier-Espana',
     demo: null,
     image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80',
@@ -23,16 +23,16 @@ export const featuredProjectsData = [
   {
     id: 'bam-nlp-classifier-2026',
     title: {
-      es: 'Clasificador de Servicio al Cliente en Tiempo Real',
-      en: 'Real-Time Customer Service NLP Classifier'
+      es: 'Clasificador de Servicio al Cliente en Tiempo Real (1.er Lugar Hackatón BAM 2026 - Abril)',
+      en: 'Real-Time Customer Service NLP Classifier (1st Place BAM Hackathon Apr 2026)'
     },
     description: {
-      es: 'Clasificación automática en tiempo real con benchmark de 5 encoders, modelo final Jina v5-nano y SVC Platt scaling. Worker en Docker y dashboard Grafana para detección de drift.',
+      es: 'Clasificación automática en tiempo real con benchmark de 5 encoders, modelo final Jina v5-nano y SVC Platt scaling. Worker en Docker y dashboard Grafana para detección de drift. Modelo en HuggingFace.',
       en: 'Real-time text classification benchmarking 5 encoders, final Jina v5-nano embeddings + Platt scaled SVC. Docker worker and Grafana dashboard for drift detection, versioned on HuggingFace.'
     },
     technologies: ['Python', 'Jina AI', 'Docker', 'Grafana', 'HuggingFace', 'Scikit-learn'],
     category: 'backend',
-    award: 'Hackatón BAM 2026',
+    award: '1.er Lugar Hackatón BAM 2026 (Abril)',
     github: 'https://github.com/Javier-Espana',
     demo: null,
     image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
@@ -41,8 +41,8 @@ export const featuredProjectsData = [
   {
     id: 'bam-forecasting-2025',
     title: {
-      es: 'Sistema de Forecasting de Tarjetas de Crédito',
-      en: 'Credit Card Forecasting System (2nd Place BAM Hackathon)'
+      es: 'Sistema de Forecasting de Tarjetas de Crédito (2.º Lugar Hackatón BAM 2025)',
+      en: 'Credit Card Forecasting System (2nd Place BAM Hackathon 2025)'
     },
     description: {
       es: 'Pipeline semanal con Apache Airflow y Docker Compose; feature engineering y modelos LightGBM optimizados con Optuna. Backtesting temporal, PostgreSQL y dashboard en Streamlit.',
@@ -68,7 +68,7 @@ export const featuredProjectsData = [
     },
     technologies: ['Go', 'Vue.js', 'PostgreSQL', 'Docker', 'MinIO/S3', 'GitHub Actions'],
     category: 'fullstack',
-    award: null,
+    award: 'Producción Clínica',
     github: 'https://github.com/Javier-Espana',
     demo: null,
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80',

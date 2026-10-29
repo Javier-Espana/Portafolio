@@ -1,20 +1,25 @@
-﻿<template>
+<template>
   <div id="app">
-    <!-- Custom Cursor -->
-    <div class="custom-cursor" ref="cursorRef"></div>
-    <div class="custom-cursor-follower" ref="cursorFollowerRef"></div>
+    <!-- Accesibilidad: Saltar al contenido -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+
+    <!-- Custom Cursor (decorativo, sin interferir con el ratón del sistema) -->
+    <div class="custom-cursor" ref="cursorRef" aria-hidden="true"></div>
+    <div class="custom-cursor-follower" ref="cursorFollowerRef" aria-hidden="true"></div>
 
     <Navbar />
     
-    <router-view v-slot="{ Component, route }">
-      <transition 
-        name="page-fade" 
-        mode="out-in"
-        @enter="onPageEnter"
-      >
-        <component :is="Component" :key="route.path" />
-      </transition>
-    </router-view>
+    <main id="main-content" role="main">
+      <router-view v-slot="{ Component, route }">
+        <transition 
+          name="page-fade" 
+          mode="out-in"
+          @enter="onPageEnter"
+        >
+          <component :is="Component" :key="route.path" />
+        </transition>
+      </router-view>
+    </main>
 
     <Footer />
 
@@ -23,6 +28,9 @@
 
     <!-- Cinematic Full Experience -->
     <CinematicMode :isActive="appState.isCinematicMode" @end="handleCinematicEnd" />
+
+    <!-- Control de Audio Global (Visible en todo momento, sutil) -->
+    <GlobalAudioControl />
   </div>
 </template>
 
@@ -35,6 +43,7 @@ import Navbar from './components/layout/Navbar.vue'
 import Footer from './components/layout/Footer.vue'
 import InteractiveTerminal from './components/ui/InteractiveTerminal.vue'
 import CinematicMode from './components/ui/CinematicMode.vue'
+import GlobalAudioControl from './components/common/GlobalAudioControl.vue'
 import { audioManager } from './utils/audioManager'
 import { appState } from './store/appState'
 
@@ -53,7 +62,7 @@ let cursorY = 0
 let reqFrame = null
 
 const initCursor = () => {
-  if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+  if (typeof window !== 'undefined' && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
     window.addEventListener('mousemove', onMouseMove)
     renderCursor()
     attachHoverListeners()
@@ -84,66 +93,50 @@ const renderCursor = () => {
 }
 
 const attachHoverListeners = () => {
-  const hoverElements = document.querySelectorAll('a, button, .magnetic, .card')
-  
-  hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', handleMouseEnter)
-    el.addEventListener('mouseleave', handleMouseLeave)
-    el.addEventListener('click', handleMouseClick)
+  const interactiveElements = document.querySelectorAll('a, button, input, textarea, .card, .lang-btn, .project-card')
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', handleElementHover)
+    el.addEventListener('mouseleave', handleElementLeave)
   })
 }
 
 const detachHoverListeners = () => {
-  const hoverElements = document.querySelectorAll('a, button, .magnetic, .card')
-  
-  hoverElements.forEach(el => {
-    el.removeEventListener('mouseenter', handleMouseEnter)
-    el.removeEventListener('mouseleave', handleMouseLeave)
-    el.removeEventListener('click', handleMouseClick)
+  const interactiveElements = document.querySelectorAll('a, button, input, textarea, .card, .lang-btn, .project-card')
+  interactiveElements.forEach(el => {
+    el.removeEventListener('mouseenter', handleElementHover)
+    el.removeEventListener('mouseleave', handleElementLeave)
   })
 }
 
-const handleMouseEnter = (e) => {
-  // Play subtle hover sound
-  audioManager.playHover()
-
-  const target = e.currentTarget
+const handleElementHover = () => {
   if (cursorFollowerRef.value) {
     gsap.to(cursorFollowerRef.value, {
-      scale: target.classList.contains('card') ? 1.5 : 2,
+      scale: 1.5,
+      borderColor: 'rgba(108, 99, 255, 0.8)',
       backgroundColor: 'rgba(108, 99, 255, 0.1)',
-      borderColor: 'rgba(108, 99, 255, 0.5)',
       duration: 0.3
     })
   }
-  if (cursorRef.value) {
-    gsap.to(cursorRef.value, { scale: 0, duration: 0.2 })
-  }
+  audioManager.playHover()
 }
 
-const handleMouseLeave = () => {
+const handleElementLeave = () => {
   if (cursorFollowerRef.value) {
     gsap.to(cursorFollowerRef.value, {
       scale: 1,
-      backgroundColor: 'transparent',
       borderColor: 'rgba(0, 217, 255, 0.5)',
+      backgroundColor: 'transparent',
       duration: 0.3
     })
   }
-  if (cursorRef.value) {
-    gsap.to(cursorRef.value, { scale: 1, duration: 0.2 })
-  }
-}
-
-const handleMouseClick = () => {
-  audioManager.playClick()
 }
 
 const handleGlobalKeydown = (e) => {
-  // Abrir terminal con ~ o ` (backtick)
-  if (e.key === '`' || e.key === '~') {
+  // Abrir terminal con Ctrl + ` o Alt + T
+  if ((e.ctrlKey && e.key === '`') || (e.altKey && e.key.toLowerCase() === 't')) {
     e.preventDefault()
     isTerminalOpen.value = !isTerminalOpen.value
+    if (isTerminalOpen.value) audioManager.playTerminalOpen()
   }
 }
 
@@ -160,9 +153,7 @@ const handleCinematicEnd = () => {
 }
 
 onMounted(() => {
-  // Inicializar motor de audio
   audioManager.init()
-
   initCursor()
   window.addEventListener('keydown', handleGlobalKeydown)
   
@@ -172,8 +163,10 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('mousemove', onMouseMove)
-  window.removeEventListener('keydown', handleGlobalKeydown)
+  if (typeof window !== 'undefined') {
+    window.removeEventListener('mousemove', onMouseMove)
+    window.removeEventListener('keydown', handleGlobalKeydown)
+  }
   cancelAnimationFrame(reqFrame)
   detachHoverListeners()
 })
@@ -190,21 +183,21 @@ onUnmounted(() => {
   background-color: var(--accent-cyan);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9999;
+  z-index: 100002;
   transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
+  mix-blend-mode: screen;
 }
 
 .custom-cursor-follower {
   position: fixed;
   top: 0;
   left: 0;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border: 1px solid rgba(0, 217, 255, 0.5);
   border-radius: 50%;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 100001;
   transform: translate(-50%, -50%);
   transition: background-color 0.3s, border-color 0.3s;
 }
@@ -218,16 +211,16 @@ onUnmounted(() => {
 /* ---- Page Transitions ---- */
 .page-fade-enter-active,
 .page-fade-leave-active {
-  transition: opacity 0.4s var(--ease-smooth), transform 0.4s var(--ease-smooth);
+  transition: opacity 0.35s var(--ease-smooth), transform 0.35s var(--ease-smooth);
 }
 
 .page-fade-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(16px);
 }
 
 .page-fade-leave-to {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 </style>

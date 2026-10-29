@@ -112,7 +112,7 @@ import { featuredProjectsData } from '../../data/projects.js'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const { locale } = useI18n()
+const { locale  } = useI18n({ useScope: 'global' })
 
 const displayProjects = ref(featuredProjectsData.slice(0, 3))
 const sectionRef = ref(null)
