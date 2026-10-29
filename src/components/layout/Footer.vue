@@ -45,6 +45,7 @@
 
       <div class="footer__bottom">
         <p>&copy; {{ currentYear }} Javier España. {{ $t('footer.rights') }}</p>
+        <p class="soundtrack-credit">♪ Banda sonora original compuesta por Javier España</p>
         <p class="made-with">
           {{ $t('footer.madeWith') }} <span class="heart">❤</span> {{ $t('footer.and') }} Vue 3
         </p>
@@ -193,6 +194,14 @@ const socialLinks = [
 
 .heart {
   color: var(--accent-violet);
+}
+
+.soundtrack-credit {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  opacity: 0.85;
+  letter-spacing: 0.02em;
 }
 
 /* ---- Responsive ---- */

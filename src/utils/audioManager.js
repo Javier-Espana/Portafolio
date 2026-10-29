@@ -319,9 +319,7 @@ class AudioManager {
   }
 
   playHover() {
-    if (this.isGloballyMuted) return
-    if (!this.initialized) this.init()
-    this.playTone(800, 'sine', 0.04, 0.02)
+    // Deshabilitado: sin efectos molestos de sonido al pasar el cursor
   }
 
   playClick() {

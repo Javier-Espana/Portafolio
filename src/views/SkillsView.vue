@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
@@ -237,12 +237,16 @@ onMounted(() => {
   const updateSize = () => {
     if (radarChartRef.value) {
       const w = radarChartRef.value.offsetWidth
-      radarSize.value = Math.min(Math.max(w, 280), 400)
+      radarSize.value = Math.min(Math.max(w - 10, 220), 400)
     }
   }
 
   updateSize()
   window.addEventListener('resize', updateSize)
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', updateSize)
+  })
 
   nextTick(() => {
     // Reveal headers
@@ -409,5 +413,21 @@ onMounted(() => {
   color: var(--text-secondary);
   width: 35px;
   text-align: right;
+}
+
+@media (max-width: 640px) {
+  .skills-view {
+    padding-top: 3.5rem;
+  }
+  .radar-container {
+    padding: 1.5rem 0.75rem;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .category-section {
+    margin-top: 2.5rem;
+  }
 }
 </style>

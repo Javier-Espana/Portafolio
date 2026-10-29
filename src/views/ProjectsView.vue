@@ -605,4 +605,63 @@ const formatDate = (dateString) => {
 .no-results svg {
   margin: 0 auto 1rem;
 }
+
+@media (max-width: 768px) {
+  .projects-view {
+    padding-top: 3.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .projects-filters {
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.4rem 0.85rem;
+    font-size: var(--text-xs);
+  }
+
+  .modal-content {
+    max-height: 92vh;
+    border-radius: var(--radius-lg);
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
+
+  .modal-image {
+    height: 180px;
+  }
+
+  .modal-title {
+    font-size: var(--text-xl);
+  }
+
+  .modal-meta {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .modal-desc {
+    font-size: var(--text-sm);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .modal-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
 </style>

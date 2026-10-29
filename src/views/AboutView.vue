@@ -497,4 +497,45 @@ onMounted(() => {
     gap: 3rem;
   }
 }
+
+@media (max-width: 640px) {
+  .about-view {
+    padding-top: 3.5rem;
+  }
+  .about-text h2 {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+  }
+  .photo-border {
+    width: 200px;
+    height: 200px;
+  }
+  .achievements-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .achievement-card {
+    padding: 1.25rem 1rem;
+    gap: 0.85rem;
+  }
+  .timeline {
+    padding-left: 1.5rem;
+  }
+  .timeline-marker {
+    left: -1.5rem;
+    width: 14px;
+    height: 14px;
+    top: 1.2rem;
+  }
+  .timeline-content {
+    padding: 1.25rem 1rem;
+  }
+  .timeline-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+  .education-card {
+    padding: 1.25rem 1rem;
+  }
+}
 </style>

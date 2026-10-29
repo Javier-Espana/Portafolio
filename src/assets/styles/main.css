@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    SISTEMA DE DISEÑO — Javier España Portfolio
    Estilo: Tech Premium Elegante (oscuro, sofisticado, moderno)
    ============================================================ */
@@ -388,13 +388,18 @@ input, textarea {
 }
 
 @media (max-width: 768px) {
-  .section      { padding: 4rem 1rem; }
+  .container    { padding: 0 1rem; }
+  .section      { padding: 3.5rem 1rem; }
   .section-title { font-size: var(--text-3xl); }
   .btn          { padding: 0.65rem 1.4rem; font-size: var(--text-sm); }
 }
 
 @media (max-width: 480px) {
-  .section-title { font-size: var(--text-2xl); }
+  .container    { padding: 0 0.5rem; }
+  .section      { padding: 3rem 0.75rem; }
+  .section-title { font-size: clamp(1.6rem, 6.5vw, 2rem); }
+  .section-subtitle { font-size: 0.88rem; margin-bottom: 1.75rem; }
+  .btn          { padding: 0.6rem 1.15rem; font-size: 0.82rem; }
 }
 
 /* Modal cursor safety */

@@ -4,22 +4,23 @@
       @click="toggleMute"
       class="audio-toggle-btn"
       :class="{ 'is-muted': isMuted }"
-      :title="isMuted ? 'Activar sonido / Unmute audio' : 'Silenciar todo el audio / Mute all audio'"
-      :aria-label="isMuted ? 'Activar sonido / Unmute audio' : 'Silenciar todo el audio / Mute all audio'"
+      :title="isMuted ? 'Activar sonido · OST compuesta por Javier España' : 'Silenciar audio · OST compuesta por Javier España'"
+      :aria-label="isMuted ? 'Activar sonido · OST compuesta por Javier España' : 'Silenciar audio · OST compuesta por Javier España'"
       type="button"
     >
       <!-- Icono de sonido activo -->
-      <svg v-if="!isMuted" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <svg v-if="!isMuted" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072M18.364 5.636a9 9 0 010 12.728M11 5L6 9H2v6h4l5 4V5z" />
       </svg>
 
       <!-- Icono de sonido silenciado (Mute) -->
-      <svg v-else width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <svg v-else width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H2V9h3.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
         <path stroke-linecap="round" stroke-linejoin="round" d="M17 14l4-4m0 4l-4-4" />
       </svg>
 
       <span class="audio-label">{{ isMuted ? 'Muted' : 'Audio' }}</span>
+      <span class="audio-ost-tag" title="Música original compuesta por Javier España">♪ OST Javier España</span>
     </button>
   </div>
 </template>
@@ -99,13 +100,22 @@ const toggleMute = () => {
   text-transform: uppercase;
 }
 
+.audio-ost-tag {
+  font-size: 0.68rem;
+  color: var(--accent-cyan);
+  background: rgba(0, 217, 255, 0.1);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.02em;
+}
+
 @media (max-width: 768px) {
   .global-audio-widget {
     bottom: 1rem;
     left: 1rem;
   }
   
-  .audio-label {
+  .audio-label, .audio-ost-tag {
     display: none;
   }
   

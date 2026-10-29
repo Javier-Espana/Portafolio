@@ -117,7 +117,6 @@ const handleElementHover = () => {
       duration: 0.3
     })
   }
-  audioManager.playHover()
 }
 
 const handleElementLeave = () => {

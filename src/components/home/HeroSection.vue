@@ -496,12 +496,58 @@ onUnmounted(() => {
 }
 
 @media (max-width: 640px) {
+  .hero {
+    padding: 5.5rem 1rem 2.5rem;
+  }
+  .hero__title {
+    font-size: clamp(1.8rem, 8vw, 2.8rem);
+  }
+  .hero__content {
+    transform: none !important;
+  }
+  .hero__typewriter {
+    font-size: clamp(0.85rem, 3.8vw, 1.15rem);
+    min-height: 2.6rem;
+    padding: 0 0.5rem;
+  }
+  .hero__description {
+    font-size: 0.9rem;
+    margin-bottom: 1.75rem;
+    padding: 0 0.5rem;
+  }
   .hero__stats {
-    gap: 1.25rem;
-    padding: 0.75rem 1.25rem;
+    width: 100%;
+    max-width: 360px;
+    gap: 0.6rem;
+    padding: 0.75rem 0.6rem;
+    justify-content: space-around;
+    margin-bottom: 2rem;
   }
   .stat-number {
-    font-size: var(--text-xl);
+    font-size: 1.25rem;
+  }
+  .stat-label {
+    font-size: 0.68rem;
+    text-align: center;
+  }
+  .hero__cta {
+    width: 100%;
+    max-width: 320px;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+  .hero__cta .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .hero__cinematic {
+    width: 100%;
+    max-width: 320px;
+  }
+  .btn-cinematic {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

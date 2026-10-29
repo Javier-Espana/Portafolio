@@ -11,6 +11,8 @@
       @keydown.left="prevScene"
       @keydown.right="nextScene"
       @keydown.m="toggleAudio"
+      @touchstart.passive="handleTouchStart"
+      @touchend.passive="handleTouchEnd"
     >
       <!-- Canvas de estrellas hiperespacio -->
       <canvas ref="particleCanvas" class="particle-canvas" aria-hidden="true"></canvas>
@@ -28,7 +30,7 @@
             <span class="hud-mono-bold">MISSION // FULL EXPERIENCE</span>
           </div>
           <span class="hud-divider">|</span>
-          <span class="hud-mono hud-coords">UVG · BAM BICAMPEÓN 2026 · ML & ARCHITECTURE</span>
+          <span class="hud-mono hud-coords">UVG · BAM BICAMPEÓN 2026 · OST COMPUESTA POR JAVIER ESPAÑA</span>
         </div>
 
         <!-- Capítulos interactivos -->
@@ -48,11 +50,11 @@
 
         <div class="hud-right">
           <button class="hud-sound-btn" @click="toggleAudio" :title="isMuted ? 'Activar sonido (M)' : 'Silenciar sonido (M)'">
-            <span v-if="!isMuted" class="sound-icon">🔊 SONIDO ON</span>
-            <span v-else class="sound-icon muted">🔇 SILENCIADO</span>
+            <span v-if="!isMuted" class="sound-icon">🔊 <span class="sound-txt">SONIDO ON</span></span>
+            <span v-else class="sound-icon muted">🔇 <span class="sound-txt">SILENCIADO</span></span>
           </button>
           <button class="hud-close-btn" @click="handleExit" title="Cerrar experiencia y volver al portafolio (Esc)">
-            ✕ SALIR
+            ✕ <span class="close-txt">SALIR</span>
           </button>
         </div>
       </header>
@@ -494,17 +496,17 @@
         <div class="hud-bottom-left">
           <!-- Botón de Pausa / Continuar -->
           <button class="hud-ctrl-btn" @click="togglePause" :title="isPaused ? 'Reanudar (Espacio)' : 'Pausar (Espacio)'">
-            <span v-if="!isPaused">⏸ PAUSAR</span>
-            <span v-else class="play-state">▶ CONTINUAR</span>
+            <span v-if="!isPaused">⏸ <span class="btn-txt">PAUSAR</span></span>
+            <span v-else class="play-state">▶ <span class="btn-txt">CONTINUAR</span></span>
           </button>
 
           <!-- Botones de Navegación -->
           <div class="nav-step-buttons">
             <button class="hud-ctrl-btn arrow" @click="prevScene" :disabled="currentSceneIndex === 0" title="Anterior (←)">
-              ◀ ANT
+              ◀ <span class="btn-txt">ANT</span>
             </button>
             <button class="hud-ctrl-btn arrow" @click="nextScene" :disabled="currentSceneIndex === scenes.length - 1" title="Siguiente (→)">
-              SIG ▶
+              <span class="btn-txt">SIG</span> ▶
             </button>
           </div>
         </div>
@@ -521,7 +523,7 @@
         </div>
 
         <div class="hud-bottom-right">
-          <span class="hud-keyboard-hints">ESPACIO: Pausa | ← / →: Navegar | M: Mute | ESC: Salir</span>
+          <span class="hud-keyboard-hints">ESPACIO: Pausa | ← / →: Navegar | M: Mute | ♪ OST: Javier España</span>
         </div>
       </footer>
     </div>
@@ -558,7 +560,7 @@ const scenes = [
 const currentSceneIndex = ref(0)
 const isPaused = ref(false)
 const sceneElapsed = ref(0)
-const SCENE_DURATION = 9 // 9 segundos por escena
+const SCENE_DURATION = 19 // 19 segundos por escena (10 segundos adicionales para lectura cómoda)
 
 const isMuted = ref(audioManager.isGloballyMuted)
 const copiedText = ref(false)
@@ -715,6 +717,7 @@ const candidateJson = computed(() => {
       "2.º Lugar Hackatón BAM 2025 (Forecasting Airflow)",
       "Honor al Mérito Académico UVG (2025)"
     ],
+    banda_sonora_original: "Compuesta y producida por Javier España",
     status: "Disponible para Roles de Alto Impacto"
   }, null, 2)
 })
@@ -768,7 +771,6 @@ const nextScene = () => {
     currentSceneIndex.value++
     sceneElapsed.value = 0
     triggerWarpBoost()
-    audioManager.playHover()
   }
 }
 
@@ -777,7 +779,6 @@ const prevScene = () => {
     currentSceneIndex.value--
     sceneElapsed.value = 0
     triggerWarpBoost()
-    audioManager.playHover()
   }
 }
 
@@ -908,6 +909,37 @@ const cleanup = () => {
   window.removeEventListener('resize', handleResize)
 }
 
+// Mobile touch swipe gestures
+let touchStartX = 0
+let touchStartY = 0
+let touchEndX = 0
+let touchEndY = 0
+
+const handleTouchStart = (e) => {
+  if (!e.changedTouches || e.changedTouches.length === 0) return
+  touchStartX = e.changedTouches[0].clientX
+  touchStartY = e.changedTouches[0].clientY
+}
+
+const handleTouchEnd = (e) => {
+  if (!e.changedTouches || e.changedTouches.length === 0) return
+  touchEndX = e.changedTouches[0].clientX
+  touchEndY = e.changedTouches[0].clientY
+  handleSwipeGesture()
+}
+
+const handleSwipeGesture = () => {
+  const dx = touchEndX - touchStartX
+  const dy = touchEndY - touchStartY
+  if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+    if (dx < 0) {
+      nextScene()
+    } else {
+      prevScene()
+    }
+  }
+}
+
 let unsubAudio = null
 
 watch(() => props.isActive, (active) => {
@@ -944,6 +976,9 @@ onUnmounted(() => {
 .cinematic-root {
   position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   background-color: #05070d;
   z-index: 100000;
   display: flex;
@@ -1154,10 +1189,12 @@ onUnmounted(() => {
   flex: 1;
   z-index: 10;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 2rem;
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .cinema-scene {
@@ -1168,6 +1205,7 @@ onUnmounted(() => {
   align-items: center;
   text-align: center;
   margin: auto;
+  padding: 1rem 0 2rem;
 }
 
 .scene-badge-header {
@@ -2305,30 +2343,381 @@ onUnmounted(() => {
 }
 
 @media (max-width: 768px) {
+  /* HUD Bars */
   .cinema-hud {
-    padding: 0 1rem;
-    height: 56px;
+    padding: 0 0.75rem;
+    height: 52px;
   }
+
+  .hud-coords, .hud-divider, .sound-txt, .close-txt, .btn-txt {
+    display: none;
+  }
+
+  .hud-mono-bold {
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hud-sound-btn, .hud-close-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .cinema-hud-bottom {
+    height: 52px;
+    padding: 0 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .hud-ctrl-btn {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.75rem;
+  }
+
+  .hud-timeline-wrap {
+    gap: 0.5rem;
+  }
+
+  .hud-time-readout {
+    font-size: 0.68rem;
+    gap: 0.35rem;
+  }
+
+  .time-nums {
+    min-width: 50px;
+    font-size: 0.65rem;
+  }
+
+  /* Viewport and Scenes */
   .scenes-viewport {
-    padding: 1rem;
+    padding: 0.75rem 0.85rem;
   }
+
+  .cinema-scene {
+    padding: 0.5rem 0 2rem;
+  }
+
+  .scene-headline {
+    font-size: clamp(1.4rem, 5.5vw, 1.85rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .scene-subdesc {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin-bottom: 1.25rem;
+  }
+
+  /* Scene 0 - Avatar & Hero */
+  .hologram-avatar-wrap {
+    width: 105px;
+    height: 105px;
+    margin-bottom: 0.75rem;
+  }
+
+  .hologram-avatar-frame {
+    width: 90px;
+    height: 90px;
+  }
+
+  .hologram-ring-outer {
+    inset: -8px;
+  }
+
+  .hologram-ring-inner {
+    inset: -4px;
+  }
+
+  .hologram-status-badge {
+    bottom: -8px;
+    font-size: 0.58rem;
+    padding: 0.15rem 0.5rem;
+  }
+
   .hero-glitch-title {
-    flex-direction: column;
-    gap: 0;
+    font-size: clamp(2rem, 8vw, 3rem);
+    gap: 0.4rem;
+    margin: 0.2rem 0;
   }
+
+  .hero-hero-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.35;
+    margin-bottom: 0.2rem;
+  }
+
+  .hero-university {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
   .hero-trophies-row {
     flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
   }
+
+  .trophy-pill {
+    width: 100%;
+    padding: 0.6rem 0.85rem;
+    gap: 0.6rem;
+  }
+
+  .trophy-icon {
+    font-size: 1.35rem;
+  }
+
+  .trophy-meta strong {
+    font-size: 0.78rem;
+  }
+
+  .trophy-meta span {
+    font-size: 0.68rem;
+  }
+
+  /* Scene 1 - BAM */
+  .bam-cards-grid {
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .bam-card {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .bam-card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .bam-highlight-stat {
+    padding: 0.45rem 0.75rem;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat-big {
+    font-size: 1.5rem;
+  }
+
+  .stat-desc {
+    font-size: 0.72rem;
+  }
+
+  .architecture-flow-box {
+    padding: 0.5rem 0.65rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .flow-arrow {
+    text-align: center;
+    transform: rotate(90deg);
+    font-size: 0.6rem;
+  }
+
+  .flow-node {
+    text-align: center;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .bam-card-text {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+
+  .bam-card-footer-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.75rem 1rem;
+    font-size: 0.76rem;
+    gap: 0.35rem;
+  }
+
+  /* Scene 2 - Radar & Tech Matrix */
+  .radar-split-layout {
+    gap: 1.5rem;
+  }
+
+  .radar-svg {
+    max-width: min(260px, 80vw);
+  }
+
+  .radar-axis-label {
+    font-size: 9px;
+  }
+
+  .skill-bars-list {
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .tech-hologram-matrix {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.4rem;
+  }
+
+  .matrix-chip {
+    padding: 0.35rem 0.5rem;
+  }
+
+  .chip-name {
+    font-size: 0.68rem;
+  }
+
+  .chip-meta {
+    font-size: 0.58rem;
+  }
+
+  /* Scene 3 - Proyectos */
+  .projects-cards-grid {
+    gap: 1rem;
+  }
+
+  .showcase-card {
+    border-radius: var(--radius-lg);
+  }
+
+  .showcase-card-body {
+    padding: 0.9rem;
+  }
+
+  .showcase-title {
+    font-size: 1.02rem;
+  }
+
+  .showcase-desc {
+    font-size: 0.78rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .showcase-metrics-bar {
+    padding: 0.35rem 0.6rem;
+    gap: 0.35rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .metric-num {
+    font-size: 0.78rem;
+  }
+
+  .metric-lbl {
+    font-size: 0.58rem;
+  }
+
+  /* Scene 4 - Trayectoria */
+  .exp-cards-timeline {
+    gap: 1rem;
+  }
+
+  .exp-timeline-card {
+    gap: 0.75rem;
+  }
+
+  .exp-body-card {
+    padding: 0.85rem 1rem;
+  }
+
+  .exp-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .exp-job-title {
+    font-size: 0.95rem;
+  }
+
+  .exp-period-pill {
+    font-size: 0.68rem;
+    align-self: flex-start;
+  }
+
+  .exp-description-text {
+    font-size: 0.78rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Scene 5 - Reconocimientos */
+  .honors-cards-grid {
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .honor-card {
+    padding: 0.85rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .honor-ico {
+    font-size: 1.4rem;
+  }
+
+  .honor-content h4 {
+    font-size: 0.88rem;
+  }
+
+  .honor-org {
+    font-size: 0.7rem;
+  }
+
+  .honor-content p {
+    font-size: 0.74rem;
+  }
+
+  .cinematic-quote {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    padding: 0 0.5rem;
+  }
+
+  /* Scene 6 - Terminal & CTAs */
+  .terminal-summary-card {
+    margin-bottom: 1.25rem;
+  }
+
+  .term-code-body {
+    font-size: 0.68rem;
+    padding: 0.75rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 220px;
+  }
+
   .cta-actions-group {
     flex-direction: column;
     width: 100%;
+    gap: 0.6rem;
   }
+
   .cinema-cta-btn {
-    justify-content: center;
     width: 100%;
+    justify-content: center;
+    padding: 0.7rem 1rem;
+    font-size: 0.84rem;
+    min-height: 44px;
   }
+}
+
+@media (max-width: 480px) {
   .tech-hologram-matrix {
     grid-template-columns: 1fr;
+  }
+
+  .hero-glitch-title {
+    font-size: 2.2rem;
+  }
+
+  .hud-progress-track {
+    height: 4px;
   }
 }
 </style>
