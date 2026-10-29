@@ -18,6 +18,7 @@
       <!-- Resplandores ambientales y cuadrícula holográfica -->
       <div class="cinema-ambient-glow" aria-hidden="true"></div>
       <div class="cinema-grid-lines" aria-hidden="true"></div>
+      <div class="cinema-scanlines" aria-hidden="true"></div>
 
       <!-- HUD SUPERIOR -->
       <header class="cinema-hud cinema-hud-top">
@@ -27,7 +28,7 @@
             <span class="hud-mono-bold">MISSION // FULL EXPERIENCE</span>
           </div>
           <span class="hud-divider">|</span>
-          <span class="hud-mono hud-coords">UVG · BAM BICAMPEÓN 2026 · ML & FULL-STACK</span>
+          <span class="hud-mono hud-coords">UVG · BAM BICAMPEÓN 2026 · ML & ARCHITECTURE</span>
         </div>
 
         <!-- Capítulos interactivos -->
@@ -50,20 +51,38 @@
             <span v-if="!isMuted" class="sound-icon">🔊 SONIDO ON</span>
             <span v-else class="sound-icon muted">🔇 SILENCIADO</span>
           </button>
-          <button class="hud-close-btn" @click="handleExit" title="Cerrar (Esc)">
-            ✕ {{ t('cinematic.skipBtn') || 'SALIR' }}
+          <button class="hud-close-btn" @click="handleExit" title="Cerrar experiencia y volver al portafolio (Esc)">
+            ✕ SALIR
           </button>
         </div>
       </header>
 
-      <!-- CONTENEDOR PRINCIPAL DE ESCENAS CON TRANSICIÓN SUAVE -->
+      <!-- CONTENEDOR PRINCIPAL DE ESCENAS -->
       <main class="scenes-viewport">
         <Transition name="scene-stage" mode="out-in">
 
-          <!-- ================= ESCENA 0: IDENTIDAD & INTRO ================= -->
+          <!-- ================= ESCENA 0: IDENTIDAD & FOTO HOLOGRÁFICA ================= -->
           <section v-if="currentSceneIndex === 0" key="scene-0" class="cinema-scene scene-intro">
             <div class="scene-badge-header">
               <span class="terminal-badge">// PERFIL PROFESIONAL // CICLO 8 UVG</span>
+            </div>
+
+            <!-- Avatar Holográfico de Javier con Scanner y Anillos Rotatorios -->
+            <div class="hologram-avatar-wrap">
+              <div class="hologram-ring-outer"></div>
+              <div class="hologram-ring-inner"></div>
+              <div class="hologram-avatar-frame">
+                <img
+                  src="/images/Profile-Picture.jpg"
+                  alt="Javier Eduardo España Pacheco"
+                  class="hologram-avatar-img"
+                />
+                <div class="hologram-scan-bar"></div>
+              </div>
+              <div class="hologram-status-badge">
+                <span class="status-dot"></span>
+                <span>ONLINE · UVG GUATEMALA</span>
+              </div>
             </div>
 
             <h1 class="hero-glitch-title">
@@ -72,9 +91,9 @@
             </h1>
 
             <p class="hero-hero-subtitle">
-              {{ t('cinematic.scene0.subtitle') || 'Ingeniería en Ciencia de la Computación y TI · 8.º Ciclo' }}
+              Software Engineer · Machine Learning Specialist · Full-Stack Architect
             </p>
-            <span class="hero-university">Universidad del Valle de Guatemala</span>
+            <span class="hero-university">Universidad del Valle de Guatemala · 8.º Ciclo</span>
 
             <!-- Medallas y trofeos dorados -->
             <div class="hero-trophies-row">
@@ -106,40 +125,57 @@
                 <span class="trophy-icon">🎖️</span>
                 <div class="trophy-meta">
                   <strong>Honor al Mérito UVG</strong>
-                  <span>2025 · Distinción Académica</span>
+                  <span>Máximo Reconocimiento Académico</span>
                 </div>
               </div>
             </div>
           </section>
 
-          <!-- ================= ESCENA 1: BAM BICAMPEÓN 2026 ================= -->
+          <!-- ================= ESCENA 1: BAM BICAMPEÓN 2026 + BLUEPRINTS ================= -->
           <section v-if="currentSceneIndex === 1" key="scene-1" class="cinema-scene scene-bam">
             <div class="scene-badge-header">
               <span class="terminal-badge gold">// BANCO AGROMERCANTIL (BAM) · BICAMPEÓN NACIONAL 2026</span>
             </div>
 
-            <h2 class="scene-headline">
-              Doble Campeonato en Hackatones BAM 2026
-            </h2>
+            <h2 class="scene-headline">Doble Campeonato en Hackatones BAM 2026</h2>
             <p class="scene-subdesc">
-              Resolviendo retos financieros críticos con rigor científico, machine learning de alto desempeño y arquitecturas contenerizadas.
+              Resolviendo retos financieros críticos con rigor científico, machine learning de alta fidelidad y arquitecturas de baja latencia en streaming.
             </p>
 
             <div class="bam-cards-grid">
               <!-- Octubre 2026 -->
               <div class="bam-card champion-card">
-                <div class="bam-card-badge">🥇 1.er LUGAR · OCTUBRE 2026</div>
-                <h3>Inteligencia de Cobranza & Resolvedor Geográfico</h3>
+                <div class="bam-card-header-flex">
+                  <div class="bam-card-badge">🥇 1.er LUGAR · OCTUBRE 2026</div>
+                  <span class="bam-kpi-chip">BAM RISK ANALYTICS</span>
+                </div>
+                <h3>Inteligencia de Cobranza & Resolver Geográfico</h3>
                 <div class="bam-highlight-stat">
                   <span class="stat-big">92%</span>
-                  <span class="stat-desc">de promesas de pago con solo <strong>30% de llamadas</strong> de call center</span>
+                  <span class="stat-desc">de promesas de pago capturadas contactando solo el <strong>30% de llamadas</strong></span>
                 </div>
+
+                <!-- Arquitectura Blueprint del Pipeline -->
+                <div class="architecture-flow-box">
+                  <span class="flow-title">PIPELINE DE ARQUITECTURA:</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">Cartera Cruda</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node highlight">LightGBM + Optuna</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node">Geo-NLP GT</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node success">92% Promesas</div>
+                  </div>
+                </div>
+
                 <p class="bam-card-text">
-                  Pipeline predictivo LightGBM con afinamiento bayesiano en Optuna, combinado con resolvedor de direcciones no estructuradas para optimizar rutas y priorizar llamadas críticas.
+                  Algoritmo predictivo de árboles de decisión gradiente potenciado con afinamiento bayesiano multiobjetivo en Optuna, combinado con resolvedor heurístico de direcciones no estructuradas en Guatemala para optimizar rutas de cobro y priorización telefónica.
                 </p>
+
                 <div class="bam-tags">
                   <span>LightGBM</span>
-                  <span>Optuna</span>
+                  <span>Optuna Bayesian</span>
                   <span>Python</span>
                   <span>Feature Engineering</span>
                   <span>Geo-NLP</span>
@@ -148,20 +184,39 @@
 
               <!-- Abril 2026 -->
               <div class="bam-card champion-card">
-                <div class="bam-card-badge">🥇 1.er LUGAR · ABRIL 2026</div>
+                <div class="bam-card-header-flex">
+                  <div class="bam-card-badge">🥇 1.er LUGAR · ABRIL 2026</div>
+                  <span class="bam-kpi-chip">NLP STREAMING ENGINE</span>
+                </div>
                 <h3>Clasificador NLP para Servicio al Cliente en Streaming</h3>
                 <div class="bam-highlight-stat">
                   <span class="stat-big">&lt;15ms</span>
-                  <span class="stat-desc">latencia de inferencia y <strong>probabilidades calibradas</strong> en tiempo real</span>
+                  <span class="stat-desc">latencia por ticket con <strong>probabilidades calibradas</strong> en tiempo real</span>
                 </div>
+
+                <!-- Arquitectura Blueprint del Pipeline -->
+                <div class="architecture-flow-box">
+                  <span class="flow-title">PIPELINE DE ARQUITECTURA:</span>
+                  <div class="flow-steps">
+                    <div class="flow-node">Tickets Streaming</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node highlight">Jina v5-nano</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node">SVC Platt Scaling</div>
+                    <div class="flow-arrow">➔</div>
+                    <div class="flow-node success">Docker + Grafana</div>
+                  </div>
+                </div>
+
                 <p class="bam-card-text">
-                  Motor de clasificación de tickets con embeddings multilingües Jina v5-nano, Support Vector Classifier (SVC) calibrado con Platt scaling, worker distribuido en Docker y observabilidad en Grafana.
+                  Pipeline de procesamiento de lenguaje natural en tiempo real con embeddings compactos Jina v5-nano, Support Vector Classifier con calibración sigmoidea de Platt scaling, empaquetado en contenedores Docker y telemetría continua en dashboards Grafana.
                 </p>
+
                 <div class="bam-tags">
                   <span>Jina AI v5</span>
                   <span>SVC Platt Scaling</span>
                   <span>Docker</span>
-                  <span>Grafana</span>
+                  <span>Grafana Telemetry</span>
                   <span>FastAPI</span>
                 </div>
               </div>
@@ -169,23 +224,23 @@
 
             <!-- Subcampeonato 2025 banner -->
             <div class="bam-card-footer-banner">
-              <span class="trophy-tag">🥈 2.º Lugar BAM 2025:</span>
-              <span>Forecasting semanal de tarjetas de crédito orquestado con Apache Airflow, PostgreSQL y visualización ejecutiva en Streamlit.</span>
+              <span class="trophy-tag">🥈 2.º Lugar Hackatón BAM 2025:</span>
+              <span>Forecasting semanal de demanda de tarjetas de crédito con Apache Airflow, Docker Compose, PostgreSQL y dashboard analítico en Streamlit.</span>
             </div>
           </section>
 
-          <!-- ================= ESCENA 2: ARSENAL TÉCNICO & RADAR ================= -->
+          <!-- ================= ESCENA 2: ARSENAL TÉCNICO & TECH GRID ================= -->
           <section v-if="currentSceneIndex === 2" key="scene-2" class="cinema-scene scene-radar-view">
             <div class="scene-badge-header">
               <span class="terminal-badge">// DOMINIO MULTIDISCIPLINARIO // LOW & HIGH LEVEL</span>
             </div>
 
             <div class="radar-split-layout">
-              <!-- Lado izquierdo: Barras de expertise -->
+              <!-- Lado izquierdo: Barras de expertise y Matrix de Tecnologías -->
               <div class="radar-text-col">
                 <h2 class="scene-headline">Arsenal Tecnológico</h2>
                 <p class="scene-subdesc">
-                  Desde microarquitectura de bajo nivel en ARM y C, hasta microservicios en Go y modelos de Machine Learning en producción.
+                  Dominio vertical continuo: desde microarquitectura de bajo nivel en procesadores ARM y lenguaje C, hasta microservicios distribuidos en Go y pipelines de Machine Learning.
                 </p>
 
                 <div class="skill-bars-list">
@@ -200,8 +255,13 @@
                   </div>
                 </div>
 
-                <div class="tech-pills-row">
-                  <span v-for="tag in techTags" :key="tag" class="tech-tag-pill">{{ tag }}</span>
+                <!-- Matrix de Tecnologías con Iconos y Badges -->
+                <div class="tech-hologram-matrix">
+                  <div v-for="t in techMatrix" :key="t.name" class="matrix-chip" :class="t.category">
+                    <span class="chip-dot"></span>
+                    <span class="chip-name">{{ t.name }}</span>
+                    <span class="chip-meta">{{ t.meta }}</span>
+                  </div>
                 </div>
               </div>
 
@@ -224,9 +284,7 @@
                     </defs>
 
                     <g transform="translate(200, 200)">
-                      <!-- Círculos concéntricos de referencia -->
                       <circle v-for="i in 5" :key="`circ-${i}`" :r="(150 * i) / 5" class="radar-circle" />
-                      <!-- Ejes radiales -->
                       <line
                         v-for="(_, i) in epicSkills"
                         :key="`line-${i}`"
@@ -236,9 +294,7 @@
                         :y2="getRadarAxis(i).y"
                         class="radar-axis-line"
                       />
-                      <!-- Polígono activo -->
                       <polygon :points="radarPolygonPoints" class="radar-poly-shape" filter="url(#radarGlow)" />
-                      <!-- Puntos de datos -->
                       <circle
                         v-for="(p, i) in radarCoordinates"
                         :key="`dot-${i}`"
@@ -247,7 +303,6 @@
                         r="6"
                         class="radar-node-dot"
                       />
-                      <!-- Etiquetas de vértices -->
                       <text
                         v-for="(sk, i) in epicSkills"
                         :key="`lbl-${i}`"
@@ -264,24 +319,45 @@
             </div>
           </section>
 
-          <!-- ================= ESCENA 3: PROYECTOS INSIGNIA ================= -->
+          <!-- ================= ESCENA 3: PROYECTOS INSIGNIA CON MOCK TERMINAL ================= -->
           <section v-if="currentSceneIndex === 3" key="scene-3" class="cinema-scene scene-projects">
             <div class="scene-badge-header">
-              <span class="terminal-badge">// PORTAFOLIO DE INGENIERÍA // IMPACTO REAL</span>
+              <span class="terminal-badge">// SISTEMAS EN PRODUCCIÓN // ALTO IMPACTO</span>
             </div>
 
-            <h2 class="scene-headline">Proyectos en Producción y Ganadores</h2>
+            <h2 class="scene-headline">Proyectos Destacados en Producción</h2>
 
             <div class="projects-cards-grid">
               <article v-for="(proj, i) in showcaseProjects" :key="i" class="showcase-card">
-                <div class="showcase-top">
-                  <span class="showcase-idx">0{{ i + 1 }}</span>
-                  <span class="showcase-badge" :class="proj.badgeType">{{ proj.award }}</span>
+                <!-- Ventana Estilo Consola/Terminal -->
+                <div class="mock-window-bar">
+                  <div class="mock-dots">
+                    <span class="m-dot red"></span>
+                    <span class="m-dot yellow"></span>
+                    <span class="m-dot green"></span>
+                  </div>
+                  <span class="mock-title">{{ proj.endpoint }}</span>
+                  <span class="mock-status">{{ proj.statusText }}</span>
                 </div>
-                <h3 class="showcase-title">{{ proj.name }}</h3>
-                <p class="showcase-desc">{{ proj.desc }}</p>
-                <div class="showcase-tags">
-                  <span v-for="t in proj.tags" :key="t">{{ t }}</span>
+
+                <div class="showcase-card-body">
+                  <div class="showcase-top">
+                    <span class="showcase-idx">SYS_0{{ i + 1 }}</span>
+                    <span class="showcase-badge" :class="proj.badgeType">{{ proj.award }}</span>
+                  </div>
+                  <h3 class="showcase-title">{{ proj.name }}</h3>
+                  <p class="showcase-desc">{{ proj.desc }}</p>
+
+                  <div class="showcase-metrics-bar">
+                    <div v-for="m in proj.metrics" :key="m.label" class="proj-metric">
+                      <span class="metric-num">{{ m.val }}</span>
+                      <span class="metric-lbl">{{ m.label }}</span>
+                    </div>
+                  </div>
+
+                  <div class="showcase-tags">
+                    <span v-for="t in proj.tags" :key="t">{{ t }}</span>
+                  </div>
                 </div>
               </article>
             </div>
@@ -303,11 +379,16 @@
                 </div>
                 <div class="exp-body-card">
                   <div class="exp-header-row">
-                    <h3 class="exp-job-title">{{ exp.title }}</h3>
+                    <div class="exp-role-wrap">
+                      <h3 class="exp-job-title">{{ exp.title }}</h3>
+                      <span class="exp-org-name">{{ exp.company }}</span>
+                    </div>
                     <span class="exp-period-pill">{{ exp.period }}</span>
                   </div>
-                  <span class="exp-org-name">{{ exp.company }}</span>
                   <p class="exp-description-text">{{ exp.desc }}</p>
+                  <div class="exp-tech-chips">
+                    <span v-for="ch in exp.skills" :key="ch">{{ ch }}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -354,7 +435,7 @@
                 <div class="honor-content">
                   <h4>Honor al Mérito Académico (2025)</h4>
                   <span class="honor-org">Universidad del Valle de Guatemala</span>
-                  <p>Máximo reconocimiento UVG por excelencia en Ingeniería en Ciencias de la Computación.</p>
+                  <p>Máximo reconocimiento UVG por excelencia acumulada en Ingeniería en Computación.</p>
                 </div>
               </div>
             </div>
@@ -364,7 +445,7 @@
             </blockquote>
           </section>
 
-          <!-- ================= ESCENA 6: TERMINAL FINAL & CONTACTO ================= -->
+          <!-- ================= ESCENA 6: TERMINAL FINAL & CONEXIÓN ================= -->
           <section v-if="currentSceneIndex === 6" key="scene-6" class="cinema-scene scene-finish">
             <div class="scene-badge-header">
               <span class="terminal-badge">// TELEMETRÍA FINAL // CONEXIÓN DIRECTA</span>
@@ -379,7 +460,7 @@
                   <span class="term-dot dot-yellow"></span>
                   <span class="term-dot dot-green"></span>
                 </div>
-                <span class="term-title">javier_espana@production: ~/profile.json</span>
+                <span class="term-title">javier_espana@production: ~/candidate_profile.json</span>
               </div>
               <pre class="term-code-body"><code>{{ candidateJson }}</code></pre>
             </div>
@@ -400,7 +481,7 @@
               </button>
 
               <button class="cinema-cta-btn replay" @click="restartTour">
-                <span>↺ Reiniciar Tour</span>
+                <span>↺ Reiniciar Experiencia</span>
               </button>
             </div>
           </section>
@@ -440,7 +521,7 @@
         </div>
 
         <div class="hud-bottom-right">
-          <span class="hud-keyboard-hints">ESPACIO: Pausa | ← / →: Navegar | ESC: Salir</span>
+          <span class="hud-keyboard-hints">ESPACIO: Pausa | ← / →: Navegar | M: Mute | ESC: Salir</span>
         </div>
       </footer>
     </div>
@@ -498,9 +579,20 @@ const epicSkills = [
   { name: 'Low-Level (ARM / C)', level: 85 }
 ]
 
-const techTags = [
-  'Python', 'Go', 'Rust', 'C++', 'LightGBM', 'Apache Airflow',
-  'Vue.js 3', 'Docker', 'PostgreSQL', 'FastAPI', 'Grafana', 'ARMv8 Assembler'
+// Matriz de Tecnologías con Metadata
+const techMatrix = [
+  { name: 'Python', category: 'ml', meta: 'LightGBM / PyTorch' },
+  { name: 'Go (Echo)', category: 'backend', meta: 'Microservicios' },
+  { name: 'Rust', category: 'systems', meta: 'High Perf' },
+  { name: 'C / C++', category: 'systems', meta: 'Bajo Nivel' },
+  { name: 'ARMv8 Assembler', category: 'systems', meta: 'Microarquitectura' },
+  { name: 'Vue.js 3', category: 'frontend', meta: 'Vite / Composition' },
+  { name: 'Apache Airflow', category: 'data', meta: 'Orquestación DAGs' },
+  { name: 'Docker Compose', category: 'devops', meta: 'Contenedores' },
+  { name: 'PostgreSQL', category: 'data', meta: 'SQL & Índices' },
+  { name: 'FastAPI', category: 'backend', meta: 'Async APIs' },
+  { name: 'Grafana', category: 'devops', meta: 'Métricas Real-Time' },
+  { name: 'Optuna', category: 'ml', meta: 'Optimización Bayesiana' }
 ]
 
 const getRadarAxis = (i) => {
@@ -525,34 +617,62 @@ const radarPolygonPoints = computed(() => {
   return radarCoordinates.value.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ')
 })
 
-// Proyectos
+// Proyectos en Producción con Mock Telemetría
 const showcaseProjects = [
   {
     name: 'Optyma CRM & Portal Clínico',
+    endpoint: 'https://optyma.app/api/v1/health',
+    statusText: '200 OK · PRODUCTION',
     award: 'En Producción Médica',
     badgeType: 'production',
-    desc: 'Arquitectura completa de microservicios con Go (Echo), frontend en Vue.js 3 con Vite, PostgreSQL, buckets de almacenamiento S3/MinIO y despliegue CI/CD contenerizado en Docker.',
+    desc: 'Arquitectura completa de microservicios con Go (Echo), frontend reactivo en Vue.js 3, persistencia en PostgreSQL, almacenamiento de imágenes médicas en MinIO/S3 y despliegues automatizados con Docker.',
+    metrics: [
+      { val: '100%', label: 'Disponibilidad' },
+      { val: 'Go Echo', label: 'Microservicios' },
+      { val: 'S3 / MinIO', label: 'Storage' }
+    ],
     tags: ['Go (Echo)', 'Vue.js 3', 'Docker', 'PostgreSQL', 'MinIO / S3']
   },
   {
     name: 'Optimización de Cobranza',
+    endpoint: 'bam-risk-engine://models/lightgbm-v2',
+    statusText: 'CHAMPION · 92% PROMISES',
     award: '1.er Lugar Hackatón BAM (Oct 2026)',
     badgeType: 'champion',
-    desc: 'LightGBM con afinamiento bayesiano en Optuna y georreferenciador para direcciones guatemaltecas. Alcanzó 92% de promesas de pago con solo 30% de llamadas.',
+    desc: 'Modelo LightGBM con afinamiento bayesiano en Optuna y georreferenciador de direcciones no estructuradas de Guatemala. Captura el 92% de promesas con solo el 30% del volumen telefónico.',
+    metrics: [
+      { val: '92%', label: 'Promesas Capturadas' },
+      { val: '30%', label: 'Llamadas Realizadas' },
+      { val: '0.94', label: 'AUC Score' }
+    ],
     tags: ['Python', 'LightGBM', 'Optuna', 'Data Analytics', 'Risk Intelligence']
   },
   {
     name: 'Clasificador NLP para Call Center',
+    endpoint: 'streaming-nlp://jina-v5/inference',
+    statusText: '<15ms · STREAMING ACTIVE',
     award: '1.er Lugar Hackatón BAM (Abr 2026)',
     badgeType: 'champion',
-    desc: 'Embeddings compactos Jina v5-nano con clasificador SVC calibrado por Platt scaling en streaming. Inferencia sub-15ms en Docker con monitoreo continuo en Grafana.',
+    desc: 'Embeddings compactos Jina v5-nano combinados con clasificador Support Vector Machine calibrado con Platt scaling para probabilidades fiables en tiempo real, worker en Docker y dashboard en Grafana.',
+    metrics: [
+      { val: '<15ms', label: 'Latencia Inferencia' },
+      { val: 'Platt', label: 'Calibración' },
+      { val: 'Grafana', label: 'Observabilidad' }
+    ],
     tags: ['Jina AI v5', 'Docker', 'Grafana', 'FastAPI', 'Platt Scaling']
   },
   {
     name: 'Forecasting de Demanda de Tarjetas',
+    endpoint: 'airflow-orchestrator://dags/weekly_card_demand',
+    statusText: 'SCHEDULED · DAG ACTIVE',
     award: '2.º Lugar Hackatón BAM (2025)',
     badgeType: 'silver',
     desc: 'Pipeline semanal automatizado con Apache Airflow, Docker Compose, modelos de gradiente potenciado LightGBM y dashboard interactivo en Streamlit.',
+    metrics: [
+      { val: 'Semanal', label: 'Orquestación DAG' },
+      { val: 'LightGBM', label: 'Forecaster' },
+      { val: 'Streamlit', label: 'Dashboard' }
+    ],
     tags: ['Apache Airflow', 'LightGBM', 'PostgreSQL', 'Streamlit']
   }
 ]
@@ -563,19 +683,22 @@ const experienceItems = [
     title: 'Pasante, Analítica de Riesgos',
     company: 'Banco Agromercantil de Guatemala (BAM)',
     period: 'Ene 2026 – Jul 2026',
-    desc: 'Automatización de pipelines de evaluación crediticia, ingeniería de atributos y modelos predictivos de riesgo en banca múltiple utilizando Python, SQL y LightGBM.'
+    desc: 'Automatización de pipelines de evaluación crediticia, ingeniería de atributos y modelos predictivos de riesgo en banca múltiple utilizando Python, SQL y LightGBM.',
+    skills: ['Python', 'SQL', 'LightGBM', 'Credit Risk Analytics']
   },
   {
     title: 'Maestro Auxiliar (Organización de Computadoras y Assembler)',
     company: 'Universidad del Valle de Guatemala',
     period: 'Ene 2025 – Nov 2025',
-    desc: 'Formación universitaria en arquitectura de procesadores ARMv8, optimización de registros, jerarquías de caché, programación en C y depuración en bajo nivel.'
+    desc: 'Formación universitaria en arquitectura de procesadores ARMv8, optimización de registros, jerarquías de caché, programación en C y depuración en bajo nivel.',
+    skills: ['ARMv8 Assembler', 'Lenguaje C', 'Microarquitectura', 'GDB']
   },
   {
     title: 'Desarrollador de Arquitectura Full-Stack',
     company: 'Optyma Clínica Oftalmológica y Óptica',
     period: '2024 – 2025',
-    desc: 'Diseño integral de microservicios en Go, diseño de esquemas en PostgreSQL, interfaz en Vue.js 3 y pipelines automatizados con Docker y GitHub Actions.'
+    desc: 'Diseño integral de microservicios en Go, esquemas normalizados en PostgreSQL, interfaz en Vue.js 3 y pipelines automatizados con Docker y GitHub Actions.',
+    skills: ['Go (Echo)', 'Vue.js 3', 'Docker', 'PostgreSQL', 'MinIO/S3']
   }
 ]
 
@@ -621,7 +744,6 @@ const startTicker = () => {
       if (currentSceneIndex.value < scenes.length - 1) {
         nextScene()
       } else {
-        // En la última escena, simplemente dejamos el tour en pausa para que el usuario pueda explorar
         isPaused.value = true
       }
     }
@@ -704,6 +826,8 @@ const handleProgressClick = (e) => {
 
 const handleExit = () => {
   cleanup()
+  // Transición suave de audio con fade out y activación de la música ambiental
+  audioManager.exitCinematicMode()
   emit('end')
 }
 
@@ -748,7 +872,6 @@ const initParticles = () => {
         const size = Math.max((1 - star.z / canvas.width) * (warpBoost ? 5 : 3), 0.6)
         ctx.beginPath()
         if (warpBoost) {
-          // Líneas estiradas estilo hiperespacio
           const prevK = 280 / (star.z + speed * 1.5)
           const prevPx = star.x * prevK + cx
           const prevPy = star.y * prevK + cy
@@ -781,7 +904,6 @@ const handleResize = () => {
 const cleanup = () => {
   stopTicker()
   if (animId) cancelAnimationFrame(animId)
-  audioManager.stopCinematicTheme()
   document.body.style.overflow = ''
   window.removeEventListener('resize', handleResize)
 }
@@ -863,6 +985,21 @@ onUnmounted(() => {
   background-size: 60px 60px;
   z-index: 2;
   pointer-events: none;
+}
+
+.cinema-scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.6;
 }
 
 /* ================= HUD BARS ================= */
@@ -1034,7 +1171,7 @@ onUnmounted(() => {
 }
 
 .scene-badge-header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 
 .terminal-badge {
@@ -1068,18 +1205,114 @@ onUnmounted(() => {
 .scene-subdesc {
   font-size: clamp(0.9rem, 1.2vw, 1.05rem);
   color: var(--text-secondary);
-  max-width: 750px;
+  max-width: 780px;
   line-height: 1.55;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
-/* ================= ESCENA 0: INTRO ================= */
+/* ================= ESCENA 0: AVATAR HOLOGRÁFICO ================= */
+.hologram-avatar-wrap {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hologram-ring-outer {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(0, 217, 255, 0.5);
+  animation: spin-ring 20s linear infinite;
+}
+
+.hologram-ring-inner {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(108, 99, 255, 0.4);
+  animation: spin-ring-rev 12s linear infinite;
+}
+
+@keyframes spin-ring {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spin-ring-rev {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.hologram-avatar-frame {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--accent-cyan);
+  box-shadow: 0 0 25px rgba(0, 217, 255, 0.6), inset 0 0 15px rgba(108, 99, 255, 0.5);
+}
+
+.hologram-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05) brightness(1.02);
+}
+
+.hologram-scan-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.9), transparent);
+  box-shadow: 0 0 10px #00D9FF;
+  animation: scan-avatar 3s ease-in-out infinite;
+}
+
+@keyframes scan-avatar {
+  0% { top: 0; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.hologram-status-badge {
+  position: absolute;
+  bottom: -10px;
+  background: rgba(5, 7, 13, 0.9);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  border-radius: var(--radius-full);
+  padding: 0.2rem 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.hologram-status-badge .status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #27c93f;
+  box-shadow: 0 0 6px #27c93f;
+}
+
 .hero-glitch-title {
-  font-size: clamp(3.2rem, 8vw, 6.5rem);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
   font-weight: 900;
   letter-spacing: -0.03em;
   line-height: 1;
-  margin: 0.5rem 0;
+  margin: 0.3rem 0;
   display: flex;
   gap: 1.2rem;
   justify-content: center;
@@ -1097,24 +1330,24 @@ onUnmounted(() => {
 }
 
 .hero-hero-subtitle {
-  font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+  font-size: clamp(1rem, 2vw, 1.4rem);
   color: #ffffff;
   font-weight: 600;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.2rem;
 }
 
 .hero-university {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: var(--accent-violet);
   font-weight: 700;
   letter-spacing: 0.05em;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-trophies-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.9rem;
   flex-wrap: wrap;
   justify-content: center;
   max-width: 950px;
@@ -1176,13 +1409,13 @@ onUnmounted(() => {
   color: var(--text-secondary);
 }
 
-/* ================= ESCENA 1: BAM ================= */
+/* ================= ESCENA 1: BAM & BLUEPRINT FLOW ================= */
 .bam-cards-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.5rem;
   width: 100%;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
   text-align: left;
 }
 
@@ -1190,12 +1423,19 @@ onUnmounted(() => {
   background: rgba(13, 17, 23, 0.85);
   border: 1px solid rgba(255, 183, 3, 0.35);
   border-radius: var(--radius-xl);
-  padding: 1.75rem;
+  padding: 1.5rem;
   backdrop-filter: blur(16px);
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 183, 3, 0.05);
   position: relative;
+}
+
+.bam-card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .bam-card-badge {
@@ -1204,14 +1444,22 @@ onUnmounted(() => {
   font-weight: 800;
   color: #ffb703;
   letter-spacing: 0.1em;
-  margin-bottom: 0.6rem;
+}
+
+.bam-kpi-chip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  color: var(--accent-cyan);
 }
 
 .bam-card h3 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: #ffffff;
   font-weight: 800;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   line-height: 1.3;
 }
 
@@ -1221,20 +1469,20 @@ onUnmounted(() => {
   gap: 0.75rem;
   background: rgba(255, 183, 3, 0.08);
   border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.9rem;
 }
 
 .stat-big {
   font-family: var(--font-mono);
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
   color: #ffb703;
   text-shadow: 0 0 15px rgba(255, 183, 3, 0.4);
 }
 
 .stat-desc {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: var(--text-secondary);
   line-height: 1.3;
 }
@@ -1243,24 +1491,78 @@ onUnmounted(() => {
   color: #ffffff;
 }
 
+/* Architecture Flow Blueprint */
+.architecture-flow-box {
+  background: rgba(5, 7, 13, 0.85);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 0.9rem;
+}
+
+.flow-title {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.flow-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.flow-node {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.2rem 0.45rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+
+.flow-node.highlight {
+  border-color: #00D9FF;
+  color: #00D9FF;
+  background: rgba(0, 217, 255, 0.12);
+}
+
+.flow-node.success {
+  border-color: #ffb703;
+  color: #ffb703;
+  background: rgba(255, 183, 3, 0.12);
+  font-weight: 700;
+}
+
+.flow-arrow {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+}
+
 .bam-card-text {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 1.25rem;
+  line-height: 1.45;
+  margin-bottom: 1rem;
   flex: 1;
 }
 
 .bam-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .bam-tags span {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: 0.25rem 0.6rem;
+  font-size: 0.68rem;
+  padding: 0.2rem 0.5rem;
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1271,8 +1573,8 @@ onUnmounted(() => {
   background: rgba(0, 217, 255, 0.08);
   border: 1px solid rgba(0, 217, 255, 0.25);
   border-radius: var(--radius-lg);
-  padding: 0.85rem 1.5rem;
-  font-size: 0.85rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.82rem;
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -1286,11 +1588,11 @@ onUnmounted(() => {
   font-family: var(--font-mono);
 }
 
-/* ================= ESCENA 2: RADAR & SKILLS ================= */
+/* ================= ESCENA 2: RADAR & TECH MATRIX ================= */
 .radar-split-layout {
   display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 3rem;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 2.5rem;
   align-items: center;
   width: 100%;
   text-align: left;
@@ -1299,16 +1601,16 @@ onUnmounted(() => {
 .skill-bars-list {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  margin-bottom: 1.5rem;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
 }
 
 .skill-bar-label {
   display: flex;
   justify-content: space-between;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
 }
 
 .skill-title {
@@ -1335,21 +1637,47 @@ onUnmounted(() => {
   transition: width 1s ease-out;
 }
 
-.tech-pills-row {
-  display: flex;
-  flex-wrap: wrap;
+/* Hologram Matrix of Chips */
+.tech-hologram-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 0.5rem;
 }
 
-.tech-tag-pill {
+.matrix-chip {
+  background: rgba(13, 17, 23, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.4rem 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  transition: all 0.2s ease;
+}
+
+.matrix-chip:hover {
+  border-color: var(--accent-cyan);
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.chip-name {
   font-family: var(--font-mono);
   font-size: 0.72rem;
-  padding: 0.3rem 0.75rem;
-  background: rgba(108, 99, 255, 0.12);
-  border: 1px solid rgba(108, 99, 255, 0.3);
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
+  font-weight: 700;
+  color: #ffffff;
 }
+
+.chip-meta {
+  font-size: 0.62rem;
+  color: var(--text-muted);
+}
+
+.matrix-chip.ml { border-left: 3px solid #ffb703; }
+.matrix-chip.backend { border-left: 3px solid #00D9FF; }
+.matrix-chip.systems { border-left: 3px solid #ff5555; }
+.matrix-chip.frontend { border-left: 3px solid #6C63FF; }
+.matrix-chip.devops { border-left: 3px solid #27c93f; }
+.matrix-chip.data { border-left: 3px solid #00D9FF; }
 
 .radar-wrapper {
   display: flex;
@@ -1394,20 +1722,20 @@ onUnmounted(() => {
   text-anchor: middle;
 }
 
-/* ================= ESCENA 3: PROYECTOS ================= */
+/* ================= ESCENA 3: PROYECTOS & MOCK CONSOLES ================= */
 .projects-cards-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
   width: 100%;
   text-align: left;
 }
 
 .showcase-card {
-  background: rgba(13, 17, 23, 0.85);
+  background: rgba(13, 17, 23, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-xl);
-  padding: 1.5rem;
+  overflow: hidden;
   backdrop-filter: blur(14px);
   display: flex;
   flex-direction: column;
@@ -1419,25 +1747,68 @@ onUnmounted(() => {
   transform: translateY(-3px);
 }
 
+.mock-window-bar {
+  background: rgba(5, 7, 13, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mock-dots {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.m-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.m-dot.red { background: #ff5f56; }
+.m-dot.yellow { background: #ffbd2e; }
+.m-dot.green { background: #27c93f; }
+
+.mock-title {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.mock-status {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+
+.showcase-card-body {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .showcase-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .showcase-idx {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 800;
   color: var(--accent-cyan);
 }
 
 .showcase-badge {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.55rem;
   border-radius: var(--radius-full);
 }
 
@@ -1460,30 +1831,57 @@ onUnmounted(() => {
 }
 
 .showcase-title {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: #ffffff;
   font-weight: 800;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
 .showcase-desc {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 1rem;
+  line-height: 1.45;
+  margin-bottom: 0.9rem;
   flex: 1;
+}
+
+.showcase-metrics-bar {
+  display: flex;
+  gap: 0.6rem;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.9rem;
+}
+
+.proj-metric {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.metric-num {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+}
+
+.metric-lbl {
+  font-size: 0.65rem;
+  color: var(--text-muted);
 }
 
 .showcase-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .showcase-tags span {
   font-family: var(--font-mono);
-  font-size: 0.68rem;
-  padding: 0.2rem 0.5rem;
+  font-size: 0.65rem;
+  padding: 0.2rem 0.45rem;
   background: rgba(255, 255, 255, 0.05);
   border-radius: var(--radius-sm);
   color: var(--text-primary);
@@ -1493,7 +1891,7 @@ onUnmounted(() => {
 .exp-cards-timeline {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
   max-width: 850px;
   width: 100%;
   text-align: left;
@@ -1530,10 +1928,10 @@ onUnmounted(() => {
 }
 
 .exp-body-card {
-  background: rgba(13, 17, 23, 0.8);
+  background: rgba(13, 17, 23, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-lg);
-  padding: 1.25rem 1.75rem;
+  padding: 1.2rem 1.6rem;
   backdrop-filter: blur(12px);
   flex: 1;
 }
@@ -1541,37 +1939,55 @@ onUnmounted(() => {
 .exp-header-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.3rem;
+  align-items: flex-start;
+  margin-bottom: 0.4rem;
 }
 
 .exp-job-title {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 800;
   color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.exp-org-name {
+  font-size: 0.85rem;
+  color: var(--accent-violet);
+  font-weight: 700;
+  display: block;
 }
 
 .exp-period-pill {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--accent-cyan);
   background: rgba(0, 217, 255, 0.1);
   padding: 0.25rem 0.6rem;
   border-radius: var(--radius-full);
-}
-
-.exp-org-name {
-  font-size: 0.88rem;
-  color: var(--accent-violet);
-  font-weight: 700;
-  display: block;
-  margin-bottom: 0.6rem;
+  white-space: nowrap;
 }
 
 .exp-description-text {
   font-size: 0.82rem;
   color: var(--text-secondary);
   line-height: 1.5;
+  margin-bottom: 0.75rem;
+}
+
+.exp-tech-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.exp-tech-chips span {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  padding: 0.15rem 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
 }
 
 /* ================= ESCENA 5: PREMIOS & FILOSOFÍA ================= */
@@ -1580,7 +1996,7 @@ onUnmounted(() => {
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   text-align: left;
 }
 
@@ -1633,10 +2049,10 @@ onUnmounted(() => {
 }
 
 .cinematic-quote {
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
   font-style: italic;
   color: #ffffff;
-  max-width: 800px;
+  max-width: 820px;
   line-height: 1.6;
   text-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
   position: relative;
@@ -1645,12 +2061,12 @@ onUnmounted(() => {
 
 /* ================= ESCENA 6: TERMINAL FINAL & CTAS ================= */
 .terminal-summary-card {
-  background: rgba(8, 11, 20, 0.92);
+  background: rgba(8, 11, 20, 0.94);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   width: 100%;
   max-width: 680px;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   text-align: left;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
   overflow: hidden;
@@ -1659,7 +2075,7 @@ onUnmounted(() => {
 .terminal-header-bar {
   background: rgba(255, 255, 255, 0.05);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 0.6rem 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -1883,6 +2299,9 @@ onUnmounted(() => {
   .hud-keyboard-hints {
     display: none;
   }
+  .tech-hologram-matrix {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1907,6 +2326,9 @@ onUnmounted(() => {
   .cinema-cta-btn {
     justify-content: center;
     width: 100%;
+  }
+  .tech-hologram-matrix {
+    grid-template-columns: 1fr;
   }
 }
 </style>
