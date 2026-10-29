@@ -5,19 +5,6 @@
         <h1 class="section-title">{{ $t('projects.title') }}</h1>
         <p class="section-subtitle">{{ $t('projects.subtitle') }}</p>
 
-        <!-- Filtros -->
-        <div class="projects-filters">
-          <button
-            v-for="category in categories"
-            :key="category"
-            class="filter-btn"
-            :class="{ active: selectedCategory === category }"
-            @click="selectedCategory = category"
-          >
-            {{ $t(`projectsView.categories.${category}`) }}
-          </button>
-        </div>
-
         <!-- Búsqueda -->
         <div class="projects-search">
           <svg class="search-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -108,6 +95,40 @@
           </svg>
           <p>{{ $t('projectsView.noResults') }}</p>
         </div>
+
+        <!-- Banner GitHub: Más proyectos y repositorios -->
+        <div class="github-explore-banner card">
+          <div class="github-banner-content">
+            <div class="github-badge">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>{{ $t('projectsView.githubBanner.badge') }}</span>
+            </div>
+            <h2 class="github-banner-title">
+              {{ $t('projectsView.githubBanner.title') }}
+            </h2>
+            <p class="github-banner-desc">
+              {{ $t('projectsView.githubBanner.desc') }}
+            </p>
+          </div>
+          <div class="github-banner-action">
+            <a
+              href="https://github.com/Javier-Espana"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary github-cta-btn"
+            >
+              <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              <span>{{ $t('projectsView.githubBanner.btn') }}</span>
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -176,8 +197,6 @@ import { featuredProjectsData } from '../data/projects.js'
 
 const { locale  } = useI18n({ useScope: 'global' })
 
-const categories = ['all', 'frontend', 'backend', 'fullstack', 'other']
-const selectedCategory = ref('all')
 const searchQuery = ref('')
 const selectedProject = ref(null)
 const loading = ref(false)
@@ -273,13 +292,14 @@ onMounted(() => {
 })
 
 const filteredProjects = computed(() => {
+  const query = searchQuery.value.toLowerCase().trim()
+  if (!query) return projects.value
   return projects.value.filter(project => {
-    const matchCat = selectedCategory.value === 'all' || project.category === selectedCategory.value
-    const query = searchQuery.value.toLowerCase()
     const name = getProjectName(project).toLowerCase()
     const desc = getProjectDescription(project).toLowerCase()
-    const matchSearch = name.includes(query) || desc.includes(query)
-    return matchCat && matchSearch
+    const techs = (project.technologies || []).join(' ').toLowerCase()
+    const lang = (project.language || '').toLowerCase()
+    return name.includes(query) || desc.includes(query) || techs.includes(query) || lang.includes(query)
   })
 })
 
@@ -314,33 +334,6 @@ const formatDate = (dateString) => {
 <style scoped>
 .projects-view {
   padding-top: 5rem;
-}
-
-/* ---- Filtros ---- */
-.projects-filters {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 2rem;
-}
-
-.filter-btn {
-  padding: 0.5rem 1.25rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-full);
-  color: var(--text-secondary);
-  font-size: var(--text-sm);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-  background: var(--accent-violet-20);
-  border-color: var(--accent-violet);
-  color: var(--text-white);
 }
 
 /* ---- Búsqueda ---- */
@@ -606,6 +599,104 @@ const formatDate = (dateString) => {
   margin: 0 auto 1rem;
 }
 
+/* ---- Banner Explorar GitHub ---- */
+.github-explore-banner {
+  margin-top: 4.5rem;
+  padding: 2.5rem 3rem;
+  background: linear-gradient(135deg, rgba(13, 17, 28, 0.95), rgba(20, 26, 42, 0.85));
+  border: 1px solid rgba(0, 217, 255, 0.25);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(108, 99, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.github-explore-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.github-banner-content {
+  max-width: 680px;
+}
+
+.github-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  margin-bottom: 0.75rem;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.github-banner-title {
+  font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+  font-weight: 800;
+  color: var(--text-white);
+  line-height: 1.3;
+  margin-bottom: 0.6rem;
+}
+
+.github-banner-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.github-banner-action {
+  flex-shrink: 0;
+}
+
+.github-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.75rem;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.3);
+}
+
+.github-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(0, 217, 255, 0.4);
+}
+
+@media (max-width: 900px) {
+  .github-explore-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2rem 1.5rem;
+    gap: 1.5rem;
+  }
+  .github-banner-action {
+    width: 100%;
+  }
+  .github-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .projects-view {
     padding-top: 3.5rem;
@@ -615,16 +706,6 @@ const formatDate = (dateString) => {
     grid-template-columns: 1fr;
     gap: 1.5rem;
     margin-top: 2rem;
-  }
-
-  .projects-filters {
-    gap: 0.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .filter-btn {
-    padding: 0.4rem 0.85rem;
-    font-size: var(--text-xs);
   }
 
   .modal-content {

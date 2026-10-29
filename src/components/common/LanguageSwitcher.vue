@@ -8,10 +8,13 @@
       :aria-label="currentLocale === 'en' ? 'Cambiar a Español' : 'Switch to English'"
       type="button"
     >
-      <span class="flag" aria-hidden="true">{{ currentLocale === 'en' ? '🇺🇸' : '🇬🇹' }}</span>
-      <span class="lang-code">{{ currentLocale.toUpperCase() }}</span>
-      <span class="switch-indicator" aria-hidden="true">
-        <span class="dot"></span>
+      <span class="lang-pill" :class="{ 'is-active': currentLocale === 'es' }">
+        <span class="flag" aria-hidden="true">🇬🇹</span>
+        <span class="code">ES</span>
+      </span>
+      <span class="lang-pill" :class="{ 'is-active': currentLocale === 'en' }">
+        <span class="flag" aria-hidden="true">🇺🇸</span>
+        <span class="code">EN</span>
       </span>
     </button>
   </div>
@@ -51,7 +54,7 @@ const toggleLanguage = () => {
   isSwitching.value = true
   setTimeout(() => {
     isSwitching.value = false
-  }, 300)
+  }, 250)
 }
 </script>
 
@@ -63,53 +66,68 @@ const toggleLanguage = () => {
 }
 
 .lang-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.9rem;
-  background: rgba(108, 99, 255, 0.12);
+  justify-content: center;
+  gap: 2px;
+  padding: 2px;
+  background: rgba(8, 11, 20, 0.85);
+  backdrop-filter: blur(8px);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
-  color: var(--text-primary);
-  font-family: var(--font-mono, monospace);
-  font-size: var(--text-xs);
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
 }
 
 .lang-btn:hover {
-  background: var(--accent-violet-20);
-  border-color: var(--accent-violet);
-  transform: translateY(-1px);
+  border-color: rgba(0, 217, 255, 0.4);
+  box-shadow: 0 2px 14px rgba(0, 217, 255, 0.15);
 }
 
 .lang-btn.switching {
-  transform: scale(0.95);
-  background: var(--accent-cyan-20);
-  border-color: var(--accent-cyan);
+  transform: scale(0.96);
+}
+
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  line-height: 1;
+  color: var(--text-muted);
+  opacity: 0.55;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.lang-pill.is-active {
+  opacity: 1;
+  color: #ffffff;
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.35), rgba(0, 217, 255, 0.25));
+  border-color: rgba(0, 217, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 217, 255, 0.2);
+  font-weight: 700;
 }
 
 .flag {
-  font-size: 1rem;
-}
-
-.lang-code {
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: var(--text-white);
-}
-
-.switch-indicator {
-  display: flex;
+  font-size: 0.85rem;
+  line-height: 1;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
 }
 
-.dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent-cyan);
-  box-shadow: 0 0 6px var(--accent-cyan);
+.code {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 </style>

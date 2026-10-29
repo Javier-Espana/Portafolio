@@ -109,6 +109,7 @@ const detachHoverListeners = () => {
 }
 
 const handleElementHover = () => {
+  audioManager.playHover()
   if (cursorFollowerRef.value) {
     gsap.to(cursorFollowerRef.value, {
       scale: 1.5,

@@ -67,6 +67,10 @@
           Full Experience
         </button>
         <span class="cinematic-warning">{{ $t('cinematic.warning') }}</span>
+        <div class="hero__ost-badge">
+          <span class="ost-note">♪</span>
+          <span>{{ $t('hero.ostCredit') }}</span>
+        </div>
       </div>
 
       <!-- Scroll hint -->
@@ -102,8 +106,6 @@ let scrambleInterval = null
 const scrambleName = () => {
   if (scrambleInterval) clearInterval(scrambleInterval)
   let iterations = 0
-  
-  audioManager.playScramble()
   
   scrambleInterval = setInterval(() => {
     scrambledName.value = originalName.value.split('').map((char, index) => {
@@ -459,6 +461,28 @@ onUnmounted(() => {
 .cinematic-warning {
   font-size: 0.7rem;
   color: var(--text-muted);
+}
+
+.hero__ost-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  margin-top: 0.25rem;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, color 0.2s ease;
+}
+
+.hero__ost-badge:hover {
+  opacity: 1;
+  color: var(--accent-cyan);
+}
+
+.hero__ost-badge .ost-note {
+  color: var(--accent-cyan);
 }
 
 .hero__scroll {

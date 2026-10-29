@@ -560,7 +560,7 @@ const scenes = [
 const currentSceneIndex = ref(0)
 const isPaused = ref(false)
 const sceneElapsed = ref(0)
-const SCENE_DURATION = 19 // 19 segundos por escena (10 segundos adicionales para lectura cómoda)
+const SCENE_DURATION = 20 // Exactamente 20 segundos por escena para lectura óptima
 
 const isMuted = ref(audioManager.isGloballyMuted)
 const copiedText = ref(false)
@@ -771,6 +771,7 @@ const nextScene = () => {
     currentSceneIndex.value++
     sceneElapsed.value = 0
     triggerWarpBoost()
+    audioManager.playHover()
   }
 }
 
@@ -779,6 +780,7 @@ const prevScene = () => {
     currentSceneIndex.value--
     sceneElapsed.value = 0
     triggerWarpBoost()
+    audioManager.playHover()
   }
 }
 

@@ -22,6 +22,7 @@ export default {
         "projects": "View Projects",
         "contact": "Contact Me"
       },
+      "ostCredit": "Original soundtrack composed and produced by Javier España",
       "scroll": "Scroll to explore"
     },
     "about": {
@@ -94,6 +95,12 @@ export default {
         "backend": "Backend & ML",
         "fullstack": "Full Stack",
         "other": "Other"
+      },
+      "githubBanner": {
+        "badge": "GitHub Repositories",
+        "title": "Looking for more projects, repositories & experiments?",
+        "desc": "Explore all my open-source codebases, microservices, machine learning pipelines, and academic systems on my official GitHub profile.",
+        "btn": "Explorar más en mi GitHub"
       }
     },
     "cta": {
@@ -176,6 +183,9 @@ export default {
         "devops": "DevOps & Tooling",
         "tools": "Methodologies"
       },
+      "audioTag": "Audio & Creative Sound Design",
+      "audioTitle": "Original Music Composition & Audio Production",
+      "audioDesc": "All the musical compositions and background soundtrack (OST) playing across this website and inside the Full Experience mode were entirely composed and produced by me.",
       "years": "proficiency level"
     },
     "contact": {
@@ -384,6 +394,7 @@ export default {
         "projects": "Ver Proyectos",
         "contact": "Contáctame"
       },
+      "ostCredit": "Banda sonora original compuesta y producida por Javier España",
       "scroll": "Desplázate para explorar"
     },
     "about": {
@@ -456,6 +467,12 @@ export default {
         "backend": "Backend y ML",
         "fullstack": "Full Stack",
         "other": "Otros"
+      },
+      "githubBanner": {
+        "badge": "Repositorios en GitHub",
+        "title": "¿Buscas más proyectos, repositorios y experimentos?",
+        "desc": "Explora todos mis proyectos de código abierto, microservicios, pipelines de machine learning y arquitecturas de software en mi perfil oficial de GitHub.",
+        "btn": "Explorar más en mi GitHub"
       }
     },
     "cta": {
@@ -538,6 +555,9 @@ export default {
         "devops": "DevOps e Infraestructura",
         "tools": "Metodologías y Liderazgo"
       },
+      "audioTag": "Diseño Sonoro & Composición",
+      "audioTitle": "Composición Musical Original & Producción de Audio",
+      "audioDesc": "Todas las piezas musicales y la banda sonora original (OST) que escuchas de fondo en todo el sitio web y en el modo Full Experience fueron compuestas y producidas por mí.",
       "years": "nivel de competencia"
     },
     "contact": {

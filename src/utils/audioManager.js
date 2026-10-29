@@ -319,7 +319,9 @@ class AudioManager {
   }
 
   playHover() {
-    // Deshabilitado: sin efectos molestos de sonido al pasar el cursor
+    if (this.isGloballyMuted || this.uiMuted) return
+    if (!this.initialized) this.init()
+    this.playTone(800, 'sine', 0.04, 0.02)
   }
 
   playClick() {
@@ -337,21 +339,7 @@ class AudioManager {
   }
 
   playScramble() {
-    if (this.isGloballyMuted || !this.ctx) return
-    if (!this.initialized) this.init()
-    try {
-      const length = 0.15
-      const bufferSize = this.ctx.sampleRate * length
-      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate)
-      const data = buffer.getChannelData(0)
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * 0.015
-      }
-      const noise = this.ctx.createBufferSource()
-      noise.buffer = buffer
-      noise.connect(this.ctx.destination)
-      noise.start()
-    } catch (e) {}
+    // Deshabilitado: eliminado el sonido de estática
   }
 }
 

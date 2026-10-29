@@ -117,6 +117,23 @@
             </div>
           </div>
         </div>
+
+        <!-- Habilidad Creativa Especial: Audio & Composición Musical (Discreto y al final) -->
+        <div class="audio-skill-card card gsap-skill-card">
+          <div class="audio-skill-top">
+            <div class="audio-skill-badge">
+              <span class="music-note-icon">♪</span>
+              <span class="audio-skill-tag">{{ $t('skills.audioTag') }}</span>
+            </div>
+            <span class="ost-author-pill">♪ OST Javier España</span>
+          </div>
+          <div class="audio-skill-info">
+            <h3 class="audio-skill-title">{{ $t('skills.audioTitle') }}</h3>
+            <p class="audio-skill-desc">
+              {{ $t('skills.audioDesc') }}
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -415,6 +432,77 @@ onMounted(() => {
   text-align: right;
 }
 
+/* ---- Habilidad Creativa de Audio y Composición (Compacto y al final) ---- */
+.audio-skill-card {
+  margin-top: 3.5rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(0, 217, 255, 0.25);
+  background: linear-gradient(135deg, rgba(108, 99, 255, 0.08), rgba(0, 217, 255, 0.04));
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.3s ease;
+}
+
+.audio-skill-card:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 10px 30px rgba(0, 217, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.audio-skill-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.audio-skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.music-note-icon {
+  color: var(--accent-cyan);
+  font-size: 1.1rem;
+}
+
+.audio-skill-tag {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-cyan);
+}
+
+.ost-author-pill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(108, 99, 255, 0.25);
+  border: 1px solid rgba(108, 99, 255, 0.5);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-full);
+}
+
+.audio-skill-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 0.25rem;
+}
+
+.audio-skill-desc {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 @media (max-width: 640px) {
   .skills-view {
     padding-top: 3.5rem;
@@ -428,6 +516,13 @@ onMounted(() => {
   }
   .category-section {
     margin-top: 2.5rem;
+  }
+  .audio-skill-card {
+    padding: 1.25rem 1rem;
+    margin-top: 2rem;
+  }
+  .audio-skill-title {
+    font-size: 0.98rem;
   }
 }
 </style>
