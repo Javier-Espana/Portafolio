@@ -15,7 +15,7 @@
         <div class="radar-container card gsap-radar">
           <h2 class="radar-title">{{ $t('skills.radar') }}</h2>
           <div class="radar-chart" ref="radarChartRef">
-            <svg :width="radarSize" :height="radarSize" class="radar-svg">
+            <svg :width="radarSize" :height="radarSize" class="radar-svg" role="img" aria-label="Skills Radar Chart">
               <g :transform="`translate(${radarSize/2}, ${radarSize/2})`">
                 <!-- Grid bg -->
                 <circle
@@ -23,7 +23,7 @@
                   :key="`circle-${i}`"
                   :r="(radarSize/2 - 40) * (i/5)"
                   fill="none"
-                  stroke="rgba(255, 255, 255, 0.05)"
+                  stroke="rgba(255, 255, 255, 0.06)"
                   stroke-width="1"
                 />
                 
@@ -35,14 +35,14 @@
                   y1="0"
                   :x2="getAxisPoint(index).x"
                   :y2="getAxisPoint(index).y"
-                  stroke="rgba(255, 255, 255, 0.1)"
+                  stroke="rgba(255, 255, 255, 0.12)"
                   stroke-width="1"
                 />
                 
                 <!-- Polygon -->
                 <polygon
                   :points="isRadarVisible ? skillPolygonPoints : centerPolygonPoints"
-                  fill="rgba(108, 99, 255, 0.2)"
+                  fill="rgba(108, 99, 255, 0.25)"
                   stroke="var(--accent-violet)"
                   stroke-width="2"
                   class="radar-polygon"
@@ -54,7 +54,7 @@
                   :key="`point-${index}`"
                   :cx="isRadarVisible ? point.x : 0"
                   :cy="isRadarVisible ? point.y : 0"
-                  r="4"
+                  r="5"
                   fill="var(--accent-cyan)"
                   class="radar-point"
                 />
@@ -66,8 +66,9 @@
                   :x="getLabelPoint(index).x"
                   :y="getLabelPoint(index).y"
                   text-anchor="middle"
-                  fill="var(--text-secondary)"
-                  font-size="12"
+                  fill="var(--text-primary)"
+                  font-size="11"
+                  font-weight="600"
                   font-family="var(--font-mono)"
                   class="skill-label"
                 >
@@ -134,14 +135,14 @@ const radarSectionRef = ref(null)
 const isRadarVisible = ref(false)
 const visibleCategories = ref({})
 
-// Ajustados a un perfil de estudiante 7mo semestre
+// Radar técnico de Javier basado en logros y proyectos de producción
 const radarSkills = [
-  { name: 'Frontend', level: 85 },
-  { name: 'Backend',  level: 80 },
-  { name: 'Database', level: 75 },
-  { name: 'DevOps',   level: 60 },
-  { name: 'Cloud',    level: 65 },
-  { name: 'Testing',  level: 70 }
+  { name: 'Machine Learning', level: 92 },
+  { name: 'Backend & APIs',   level: 90 },
+  { name: 'Full-Stack Web',   level: 88 },
+  { name: 'Data Pipelines',   level: 86 },
+  { name: 'Docker & Cloud',   level: 84 },
+  { name: 'Low-Level & Arch', level: 82 }
 ]
 
 const skillCategories = [
@@ -149,49 +150,47 @@ const skillCategories = [
     nameKey: 'skills.categories.languages',
     color: 'var(--accent-violet)',
     skills: [
-      { name: 'JavaScript / TypeScript', icon: 'JS', level: 85 },
-      { name: 'Python', icon: 'Py', level: 80 },
-      { name: 'Java', icon: 'Jv', level: 75 },
-      { name: 'Go', icon: 'Go', level: 60 },
-      { name: 'C/C++', icon: 'C+', level: 70 }
+      { name: 'Python', icon: 'Py', level: 95 },
+      { name: 'Go', icon: 'Go', level: 88 },
+      { name: 'Rust', icon: 'Rs', level: 82 },
+      { name: 'C / C++', icon: 'C++', level: 85 },
+      { name: 'Java / Kotlin', icon: 'Jv', level: 82 },
+      { name: 'JavaScript / TypeScript', icon: 'JS', level: 88 },
+      { name: 'SQL', icon: 'SQL', level: 90 },
+      { name: 'ARM Assembler', icon: 'ARM', level: 85 }
     ]
   },
   {
-    nameKey: 'skills.categories.frontend',
+    nameKey: 'skills.categories.frontend', // Data & ML
     color: 'var(--accent-cyan)',
     skills: [
-      { name: 'Vue.js', icon: 'V', level: 85 },
-      { name: 'React', icon: 'Re', level: 80 },
-      { name: 'HTML/CSS', icon: 'UI', level: 90 },
-      { name: 'Tailwind CSS', icon: 'Tw', level: 85 }
+      { name: 'LightGBM / Optuna', icon: 'ML', level: 95 },
+      { name: 'Apache Airflow', icon: 'Air', level: 88 },
+      { name: 'Streamlit & Grafana', icon: 'UI', level: 90 },
+      { name: 'Jina Embeddings / NLP', icon: 'NLP', level: 85 },
+      { name: 'Power BI & Analytics', icon: 'BI', level: 88 }
     ]
   },
   {
-    nameKey: 'skills.categories.backend',
+    nameKey: 'skills.categories.backend', // Backend & Storage
     color: 'var(--accent-green)',
     skills: [
-      { name: 'Node.js / Express', icon: 'No', level: 80 },
-      { name: 'FastAPI', icon: 'Fa', level: 75 },
-      { name: 'Spring Boot', icon: 'Sp', level: 70 }
+      { name: 'Vue.js (Vite)', icon: 'Vue', level: 90 },
+      { name: 'Go (Echo Microservices)', icon: 'Go', level: 88 },
+      { name: 'FastAPI / Flask', icon: 'API', level: 88 },
+      { name: 'PostgreSQL', icon: 'Pg', level: 90 },
+      { name: 'MinIO / AWS S3', icon: 'S3', level: 84 },
+      { name: 'React', icon: 'Re', level: 80 }
     ]
   },
   {
-    nameKey: 'skills.categories.databases',
-    color: 'var(--accent-pink)',
-    skills: [
-      { name: 'PostgreSQL', icon: 'Pg', level: 75 },
-      { name: 'MongoDB', icon: 'Mg', level: 70 },
-      { name: 'Redis', icon: 'Rd', level: 65 }
-    ]
-  },
-  {
-    nameKey: 'skills.categories.devops',
+    nameKey: 'skills.categories.devops', // DevOps & Infra
     color: 'var(--accent-orange)',
     skills: [
-      { name: 'Docker', icon: 'Dk', level: 75 },
-      { name: 'AWS', icon: 'Aw', level: 65 },
-      { name: 'CI/CD Actions', icon: 'Ci', level: 70 },
-      { name: 'Linux', icon: 'Lx', level: 80 }
+      { name: 'Docker & Docker Compose', icon: 'Dk', level: 92 },
+      { name: 'GitHub Actions (CI/CD)', icon: 'CI', level: 88 },
+      { name: 'Git & Linux Workflows', icon: 'Lx', level: 92 },
+      { name: 'Android Studio & Compose', icon: 'And', level: 78 }
     ]
   }
 ]
@@ -238,62 +237,50 @@ onMounted(() => {
   const updateSize = () => {
     if (radarChartRef.value) {
       const w = radarChartRef.value.offsetWidth
-      radarSize.value = Math.min(w, 500)
+      radarSize.value = Math.min(Math.max(w, 280), 400)
     }
   }
+
   updateSize()
   window.addEventListener('resize', updateSize)
 
   nextTick(() => {
-    // Reveal Hero
+    // Reveal headers
     gsap.fromTo('.gsap-reveal',
       { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out" }
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out" }
     )
 
-    // Reveal Radar Chart Container
-    gsap.fromTo('.gsap-radar',
-      { y: 50, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 1, ease: "power4.out",
+    // Radar reveal
+    if (radarSectionRef.value) {
+      ScrollTrigger.create({
+        trigger: radarSectionRef.value,
+        start: "top 75%",
+        onEnter: () => {
+          isRadarVisible.value = true
+        }
+      })
+    }
+
+    // Skills progress animation
+    skillCategories.forEach((_, idx) => {
+      visibleCategories.value[idx] = true
+    })
+
+    gsap.fromTo('.gsap-skill-card',
+      { y: 20, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.5,
+        stagger: 0.05,
+        ease: "power2.out",
         scrollTrigger: {
-          trigger: radarSectionRef.value,
-          start: "top 75%",
-          onEnter: () => {
-            isRadarVisible.value = true
-          }
+          trigger: ".skills-categories",
+          start: "top 80%"
         }
       }
     )
-
-    // Reveal Categories and Skill Cards
-    const categoriesEls = document.querySelectorAll('.gsap-category')
-    categoriesEls.forEach((el, index) => {
-      
-      // Title
-      gsap.fromTo(el.querySelector('.category-title'),
-        { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.6, ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 80%",
-            onEnter: () => {
-              visibleCategories.value[index] = true
-            }
-          }
-        }
-      )
-
-      // Cards stagger
-      gsap.fromTo(el.querySelectorAll('.gsap-skill-card'),
-        { y: 30, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, ease: "back.out(1.5)",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 75%"
-          }
-        }
-      )
-    })
   })
 })
 </script>
@@ -303,21 +290,20 @@ onMounted(() => {
   padding-top: 5rem;
 }
 
-/* ---- Radar ---- */
 .radar-container {
-  max-width: 600px;
+  max-width: 500px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 .radar-title {
-  font-size: var(--text-2xl);
-  font-weight: 700;
+  font-size: var(--text-xl);
   color: var(--text-white);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .radar-chart {
@@ -327,58 +313,58 @@ onMounted(() => {
 }
 
 .radar-polygon {
-  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 1s var(--ease-smooth);
 }
 
 .radar-point {
-  transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 1s var(--ease-smooth);
 }
 
-/* ---- Categories ---- */
 .category-section {
-  margin-bottom: 5rem;
+  margin-top: 4rem;
 }
 
 .category-title {
-  font-size: var(--text-2xl);
-  font-weight: 700;
+  font-size: var(--text-xl);
   color: var(--text-white);
-  margin-bottom: 2rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 1.5rem;
+  position: relative;
   display: inline-block;
-  padding-right: 2rem;
+}
+
+.category-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 40px;
+  height: 3px;
+  background: var(--accent-cyan);
+  border-radius: var(--radius-full);
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.25rem;
 }
 
 .skill-card {
-  padding: 1.5rem;
+  padding: 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
-}
-
-.skill-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--glow-card);
-  border-color: rgba(255,255,255,0.2);
+  gap: 0.75rem;
 }
 
 .skill-header {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .skill-icon {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   background: var(--bg-secondary);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
@@ -386,33 +372,27 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   font-weight: 700;
-  color: var(--text-secondary);
-  transition: color 0.3s ease, border-color 0.3s ease;
-}
-
-.skill-card:hover .skill-icon {
-  color: var(--text-white);
-  border-color: var(--text-white);
+  color: var(--accent-cyan);
 }
 
 .skill-name {
-  font-size: var(--text-base);
-  font-weight: 600;
+  font-size: var(--text-sm);
   color: var(--text-white);
+  font-weight: 500;
 }
 
 .skill-level {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .skill-bar {
-  flex: 1;
+  flex-grow: 1;
   height: 6px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -420,25 +400,14 @@ onMounted(() => {
 .skill-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: width 1s var(--ease-smooth);
 }
 
 .skill-percentage {
-  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--text-muted);
-  width: 32px;
-  text-align: right;
-  transition: color 0.3s ease;
-}
-
-.skill-card:hover .skill-percentage {
+  font-family: var(--font-mono);
   color: var(--text-secondary);
-}
-
-@media (max-width: 640px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-  }
+  width: 35px;
+  text-align: right;
 }
 </style>

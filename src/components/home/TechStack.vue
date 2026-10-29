@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="tech-stack section" ref="sectionRef">
     <div class="container">
       <h2 class="section-title gsap-reveal">{{ $t('techStack.title') }}</h2>
@@ -64,23 +64,22 @@ const categories = [
 ]
 
 const technologies = [
-  { name: "JavaScript", icon: "JS", category: "frontend", description: "ES6+, TypeScript, Async/Await" },
-  { name: "Vue.js", icon: "V", category: "frontend", description: "Vue 3, Composition API, Pinia" },
-  { name: "React", icon: "Re", category: "frontend", description: "Hooks, Context API, Next.js" },
-  { name: "HTML/CSS", icon: "UI", category: "frontend", description: "Semantic HTML, CSS Grid, Flexbox" },
-  { name: "Python", icon: "Py", category: "backend", description: "Django, FastAPI, Data Science" },
-  { name: "Node.js", icon: "No", category: "backend", description: "Express, NestJS, REST APIs" },
-  { name: "Java", icon: "Jv", category: "backend", description: "Spring Boot, Microservices" },
-  { name: "Go", icon: "Go", category: "backend", description: "Concurrent Programming, APIs" },
-  { name: "Rust", icon: "Ru", category: "backend", description: "Systems Programming, Performance" },
-  { name: "C++", icon: "C+", category: "backend", description: "STL, Modern C++, Performance" },
-  { name: "PostgreSQL", icon: "Pg", category: "database", description: "SQL, Query Optimization" },
-  { name: "MongoDB", icon: "Mg", category: "database", description: "NoSQL, Aggregation" },
-  { name: "Redis", icon: "Rd", category: "database", description: "Caching, Pub/Sub" },
-  { name: "Git", icon: "Gt", category: "tools", description: "Version Control, Workflows" },
-  { name: "Docker", icon: "Dk", category: "tools", description: "Containerization" },
-  { name: "Linux", icon: "Lx", category: "tools", description: "Shell Scripting, Admin" },
-  { name: "AWS", icon: "Aw", category: "tools", description: "EC2, S3, RDS" }
+  { name: "Python", icon: "Py", category: "backend", description: "LightGBM, Optuna, Data Science, FastAPI" },
+  { name: "LightGBM & Optuna", icon: "ML", category: "backend", description: "Machine Learning, Hyperparameter Tuning" },
+  { name: "Go", icon: "Go", category: "backend", description: "Echo Microservices, Concurrent APIs" },
+  { name: "Rust", icon: "Ru", category: "backend", description: "Memory Safety, High-Performance Systems" },
+  { name: "C / C++", icon: "C+", category: "backend", description: "Algorithms, Low-Level Optimization" },
+  { name: "ARM Assembler", icon: "ARM", category: "backend", description: "Computer Architecture, Assembly Docent" },
+  { name: "Vue.js", icon: "V", category: "frontend", description: "Vue 3, Composition API, Vite" },
+  { name: "JavaScript / TS", icon: "JS", category: "frontend", description: "Modern ES6+, TypeScript, Web Standards" },
+  { name: "React", icon: "Re", category: "frontend", description: "Component Design, Hooks, Interfaces" },
+  { name: "PostgreSQL", icon: "Pg", category: "database", description: "Relational Modeling, Query Optimization" },
+  { name: "Apache Airflow", icon: "Air", category: "tools", description: "Scheduled Data Pipelines, Orchestration" },
+  { name: "Docker & Compose", icon: "Dk", category: "tools", description: "Multi-stage Containers, Microservices" },
+  { name: "Grafana & Streamlit", icon: "UI", category: "frontend", description: "Data Visualization & Monitoring" },
+  { name: "MinIO / S3", icon: "S3", category: "database", description: "Object Storage, Cloud Backups" },
+  { name: "GitHub Actions", icon: "CI", category: "tools", description: "Automated Testing, CI/CD Pipelines" },
+  { name: "Linux Workflows", icon: "Lx", category: "tools", description: "Shell Scripting, Server Management" }
 ]
 
 const filteredTechs = computed(() => {

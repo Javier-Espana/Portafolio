@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="about-preview section">
     <div class="container">
       <h2 class="section-title">{{ $t('about.title') }}</h2>
@@ -8,7 +8,7 @@
         <div class="about-preview__photo-wrap">
           <div class="photo-border">
             <img
-              src="/assets/images/Profile-Picture.jpg"
+              src="/images/Profile-Picture.jpg"
               :alt="$t('about.name')"
               class="profile-photo"
             />
@@ -210,3 +210,4 @@ const firstBioParagraph = computed(() => {
   }
 }
 </style>
+

@@ -28,6 +28,7 @@
             type="text"
             :placeholder="$t('projectsView.searchPlaceholder')"
             class="search-input"
+            aria-label="Buscar proyectos"
           />
         </div>
       </div>
@@ -37,7 +38,7 @@
       <div class="container">
         
         <!-- Estado de carga: Skeletons -->
-        <div v-if="loading" class="grid">
+        <div v-if="loading && projects.length === 0" class="grid">
           <div v-for="i in 6" :key="i" class="project-card skeleton-card">
             <div class="skeleton-img"></div>
             <div class="skeleton-content">
@@ -60,18 +61,24 @@
             :key="project.id"
             class="project-card card"
             @click="openModal(project)"
+            tabindex="0"
+            @keydown.enter="openModal(project)"
+            :aria-label="getProjectName(project)"
           >
             <div class="project-card__image">
-              <img :src="project.image" :alt="project.name" @error="handleImageError" loading="lazy" />
+              <img :src="project.image" :alt="getProjectName(project)" @error="handleImageError" loading="lazy" />
               <div class="project-card__overlay">
                 <span class="btn btn-primary">{{ $t('projects.viewDetails') }}</span>
+              </div>
+              <div v-if="project.award" class="project-award-badge">
+                🏆 {{ project.award }}
               </div>
             </div>
 
             <div class="project-card__content">
-              <h3 class="project-card__title">{{ project.name }}</h3>
+              <h3 class="project-card__title">{{ getProjectName(project) }}</h3>
               <p class="project-card__desc">
-                {{ project.description || $t('projectsView.noDescription') }}
+                {{ getProjectDescription(project) || $t('projectsView.noDescription') }}
               </p>
 
               <div class="project-card__tech">
@@ -107,46 +114,49 @@
     <!-- Modal de Detalles -->
     <transition name="modal">
       <div v-if="selectedProject" class="modal-backdrop" @click="closeModal">
-        <div class="modal-content" @click.stop>
-          <button class="modal-close" @click="closeModal" aria-label="Close">
+        <div class="modal-content" @click.stop role="dialog" aria-modal="true">
+          <button class="modal-close" @click="closeModal" aria-label="Cerrar modal">
             <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
 
           <div class="modal-image">
-            <img :src="selectedProject.image" :alt="selectedProject.name" @error="handleImageError" />
+            <img :src="selectedProject.image" :alt="getProjectName(selectedProject)" @error="handleImageError" />
           </div>
 
           <div class="modal-body">
-            <h2 class="modal-title">{{ selectedProject.name }}</h2>
+            <div v-if="selectedProject.award" class="modal-award">
+              🏆 {{ selectedProject.award }}
+            </div>
+            <h2 class="modal-title">{{ getProjectName(selectedProject) }}</h2>
             
             <div class="modal-meta">
               <span class="meta-item" v-if="selectedProject.language">
                 <span class="lang-dot"></span> {{ selectedProject.language }}
               </span>
-              <span class="meta-item">
+              <span class="meta-item" v-if="selectedProject.updated_at">
                 📅 {{ formatDate(selectedProject.updated_at) }}
               </span>
             </div>
 
-            <p class="modal-desc">{{ selectedProject.description }}</p>
+            <p class="modal-desc">{{ getProjectDescription(selectedProject) }}</p>
 
-            <div v-if="selectedProject.topics && selectedProject.topics.length > 0" class="modal-section">
-              <h3>{{ $t('projectsView.topics') }}</h3>
+            <div v-if="selectedProject.technologies && selectedProject.technologies.length > 0" class="modal-section">
+              <h3>{{ $t('projects.technologies') }}</h3>
               <div class="modal-tags">
-                <span v-for="topic in selectedProject.topics" :key="topic" class="badge badge-cyan">
-                  {{ topic }}
+                <span v-for="tech in selectedProject.technologies" :key="tech" class="badge badge-cyan">
+                  {{ tech }}
                 </span>
               </div>
             </div>
 
             <div class="modal-actions">
-              <a :href="selectedProject.html_url" target="_blank" rel="noopener" class="btn btn-primary">
-                {{ $t('projects.github') }}
+              <a v-if="selectedProject.html_url || selectedProject.github" :href="selectedProject.html_url || selectedProject.github" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                {{ $t('projects.github') || 'GitHub' }}
               </a>
-              <a v-if="selectedProject.homepage" :href="selectedProject.homepage" target="_blank" rel="noopener" class="btn btn-secondary">
-                {{ $t('projects.demo') }}
+              <a v-if="selectedProject.homepage || selectedProject.demo" :href="selectedProject.homepage || selectedProject.demo" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                {{ $t('projects.demo') || 'Demo' }}
               </a>
             </div>
           </div>
@@ -158,55 +168,114 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { featuredProjectsData } from '../data/projects.js'
+
+const { locale } = useI18n()
 
 const categories = ['all', 'frontend', 'backend', 'fullstack', 'other']
 const selectedCategory = ref('all')
 const searchQuery = ref('')
 const selectedProject = ref(null)
-const projects = ref([])
-const loading = ref(true)
+const loading = ref(false)
+
+// Convertir proyectos base
+const baseProjects = featuredProjectsData.map(p => ({
+  ...p,
+  name: p.title,
+  html_url: p.github,
+  language: p.technologies[0] || 'Python'
+}))
+
+const projects = ref([...baseProjects])
+
+const getProjectName = (p) => {
+  if (!p) return ''
+  const val = p.name || p.title
+  if (typeof val === 'object') {
+    return val[locale.value] || val.es || val.en || ''
+  }
+  return val || ''
+}
+
+const getProjectDescription = (p) => {
+  if (!p) return ''
+  const val = p.description
+  if (typeof val === 'object') {
+    return val[locale.value] || val.es || val.en || ''
+  }
+  return val || ''
+}
 
 const fetchGitHubProjects = async () => {
-  loading.value = true
+  const CACHE_KEY = 'je_github_projects'
+  const CACHE_TIME = 'je_github_projects_time'
+  const TTL = 15 * 60 * 1000 // 15 minutos
+
   try {
+    const cachedTime = localStorage.getItem(CACHE_TIME)
+    const cachedData = localStorage.getItem(CACHE_KEY)
+    
+    if (cachedTime && cachedData && (Date.now() - parseInt(cachedTime) < TTL)) {
+      const parsed = JSON.parse(cachedData)
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        mergeRepos(parsed)
+        return
+      }
+    }
+
+    loading.value = true
     const response = await fetch('https://api.github.com/users/Javier-Espana/repos?sort=updated&per_page=100')
     if (response.ok) {
       const repos = await response.json()
-      
-      projects.value = repos
-        .filter(repo => !repo.fork && !repo.private)
-        .map(repo => {
-          let category = 'other'
-          if (repo.topics) {
-            if (repo.topics.includes('fullstack') || repo.topics.includes('full-stack')) category = 'fullstack'
-            else if (repo.topics.includes('backend') || repo.topics.includes('api')) category = 'backend'
-            else if (repo.topics.includes('frontend') || repo.topics.includes('ui')) category = 'frontend'
-          }
-          
-          return {
-            ...repo,
-            technologies: repo.topics ? repo.topics.slice(0, 4) : [],
-            image: `https://opengraph.githubassets.com/1/${repo.full_name}`,
-            category
-          }
-        })
-        .sort((a, b) => b.stargazers_count - a.stargazers_count)
+      localStorage.setItem(CACHE_KEY, JSON.stringify(repos))
+      localStorage.setItem(CACHE_TIME, Date.now().toString())
+      mergeRepos(repos)
     }
   } catch (error) {
-    console.error('Error fetching projects:', error)
+    console.warn('Usando proyectos locales predeterminados:', error)
   } finally {
     loading.value = false
   }
 }
 
-onMounted(fetchGitHubProjects)
+const mergeRepos = (repos) => {
+  const ghProjects = repos
+    .filter(repo => !repo.fork && !repo.private)
+    .map(repo => {
+      let category = 'other'
+      if (repo.topics) {
+        if (repo.topics.includes('fullstack') || repo.topics.includes('full-stack')) category = 'fullstack'
+        else if (repo.topics.includes('backend') || repo.topics.includes('api')) category = 'backend'
+        else if (repo.topics.includes('frontend') || repo.topics.includes('ui')) category = 'frontend'
+      }
+      
+      return {
+        ...repo,
+        technologies: repo.topics && repo.topics.length > 0 ? repo.topics.slice(0, 4) : [repo.language].filter(Boolean),
+        image: `https://opengraph.githubassets.com/1/${repo.full_name}`,
+        category
+      }
+    })
+
+  // Evitar duplicados por título
+  const existingNames = new Set(baseProjects.map(p => getProjectName(p).toLowerCase()))
+  const additional = ghProjects.filter(p => !existingNames.has((p.name || '').toLowerCase()))
+
+  projects.value = [...baseProjects, ...additional]
+}
+
+onMounted(() => {
+  fetchGitHubProjects()
+})
 
 const filteredProjects = computed(() => {
   return projects.value.filter(project => {
     const matchCat = selectedCategory.value === 'all' || project.category === selectedCategory.value
     const query = searchQuery.value.toLowerCase()
-    const matchSearch = project.name.toLowerCase().includes(query) || 
-                       (project.description && project.description.toLowerCase().includes(query))
+    const name = getProjectName(project).toLowerCase()
+    const desc = getProjectDescription(project).toLowerCase()
+    const matchSearch = name.includes(query) || desc.includes(query)
     return matchCat && matchSearch
   })
 })
@@ -226,6 +295,7 @@ const handleImageError = (e) => {
 }
 
 const formatDate = (dateString) => {
+  if (!dateString) return ''
   return new Date(dateString).toLocaleDateString(undefined, { 
     year: 'numeric', month: 'short', day: 'numeric' 
   })
@@ -241,45 +311,39 @@ const formatDate = (dateString) => {
 .projects-filters {
   display: flex;
   justify-content: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
   flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
 }
 
 .filter-btn {
-  padding: 0.6rem 1.25rem;
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: 500;
-  border-radius: var(--radius-full);
+  padding: 0.5rem 1.25rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
   color: var(--text-secondary);
+  font-size: var(--text-sm);
   cursor: pointer;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-fast);
 }
 
-.filter-btn:hover {
-  background: var(--bg-card-hover);
-  color: var(--text-primary);
-}
-
+.filter-btn:hover,
 .filter-btn.active {
   background: var(--accent-violet-20);
-  color: var(--accent-violet);
   border-color: var(--accent-violet);
+  color: var(--text-white);
 }
 
-/* ---- Buscador ---- */
+/* ---- Búsqueda ---- */
 .projects-search {
-  max-width: 480px;
-  margin: 0 auto;
+  max-width: 500px;
+  margin: 2rem auto 0;
   position: relative;
 }
 
 .search-icon {
   position: absolute;
-  left: 1.25rem;
+  left: 1rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
@@ -287,67 +351,78 @@ const formatDate = (dateString) => {
 
 .search-input {
   width: 100%;
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
   background: var(--bg-card);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-full);
   color: var(--text-primary);
-  font-family: var(--font-sans);
   font-size: var(--text-base);
-  transition: all var(--transition-normal);
+  outline: none;
+  transition: border-color var(--transition-fast);
 }
 
 .search-input:focus {
-  outline: none;
   border-color: var(--accent-violet);
-  box-shadow: 0 0 0 3px var(--accent-violet-10);
-  background: var(--bg-secondary);
 }
 
-/* ---- Grid de Proyectos ---- */
+/* ---- Grid ---- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 2rem;
+  margin-top: 3rem;
 }
 
 .project-card {
-  padding: 0;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transition: transform 0.3s var(--ease-smooth), box-shadow 0.3s var(--ease-smooth);
+}
+
+.project-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-violet-20);
+  border-color: var(--accent-violet);
 }
 
 .project-card__image {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16/9;
-  border-bottom: 1px solid var(--border-subtle);
-  overflow: hidden;
+  height: 200px;
+  background: var(--bg-secondary);
 }
 
 .project-card__image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow);
 }
 
-.project-card:hover .project-card__image img {
-  transform: scale(1.05);
+.project-award-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: rgba(8, 11, 20, 0.85);
+  border: 1px solid #ffb703;
+  color: #ffb703;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
 }
 
 .project-card__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(8, 11, 20, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(8, 11, 20, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity var(--transition-normal);
+  transition: opacity 0.3s ease;
 }
 
 .project-card:hover .project-card__overlay {
@@ -358,12 +433,11 @@ const formatDate = (dateString) => {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex: 1;
+  flex-grow: 1;
 }
 
 .project-card__title {
   font-size: var(--text-lg);
-  font-weight: 700;
   color: var(--text-white);
   margin-bottom: 0.5rem;
 }
@@ -371,9 +445,9 @@ const formatDate = (dateString) => {
 .project-card__desc {
   font-size: var(--text-sm);
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-  flex: 1;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
 }
 
 .project-card__tech {
@@ -388,12 +462,10 @@ const formatDate = (dateString) => {
   gap: 1rem;
   font-size: var(--text-xs);
   color: var(--text-muted);
-  border-top: 1px solid var(--border-subtle);
-  padding-top: 1rem;
 }
 
 .stat {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.3rem;
 }
@@ -405,122 +477,55 @@ const formatDate = (dateString) => {
   background: var(--accent-cyan);
 }
 
-/* ---- Skeleton Loader ---- */
-.skeleton-card {
-  pointer-events: none;
-}
-
-.skeleton-img {
-  width: 100%;
-  aspect-ratio: 16/9;
-  background: var(--bg-tertiary);
-  animation: pulse-bg 1.5s infinite;
-}
-
-.skeleton-content {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.skeleton-title {
-  height: 24px;
-  width: 60%;
-  background: var(--bg-tertiary);
-  border-radius: 4px;
-  animation: pulse-bg 1.5s infinite;
-}
-
-.skeleton-desc {
-  height: 16px;
-  width: 100%;
-  background: var(--bg-tertiary);
-  border-radius: 4px;
-  animation: pulse-bg 1.5s infinite;
-}
-.skeleton-desc.short { width: 80%; }
-
-.skeleton-tags {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.skeleton-tag {
-  height: 24px;
-  width: 60px;
-  background: var(--bg-tertiary);
-  border-radius: 12px;
-  animation: pulse-bg 1.5s infinite;
-}
-
-@keyframes pulse-bg {
-  0% { opacity: 0.5; }
-  50% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-/* ---- No Results ---- */
-.no-results {
-  text-align: center;
-  padding: 6rem 0;
-  color: var(--text-muted);
-}
-.no-results svg { margin-bottom: 1rem; }
-
 /* ---- Modal ---- */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(8, 11, 20, 0.85);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1100;
+  z-index: 10000;
   padding: 1rem;
 }
 
 .modal-content {
-  position: relative;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  max-width: 650px;
   width: 100%;
-  max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: var(--glow-card);
+  position: relative;
 }
 
 .modal-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: var(--text-white);
   width: 36px;
   height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.5);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 50%;
-  color: white;
   cursor: pointer;
-  z-index: 10;
-  transition: all var(--transition-fast);
+  z-index: 2;
+  transition: background var(--transition-fast);
 }
 
 .modal-close:hover {
   background: var(--accent-violet);
-  border-color: var(--accent-violet);
 }
 
 .modal-image {
+  height: 250px;
   width: 100%;
-  aspect-ratio: 21/9;
-  background: var(--bg-tertiary);
 }
 
 .modal-image img {
@@ -530,14 +535,20 @@ const formatDate = (dateString) => {
 }
 
 .modal-body {
-  padding: 2.5rem;
+  padding: 2rem;
+}
+
+.modal-award {
+  color: #ffb703;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
 }
 
 .modal-title {
-  font-size: var(--text-3xl);
-  font-weight: 800;
+  font-size: var(--text-2xl);
   color: var(--text-white);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .modal-meta {
@@ -545,79 +556,42 @@ const formatDate = (dateString) => {
   gap: 1.5rem;
   font-size: var(--text-sm);
   color: var(--text-muted);
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--border-subtle);
-  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .modal-desc {
   font-size: var(--text-base);
   color: var(--text-secondary);
-  line-height: 1.7;
-  margin-bottom: 2rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
 }
 
 .modal-section h3 {
-  font-size: var(--text-lg);
+  font-size: var(--text-sm);
   color: var(--text-white);
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .modal-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 .modal-actions {
   display: flex;
   gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-subtle);
 }
 
-/* Transiciones */
-.fade-grid-enter-active,
-.fade-grid-leave-active {
-  transition: all 0.4s var(--ease-smooth);
-}
-.fade-grid-enter-from,
-.fade-grid-leave-to {
-  opacity: 0;
-  transform: translateY(15px);
+/* ---- No Results ---- */
+.no-results {
+  text-align: center;
+  padding: 4rem 0;
+  color: var(--text-muted);
 }
 
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.3s var(--ease-smooth);
-}
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-}
-.modal-enter-active .modal-content,
-.modal-leave-active .modal-content {
-  transition: transform 0.3s var(--ease-smooth);
-}
-.modal-enter-from .modal-content,
-.modal-leave-to .modal-content {
-  transform: scale(0.95);
-}
-
-@media (max-width: 640px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  .modal-body {
-    padding: 1.5rem;
-  }
-  .modal-actions {
-    flex-direction: column;
-  }
-  .modal-actions .btn {
-    width: 100%;
-    justify-content: center;
-  }
+.no-results svg {
+  margin: 0 auto 1rem;
 }
 </style>

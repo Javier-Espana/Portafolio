@@ -1,70 +1,103 @@
-# Portafolio de Javier España
+# 🌌 Javier España — Professional Portfolio
 
-<!-- Forced redeploy trigger -->
-Last redeploy trigger: 2025-10-29T00:00:00Z
+[![Vue 3](https://img.shields.io/badge/Vue-3.4-4FC08D?style=flat-square&logo=vue.js&logoColor=white)](https://vuejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.2-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![GSAP](https://img.shields.io/badge/GSAP-3.15-88CE02?style=flat-square&logo=greensock&logoColor=white)](https://greensock.com/gsap/)
+[![i18n](https://img.shields.io/badge/i18n-ES%20%7C%20EN-00D9FF?style=flat-square)](https://vue-i18n.intlify.dev/)
 
+> **Full Stack & Machine Learning Engineer**  
+> Computer Science & IT Engineering (8th Cycle, Universidad del Valle de Guatemala)  
+> 🏆 **1st Place Winner — BAM Hackathon 2026** | 🥈 **2nd Place Winner — BAM Hackathon 2025**
 
+---
 
-## Continuous Integration (GitHub Actions)
+## 🌟 Overview
 
-There is a `CI` workflow at `.github/workflows/ci.yml` that runs on pushes and PRs against `main`:
+Modern, high-performance developer portfolio built with **Vue 3 (Composition API)**, **Vite**, and **GSAP**. Designed with a sophisticated tech-aesthetic, accessible contrast, smooth scroll dynamics, full bilingual support (Spanish & English), and integrated contact processing.
 
-- Installs dependencies with `npm ci`.
-- Runs `npm run build`.
-- Uploads the `dist/` folder as an artifact for debugging.
+### ✨ Key Highlights
 
-If you want Actions to deploy to Netlify automatically, add the following repository secrets in GitHub settings:
+- **Bilingual Experience:** Instant switching between Spanish and English (`vue-i18n 9`), with auto-detection and persistence.
+- **Production Showcases:** Curated real-world projects with competition metrics (LightGBM, Apache Airflow, Go Echo microservices, Platt scaled SVC).
+- **Interactive Visualizations:**
+  - Dynamic radar skills chart with SVG animation.
+  - Interactive orbital solar system mapping core programming languages.
+  - Interactive retro terminal emulator with CLI navigation.
+  - Optional cinematic narrative experience.
+- **Enterprise Standards:** Fully compliant with WCAG accessibility guidelines (semantic HTML5, skip-to-content links, `prefers-reduced-motion` fallbacks, readable system cursor support).
+- **SEO & Social Optimization:** Complete Open Graph protocols, Twitter Cards, JSON-LD Schema.org person metadata, sitemap.xml, and custom branded SVG favicon.
 
-- `NETLIFY_AUTH_TOKEN` — your Netlify personal access token
-- `NETLIFY_SITE_ID` — the site ID (can be found in the Netlify site settings)
+---
 
-When those secrets are present the workflow includes an optional deploy step that runs `netlify deploy --prod --dir=dist`.
+## 🛠️ Tech Stack
 
-## Docker
+- **Core Framework:** Vue 3 (`<script setup>`, Composition API)
+- **Routing:** Vue Router 4 (lazy-loaded routes)
+- **Internationalization:** vue-i18n 9
+- **Animations:** GSAP 3 (ScrollTrigger, magnetic physics, timelines)
+- **Styling:** Vanilla CSS design tokens with custom CSS variables (Zero framework bloat)
+- **Build Tool:** Vite 5 with manual vendor chunking
+- **Forms:** Formspree asynchronous endpoint with reactive loading & error states
+- **Deployment:** Netlify (SPA redirects & caching headers) / Docker multi-stage Nginx
 
-A multi-stage `Dockerfile` was added to produce a small, static image served by Nginx. Use this for local containerized testing or to push images to a registry for container-based hosting.
+---
 
-Build locally:
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v18.0.0 or higher recommended)
+- `npm`
+
+### Installation
 
 ```bash
-# build image
-docker build -t portafolio:latest .
+# Clone repository
+git clone https://github.com/Javier-Espana/Portafolio.git
+cd Portafolio
 
-# run container (port 80)
-docker run --rm -p 8080:80 portafolio:latest
-
-# then open http://localhost:8080
+# Install dependencies
+npm install
 ```
 
-Notes:
-- Docker ensures reproducible builds and is useful when deploying to container platforms (Cloud Run, AWS ECS, DigitalOcean App Platform, etc.).
-- Docker itself won't change Netlify CDN caching behavior; to fix stale-client issues use proper cache-control headers (we already added `netlify.toml`) and CI-based deploys that ensure index.html is revalidated.
-
-## Docker Compose
-
-If you want to build and run the app locally with a single command, a `docker-compose.yml` was added. It provides two services:
-
-- `web`: builds the multi-stage production image (uses the `Dockerfile`) and serves the built `dist/` directory with Nginx on port 80. Mapped to host port `8080` by default.
-- `dev`: an optional development container that runs the Vite dev server (hot-reload) on port `5173`.
-
-Run both (build and start web container):
+### Development
 
 ```bash
+# Start local development server with hot-reload
+npm run dev
+```
+
+### Production Build
+
+```bash
+# Compile and optimize for production
+npm run build
+
+# Preview production build locally
+npm run preview
+```
+
+---
+
+## 🐳 Docker Deployment
+
+A multi-stage `Dockerfile` is provided for zero-dependency container deployment:
+
+```bash
+# Build and run with Docker Compose
 docker compose up --build -d web
-# then open http://localhost:8080
+
+# Access on http://localhost:8080
 ```
 
-Run the development container (hot reload):
+---
 
-```bash
-docker compose up --build dev
-# then open http://localhost:5173
-```
+## 📬 Contact & Connect
 
-To tear down:
+- **Email:** [javier.eduardo.espana@gmail.com](mailto:javier.eduardo.espana@gmail.com)
+- **Phone / WhatsApp:** +502 4411-2332
+- **GitHub:** [@Javier-Espana](https://github.com/Javier-Espana)
+- **Location:** Guatemala, Guatemala
 
-```bash
-docker compose down
-```
-
-
+---
+© 2026 Javier Eduardo España Pacheco. All rights reserved.

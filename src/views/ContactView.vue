@@ -16,8 +16,27 @@
               </div>
               <div class="info-content">
                 <h3>{{ $t('contact.info.email') }}</h3>
-                <p>javierespanapacheco@gmail.com</p>
-                <a href="mailto:javierespanapacheco@gmail.com" class="info-link">{{ $t('contact.info.writeMe') }}</a>
+                <p>javier.eduardo.espana@gmail.com</p>
+                <a href="mailto:javier.eduardo.espana@gmail.com" class="info-link">
+                  {{ $t('contact.info.writeMe') || 'Enviar correo' }}
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+              </div>
+            </div>
+
+            <div class="info-card card">
+              <div class="info-icon">
+                <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div class="info-content">
+                <h3>{{ $t('contact.info.phone') || 'Teléfono / WhatsApp' }}</h3>
+                <p>+502 4411-2332</p>
+                <a href="https://wa.me/50244112332" target="_blank" rel="noopener noreferrer" class="info-link">
+                  WhatsApp
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
               </div>
             </div>
 
@@ -40,7 +59,6 @@
           <div class="contact-form-wrapper card">
             <h2 class="form-title">{{ $t('contact.form.title') }}</h2>
             
-            <!-- Integración Formspree -->
             <form 
               action="https://formspree.io/f/xvgoewpj" 
               method="POST" 
@@ -53,6 +71,7 @@
                   type="text" 
                   id="name" 
                   name="name" 
+                  autocomplete="name"
                   v-model="form.name" 
                   required 
                   class="form-input"
@@ -66,6 +85,7 @@
                   type="email" 
                   id="email" 
                   name="email" 
+                  autocomplete="email"
                   v-model="form.email" 
                   required 
                   class="form-input"
@@ -100,12 +120,12 @@
               </div>
 
               <button type="submit" class="btn btn-primary btn-submit" :disabled="isSubmitting">
-                <span v-if="!isSubmitting">{{ $t('contact.form.send') }}</span>
-                <span v-else class="loading-spinner"></span>
+                <span v-if="!isSubmitting">{{ $t('contact.form.submit') || $t('contact.form.send') }}</span>
+                <span v-else class="loading-spinner" aria-label="Loading"></span>
               </button>
 
               <transition name="fade">
-                <div v-if="submitStatus" :class="['status-message', submitStatus.type]">
+                <div v-if="submitStatus" :class="['status-message', submitStatus.type]" role="alert">
                   {{ submitStatus.message }}
                 </div>
               </transition>
@@ -151,7 +171,7 @@ const handleSubmit = async (e) => {
     if (response.ok) {
       submitStatus.value = {
         type: 'success',
-        message: '¡Mensaje enviado con éxito! Me pondré en contacto pronto.'
+        message: t('contact.form.success') || '¡Mensaje enviado con éxito! Me pondré en contacto pronto.'
       }
       form.value = { name: '', email: '', subject: '', message: '' }
     } else {
@@ -160,13 +180,13 @@ const handleSubmit = async (e) => {
   } catch (error) {
     submitStatus.value = {
       type: 'error',
-      message: 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.'
+      message: t('contact.form.error') || 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo.'
     }
   } finally {
     isSubmitting.value = false
     setTimeout(() => {
       submitStatus.value = null
-    }, 5000)
+    }, 6000)
   }
 }
 </script>
@@ -179,7 +199,7 @@ const handleSubmit = async (e) => {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 4rem;
+  gap: 3.5rem;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -192,9 +212,9 @@ const handleSubmit = async (e) => {
 }
 
 .info-card {
-  padding: 2rem;
+  padding: 1.75rem;
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   align-items: flex-start;
 }
 
@@ -213,13 +233,14 @@ const handleSubmit = async (e) => {
 .info-content h3 {
   font-size: var(--text-lg);
   color: var(--text-white);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .info-content p {
   color: var(--text-secondary);
   font-size: var(--text-sm);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  word-break: break-all;
 }
 
 .info-link {
@@ -229,10 +250,12 @@ const handleSubmit = async (e) => {
   font-weight: 500;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  transition: gap var(--transition-fast);
 }
 
 .info-link:hover {
+  gap: 0.55rem;
   text-decoration: underline;
 }
 
@@ -240,7 +263,7 @@ const handleSubmit = async (e) => {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
   color: var(--accent-green);
   background: rgba(16, 185, 129, 0.1);
   padding: 0.25rem 0.75rem;
@@ -249,20 +272,20 @@ const handleSubmit = async (e) => {
 
 /* ---- Formulario ---- */
 .contact-form-wrapper {
-  padding: 3rem;
+  padding: 2.5rem;
 }
 
 .form-title {
   font-size: var(--text-2xl);
   font-weight: 700;
   color: var(--text-white);
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .contact-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
 
 .form-group {
@@ -280,7 +303,7 @@ const handleSubmit = async (e) => {
 .form-input {
   width: 100%;
   padding: 0.875rem 1.25rem;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.25);
   border: 1px solid var(--border-default);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -292,7 +315,7 @@ const handleSubmit = async (e) => {
 .form-input:focus {
   outline: none;
   border-color: var(--accent-violet);
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.45);
   box-shadow: 0 0 0 3px var(--accent-violet-10);
 }
 
@@ -302,10 +325,10 @@ const handleSubmit = async (e) => {
 }
 
 .btn-submit {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   width: 100%;
   justify-content: center;
-  padding: 1rem;
+  padding: 0.95rem;
 }
 
 /* Loading state */
@@ -316,6 +339,11 @@ const handleSubmit = async (e) => {
   border-radius: 50%;
   border-top-color: white;
   animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Status message */
@@ -328,15 +356,15 @@ const handleSubmit = async (e) => {
 }
 
 .status-message.success {
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(16, 185, 129, 0.12);
   color: var(--accent-green);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .status-message.error {
-  background: rgba(239, 68, 68, 0.1);
+  background: rgba(239, 68, 68, 0.12);
   color: #EF4444;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 .fade-enter-active,
@@ -352,13 +380,13 @@ const handleSubmit = async (e) => {
 @media (max-width: 900px) {
   .contact-grid {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
   }
 }
 
 @media (max-width: 600px) {
   .contact-form-wrapper {
-    padding: 2rem 1.5rem;
+    padding: 1.75rem 1.25rem;
   }
 }
 </style>

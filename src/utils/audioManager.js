@@ -8,7 +8,7 @@ class AudioManager {
     this.initialized = false
     
     // Reproductores HTML5 para música
-    this.cinematicAudio = new Audio('/sounds/Main Theme (NO TOCAR).mp3')
+    this.cinematicAudio = new Audio('/sounds/cinematic-theme.mp3')
     this.cinematicAudio.preload = 'auto'
     
     this.loopAudio = new Audio('/sounds/musica.mp3')

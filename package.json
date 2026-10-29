@@ -8,13 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "serve": "sirv dist --single --port 4173",
-    "postbuild": "cp -f dist/index.html dist/404.html || true",
+    "postbuild": "node -e \"import('fs').then(fs => fs.existsSync('dist/index.html') && fs.copyFileSync('dist/index.html', 'dist/404.html'))\"",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "axios": "^1.6.8",
     "gsap": "^3.15.0",
-    "particles.js": "^2.0.0",
     "vue": "^3.4.21",
     "vue-i18n": "^9.14.5",
     "vue-router": "^4.3.0"

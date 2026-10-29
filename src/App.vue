@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div id="app">
     <!-- Custom Cursor -->
     <div class="custom-cursor" ref="cursorRef"></div>

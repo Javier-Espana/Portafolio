@@ -508,7 +508,7 @@ const startCinematic = () => {
     gsap.fromTo(barBottom.value, { y: '100%' }, { y: 0, duration: 1.5, ease: 'power4.inOut' })
 
     // Start audio
-    mainAudio = new Audio(encodeURI('/sounds/Main Theme (NO TOCAR).mp3'))
+    mainAudio = new Audio('/sounds/cinematic-theme.mp3')
     mainAudio.volume = 1
     mainAudio.play().catch(e => console.warn('Audio blocked:', e))
 

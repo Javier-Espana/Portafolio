@@ -1,6 +1,6 @@
-<template>
+﻿<template>
   <section class="hero" ref="heroRef" @mousemove="handleMouseMove">
-    <!-- Partículas Dinámicas Interactivas (particles.js) -->
+    <!-- PartÃ­culas DinÃ¡micas Interactivas (particles.js) -->
     <div id="particles-js" class="hero__particles" aria-hidden="true"></div>
     
     <div class="grid-background" aria-hidden="true"></div>
@@ -9,10 +9,10 @@
       <!-- Greeting badge -->
       <div class="hero__badge gsap-reveal">
         <span class="glow-dot"></span>
-        <span>{{ $t('hero.greeting') }} Javier España</span>
+        <span>{{ $t('hero.greeting') }} Javier EspaÃ±a</span>
       </div>
 
-      <!-- Título principal con efecto Scramble (Hacker) -->
+      <!-- TÃ­tulo principal con efecto Scramble (Hacker) -->
       <h1 class="hero__title gsap-reveal" @mouseenter="scrambleName">
         <span class="title-word">{{ scrambledName }}</span>
       </h1>
@@ -24,7 +24,7 @@
         <span class="typewriter-cursor" aria-hidden="true">|</span>
       </div>
 
-      <!-- Descripción -->
+      <!-- DescripciÃ³n -->
       <p class="hero__description gsap-reveal">
         {{ $t('hero.subtitle') }}
       </p>
@@ -32,7 +32,7 @@
       <!-- Stats -->
       <div class="hero__stats gsap-reveal">
         <div class="stat-item magnetic" data-strength="20">
-          <span class="stat-number">7°</span>
+          <span class="stat-number">8°</span>
           <span class="stat-label">{{ $t('about.semester') }}</span>
         </div>
         <div class="stat-divider" aria-hidden="true"></div>
@@ -42,8 +42,8 @@
         </div>
         <div class="stat-divider" aria-hidden="true"></div>
         <div class="stat-item magnetic" data-strength="20">
-          <span class="stat-number">∞</span>
-          <span class="stat-label">Passion</span>
+          <span class="stat-number">1.er</span>
+          <span class="stat-label">Lugar BAM</span>
         </div>
       </div>
 
@@ -96,7 +96,7 @@ const startCinematic = () => {
 // ---- Scramble Text Effect (Hacker Effect) ----
 const originalName = computed(() => t('hero.name'))
 const scrambledName = ref(originalName.value)
-const chars = '!<>-_\\/[]{}—=+*^?#________'
+const chars = '!<>-_\\/[]{}â€”=+*^?#________'
 let scrambleInterval = null
 
 const scrambleName = () => {
@@ -116,7 +116,7 @@ const scrambleName = () => {
       clearInterval(scrambleInterval)
       scrambledName.value = originalName.value
     }
-    iterations += 1/3 // Velocidad de resolución
+    iterations += 1/3 // Velocidad de resoluciÃ³n
   }, 30)
 }
 
@@ -137,7 +137,7 @@ const getPhrases = () => {
   const titles = tm('hero.titles')
   if (!Array.isArray(titles) || titles.length === 0) {
     return locale.value === 'es'
-      ? ['Desarrollador Full Stack', 'Estudiante de Computación', 'Entusiasta del Backend', 'Amante de IA']
+      ? ['Desarrollador Full Stack', 'Estudiante de ComputaciÃ³n', 'Entusiasta del Backend', 'Amante de IA']
       : ['Full Stack Developer', 'CS Student', 'Backend Enthusiast', 'AI Lover']
   }
   return titles
@@ -199,7 +199,7 @@ const tiltStyle = computed(() => ({
   transform: `perspective(1000px) rotateY(${mouseX.value * 4}deg) rotateX(${mouseY.value * -4}deg) translateZ(10px)`
 }))
 
-// ---- Inicialización ----
+// ---- InicializaciÃ³n ----
 onMounted(() => {
   windowWidth.value = window.innerWidth
   windowHeight.value = window.innerHeight
@@ -274,7 +274,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* ---- Sección ---- */
+/* ---- SecciÃ³n ---- */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -285,7 +285,7 @@ onUnmounted(() => {
   padding: 7rem 2rem 4rem;
 }
 
-/* ---- Partículas Background ---- */
+/* ---- PartÃ­culas Background ---- */
 .hero__particles {
   position: absolute;
   inset: 0;
@@ -321,7 +321,7 @@ onUnmounted(() => {
   transform: translateZ(30px);
 }
 
-/* ---- Título ---- */
+/* ---- TÃ­tulo ---- */
 .hero__title {
   font-size: clamp(2.5rem, 7vw, 5rem);
   font-weight: 900;
@@ -361,7 +361,7 @@ onUnmounted(() => {
 
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-/* ---- Descripción ---- */
+/* ---- DescripciÃ³n ---- */
 .hero__description {
   font-size: clamp(0.9rem, 1.8vw, var(--text-lg));
   color: var(--text-secondary);

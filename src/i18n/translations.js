@@ -1,4 +1,6 @@
-// Cleaned translations file — ensure no stray tokens that break vue-i18n linked-format parser
+// Traducciones bilingües de Javier Eduardo España Pacheco
+// Basadas fielmente en su CV oficial y trayectoria técnica
+
 export default {
   en: {
     nav: {
@@ -12,12 +14,12 @@ export default {
       greeting: "Hi, I'm",
       name: 'Javier España',
       titles: [
-        'Full Stack Developer',
-        'Computer Science Student',
-        'Backend Enthusiast',
-        'AI and Data Science Lover'
+        'Full Stack & Software Engineer',
+        'Data & Machine Learning Specialist',
+        '1st Place BAM Hackathon Winner',
+        'Computer Science Student @ UVG'
       ],
-      subtitle: '7th Semester Computer Science and IT Engineering Student at Universidad del Valle de Guatemala',
+      subtitle: '8th Cycle Computer Science & IT Engineering Student at Universidad del Valle de Guatemala. Specialized in end-to-end full-stack architectures, machine learning in production, and systems optimization.',
       cta: {
         projects: 'View Projects',
         contact: 'Contact Me'
@@ -29,59 +31,57 @@ export default {
       name: 'Javier Eduardo España Pacheco',
       role: 'Computer Science and Information Technology Engineering Student',
       university: 'Universidad del Valle de Guatemala',
-      semester: '7th Semester',
+      semester: '8th Cycle',
       badges: {
         fullstack: 'Full Stack Developer',
-        backend: 'Backend Enthusiast',
-        uiux: 'UI/UX Designer',
-        music: 'Music Lover'
+        backend: 'ML & Data Engineer',
+        uiux: 'Systems Optimizer',
+        music: 'Leadership & Agile'
       },
       bio: [
-        'I am a 7th semester student of Computer Science and Information Technology Engineering at Universidad del Valle de Guatemala, with a great passion for software development and solving complex problems. I specialize in Full Stack development, intuitive interface design, and creating efficient solutions in both backend and frontend.',
-        'I love exploring new technologies, optimizing processes, and turning ideas into functional products. I am currently developing web technology and artificial intelligence projects. I am deeply interested in developing applications that have a direct impact on people, especially in the areas of financial management, process automation, and data analysis.',
-        'Additionally, I have experience in parallel programming, simulations, and applied mathematical calculations. One of my current focuses is combining financial analysis with artificial intelligence, building solutions that not only process data but offer added value through result interpretation.',
-        'I have worked on scenario simulations, financial report generation, and calculating indicators such as Value at Risk using advanced statistical methods.',
-        'I consider myself a self-taught, curious, and committed person. I enjoy facing technical challenges and constantly learning. I enjoy collaborating in multidisciplinary teams, where the exchange of ideas enhances creativity and efficiency.',
-        'I firmly believe in the ethical development of technology, with a critical view of the social impact of the software we build. Outside the world of code, I really enjoy music and technology as a means of artistic expression. I am always looking for that balance between the technical and the human in everything I do.'
+        'I am an 8th-cycle Computer Science and IT Engineering student at Universidad del Valle de Guatemala (UVG), with proven expertise in full-stack engineering, applied data science, and process automation.',
+        'Winner of 1st place in the BAM Hackathon 2026 and 2nd place in 2025, delivering end-to-end machine learning and operational optimization solutions straight to real-world production. Experienced as a Risk Analytics Intern at Banco Agromercantil de Guatemala (BAM) and Teaching Assistant for Computer Organization & ARM Assembler at UVG.',
+        'My core focus centers on building resilient microservices (Go, Python, Vue.js, PostgreSQL, Docker), automated data pipelines (Apache Airflow, LightGBM, Optuna), and high-impact systems in risk analytics, cybersecurity, and financial intelligence.',
+        'Continuous learner, self-driven, and collaborative team player. I strive for the intersection of clean architecture, mathematical rigor, and software that makes a tangible positive impact.'
       ],
       contact: {
         title: 'Contact',
         email: 'Email',
-        phone: 'Phone',
+        phone: 'Phone / WhatsApp',
         github: 'GitHub',
         linkedin: 'LinkedIn',
         location: 'Guatemala, Guatemala'
       },
       button: 'Learn More About Me',
-      solar: 'Programming Languages'
+      solar: 'Technical Arsenal'
     },
     techStack: {
       title: 'Tech Stack',
-      subtitle: 'Technologies I work with',
+      subtitle: 'Technologies, frameworks, and tools I master',
       filter: {
         all: 'All',
-        frontend: 'Frontend',
-        backend: 'Backend',
-        database: 'Database',
-        tools: 'Tools and DevOps'
+        frontend: 'Languages',
+        backend: 'Data & ML',
+        database: 'Backend & Cloud',
+        tools: 'Tools & DevOps'
       },
       proficiency: 'Proficiency'
     },
     projects: {
       title: 'Featured Projects',
-      subtitle: 'A selection of my recent work',
+      subtitle: 'Production systems, competition-winning algorithms, and real-world architectures',
       viewAll: 'View All Projects',
       viewDetails: 'View Details',
       technologies: 'Technologies',
-      features: 'Key Features',
-      github: 'View on GitHub',
+      features: 'Key Highlights',
+      github: 'View Code',
       demo: 'Live Demo',
       comingSoon: 'Coming Soon'
     },
     projectsView: {
       title: 'My Projects',
-      subtitle: 'A collection of projects demonstrating my skills and passion for development',
-      searchPlaceholder: 'Search projects...',
+      subtitle: 'A curated showcase of end-to-end applications, machine learning models, and open source work',
+      searchPlaceholder: 'Search projects by title, technology or keyword...',
       loading: 'Loading projects...',
       noResults: 'No projects found matching that criteria',
       noDescription: 'No description available',
@@ -93,25 +93,25 @@ export default {
       categories: {
         all: 'All',
         frontend: 'Frontend',
-        backend: 'Backend',
+        backend: 'Backend & ML',
         fullstack: 'Full Stack',
         other: 'Other'
       }
     },
     cta: {
-      title: "Let's Work Together",
-      subtitle: "I'm available for freelance projects and full-time opportunities",
+      title: "Let's Build Something Great Together",
+      subtitle: "Open to innovative engineering roles, machine learning projects, and high-impact challenges.",
       buttons: {
         contact: 'Get in Touch',
         github: 'View GitHub'
       }
     },
     footer: {
-      about: 'Computer Science Engineering student passionate about software development, artificial intelligence, and creating innovative technological solutions.',
-      quickLinks: 'Quick Links',
-      social: 'Social Media',
+      about: 'Computer Science & IT Engineer focused on scalable software development, machine learning in production, and systems optimization.',
+      quickLinks: 'Navigation',
+      social: 'Connect',
       rights: 'All rights reserved.',
-      madeWith: 'Made with',
+      madeWith: 'Engineered with',
       and: 'and'
     },
     experience: {
@@ -120,22 +120,18 @@ export default {
       technologies: 'Technologies',
       items: [
         {
-          title: 'Full Stack Developer',
-          company: 'Personal Projects',
-          description: 'Development of complete web applications, from interface design to implementation of APIs and databases. Experience in modern frontend and backend development technologies.',
-          technologies: ['Vue.js', 'React', 'Node.js', 'Python', 'PostgreSQL', 'MongoDB']
+          title: 'Risk Analytics Intern',
+          company: 'Banco Agromercantil de Guatemala (BAM)',
+          period: 'Jan 2026 – Jul 2026',
+          description: 'Internship in the bank’s Risk Analytics department, designing data analysis workflows, predictive modeling, and credit evaluation pipelines.',
+          technologies: ['Python', 'SQL', 'LightGBM', 'Data Analytics', 'Risk Modeling', 'Power BI']
         },
         {
-          title: 'Backend Developer',
-          company: 'Academic Projects',
-          description: 'Development of robust backend systems, RESTful APIs, data processing, and applied mathematical calculations. Implementation of simulations and financial analysis.',
-          technologies: ['Python', 'FastAPI', 'Java', 'Spring Boot', 'PostgreSQL', 'Redis']
-        },
-        {
-          title: 'Frontend Developer',
-          company: 'Web Projects',
-          description: 'Design and implementation of modern and responsive user interfaces. Focus on user experience and web application performance.',
-          technologies: ['Vue.js', 'React', 'TypeScript', 'Tailwind CSS', 'GSAP']
+          title: 'Teaching Assistant (Computer Organization & ARM Assembler)',
+          company: 'Universidad del Valle de Guatemala',
+          period: 'Jan 2025 – Nov 2025',
+          description: 'Supported teaching and lab sessions for Computer Organization and ARM Assembler, mentoring students on low-level architectures, memory management, and processor internals.',
+          technologies: ['ARM Assembler', 'C', 'Computer Architecture', 'Linux', 'GDB']
         }
       ]
     },
@@ -146,168 +142,196 @@ export default {
       period: 'Period',
       items: [
         {
-          degree: 'Computer Science and Information Technology Engineering',
-          institution: 'Universidad del Valle de Guatemala',
-          date: '2023 - Present'
+          degree: 'Bachelor of Science in Computer Science and Information Technology Engineering',
+          institution: 'Universidad del Valle de Guatemala (UVG)',
+          date: '2023 – Present · 8th Cycle (2026)'
+        },
+        {
+          degree: 'High School Diploma in Sciences and Humanities',
+          institution: 'Colegio Liceo Javier',
+          date: '2011 – 2022'
         }
       ]
     },
     skills: {
       title: 'Technical Skills',
-      subtitle: 'A comprehensive look at my knowledge and experience in different technologies',
+      subtitle: 'Languages, machine learning tooling, cloud systems, and engineering workflows',
       radar: 'Skills Radar',
       categories: {
         languages: 'Programming Languages',
-        frontend: 'Frontend',
-        backend: 'Backend and APIs',
-        databases: 'Databases',
-        devops: 'DevOps and Cloud',
-        tools: 'Tools and Others'
+        frontend: 'Data & Machine Learning',
+        backend: 'Backend & Databases',
+        databases: 'Databases & Storage',
+        devops: 'DevOps & Tooling',
+        tools: 'Methodologies'
       },
-      years: 'years of experience'
+      years: 'proficiency level'
     },
     contact: {
       title: 'Contact',
-      subtitle: "Have a project in mind? Let's talk! I'm available for new opportunities",
+      subtitle: "Have a project or opportunity? Let's connect! I am ready to collaborate.",
       form: {
-        title: 'Send Me a Message',
+        title: 'Send a Message',
         name: 'Name',
         namePlaceholder: 'Your name',
         email: 'Email',
-  emailPlaceholder: 'your email',
+        emailPlaceholder: 'your.email@example.com',
         subject: 'Subject',
-        subjectPlaceholder: 'Message subject',
+        subjectPlaceholder: 'Project proposal, inquiry...',
         message: 'Message',
-        messagePlaceholder: 'Tell me about your project...',
+        messagePlaceholder: 'Tell me about your project, team, or opportunity...',
         submit: 'Send Message',
+        send: 'Send Message',
         sending: 'Sending...',
-        success: 'Message sent successfully! I will reply soon.',
-        error: 'There was an error sending the message. Please try again.',
+        success: 'Message sent successfully! I will get back to you shortly.',
+        error: 'There was an error sending your message. Please try again or reach out directly via email.',
         errors: {
           nameRequired: 'Name is required',
           emailRequired: 'Email is required',
-          emailInvalid: 'Invalid email',
+          emailInvalid: 'Invalid email address',
           subjectRequired: 'Subject is required',
           messageRequired: 'Message is required',
           messageMin: 'Message must be at least 10 characters'
         }
       },
       info: {
-        title: 'Contact Information',
-        availability: 'Available for freelance projects and full-time opportunities'
+        title: 'Contact Details',
+        email: 'Direct Email',
+        phone: 'Phone / WhatsApp',
+        location: 'Location',
+        writeMe: 'Send an email',
+        availability: 'Available for full-time roles & high-impact projects'
       }
     },
     certifications: {
       title: 'Certifications',
       items: [
         {
-          title: 'Dale Carnegie Youth Course',
-          institution: 'Dale Carnegie Training',
-          year: '2016',
-          description: 'Leadership and communication course'
+          title: 'Project Management with Agile and Scrum Methodologies',
+          institution: 'Google / Coursera',
+          year: '2024',
+          description: 'Agile execution, sprint planning, backlog management, and team leadership'
         },
         {
-          title: 'Project Management with Agile Methodology',
-          institution: 'Google - Coursera',
-          year: '2024',
-          description: 'Agile project management and SCRUM'
+          title: 'Youth Course in Leadership and Communication',
+          institution: 'Dale Carnegie Training',
+          year: '2016',
+          description: 'Effective communication, public speaking, and team leadership'
         }
       ]
     },
     achievements: {
-      title: 'Achievements and Recognition',
+      title: 'Honors & Recognitions',
       items: [
         {
-          title: 'Academic Mention',
-          institution: 'Universidad del Valle de Guatemala',
-          year: '2023',
-          description: 'Academic distinction for outstanding performance'
+          title: '1st Place — BAM Hackathon 2026',
+          institution: 'Banco Agromercantil de Guatemala',
+          year: '2026',
+          description: 'End-to-end debt collection optimization with LightGBM and address resolving: 92% of promises captured with only 30% of calls.'
         },
         {
-          title: 'Academic Distinction',
+          title: '2nd Place — BAM Hackathon 2025',
+          institution: 'Banco Agromercantil de Guatemala',
+          year: '2025',
+          description: 'Automated weekly forecasting pipeline with Apache Airflow, Docker Compose, LightGBM, Optuna, and Streamlit.'
+        },
+        {
+          title: 'Academic Honor of Merit (Honor al Mérito)',
+          institution: 'Universidad del Valle de Guatemala',
+          year: '2025',
+          description: 'Highest academic recognition for outstanding cumulative grade performance'
+        },
+        {
+          title: 'Academic Distinction (Distinción Académica)',
           institution: 'Universidad del Valle de Guatemala',
           year: '2024',
-          description: 'Recognition for academic excellence'
+          description: 'Recognition for academic excellence in computer science'
+        },
+        {
+          title: 'Academic Mention (Mención Académica)',
+          institution: 'Universidad del Valle de Guatemala',
+          year: '2023',
+          description: 'Distinction awarded for top cohort performance'
         }
       ]
     },
     cinematic: {
-      statusLabel: 'FULL EXPERIENCE',
-      skipBtn: 'SKIP',
-      warning: '⚠️ Contains music and sound (3:12 mins)',
+      statusLabel: 'INTERACTIVE HIGHLIGHTS',
+      skipBtn: 'EXIT',
+      warning: '⚠️ Contains soundtrack and audio effects',
       scene0: {
-        subtitle: 'Computer Science & IT Engineering',
+        subtitle: 'Computer Science & IT Engineering · 8th Cycle',
         university: 'Universidad del Valle de Guatemala'
       },
       scene1: {
-        label1: 'Semester',
-        label2: 'Years Coding',
-        label3: 'Projects',
-        tagline: 'Turning ideas into software'
+        label1: 'Cycle',
+        label2: '1st Place',
+        label3: 'BAM Hackathon',
+        tagline: 'Turning high-dimensional data into operational value'
       },
       scene2: {
-        label: '// TECHNICAL ARSENAL',
-        title: 'Multi-Stack',
-        title2: 'Mastery'
+        label: '// TECHNICAL STACK',
+        title: 'Full-Stack &',
+        title2: 'Machine Learning'
       },
       scene3: {
-        label: '// FEATURED PROJECTS',
-        title: 'What I have',
-        title2: 'built'
+        label: '// PROVEN RESULTS',
+        title: 'Solutions in',
+        title2: 'Production'
       },
       scene4: {
-        label: '// MY JOURNEY',
-        title: 'Experience',
-        exp1_title: 'Full Stack Developer',
-        exp1_company: 'Personal Projects',
-        exp1_desc: 'Complete web applications from frontend to backend, APIs, and databases.',
-        exp2_title: 'Backend Developer',
-        exp2_company: 'Academic Projects',
-        exp2_desc: 'Robust systems, simulations, financial analysis and parallelism.',
-        exp3_title: 'Parallel Computing',
-        exp3_company: 'UVG Research',
-        exp3_desc: 'Monte Carlo simulations, Value at Risk, OpenMP and CUDA.'
+        label: '// EXPERIENCE',
+        title: 'Trajectory',
+        exp1_title: 'Risk Analytics Intern',
+        exp1_company: 'Banco Agromercantil de Guatemala (BAM)',
+        exp1_desc: 'Predictive modeling, automated evaluation pipelines, and credit risk intelligence.',
+        exp2_title: 'Teaching Assistant',
+        exp2_company: 'UVG · Computer Organization & ARM Assembler',
+        exp2_desc: 'Mentoring in processor microarchitecture, memory hierarchies, and low-level optimization.',
+        exp3_title: 'CRM Microservices',
+        exp3_company: 'Optyma Ophthalmology Clinic',
+        exp3_desc: 'Go (Echo) microservices, Vue.js frontend, PostgreSQL, MinIO/S3, and Docker CI/CD.'
       },
       sceneA: {
-        label: '// PHILOSOPHY',
+        label: '// ENGINEERING PHILOSOPHY',
         title: 'Clean Architecture',
-        title2: 'Scalable Systems',
-        points: ['Clean Code Principles', 'High Performance', 'Security by Design']
+        title2: 'Mathematical Rigor',
+        points: ['Production-Grade Machine Learning', 'Microservices & Parallelism', 'Zero-Downtime Reliability']
       },
       sceneB: {
-        label: '// FUTURE GOALS',
-        title: 'Impacting through',
+        label: '// VISION',
+        title: 'High-Impact',
         title2: 'Software',
-        text1: 'Building AI-driven financial platforms.',
-        text2: 'Automating the future.'
+        text1: 'Intelligent financial systems and automated intelligence.',
+        text2: 'Optimizing the core of modern infrastructure.'
       },
       scene5: {
-        label: '// ACHIEVEMENTS',
+        label: '// HONORS',
         title: 'Awards &',
         title2: 'Recognition',
-        ach1_title: 'Academic Mention',
-        ach1_year: '2023',
-        ach1_desc: 'Outstanding performance at Universidad del Valle de Guatemala',
-        ach2_title: 'Academic Distinction',
-        ach2_year: '2024',
-        ach2_desc: 'Excellence recognition at Universidad del Valle de Guatemala',
-        cert1_title: 'Agile Project Management',
+        ach1_title: '1st Place BAM Hackathon',
+        ach1_year: '2026',
+        ach1_desc: '92% payment promises captured with only 30% call center outreach',
+        ach2_title: '2nd Place BAM Hackathon',
+        ach2_year: '2025',
+        ach2_desc: 'Airflow + LightGBM weekly credit forecasting pipeline',
+        cert1_title: 'Google Agile Project Management',
         cert1_issuer: 'Google — Coursera · 2024',
-        cert2_title: 'Dale Carnegie Youth Course',
-        cert2_issuer: 'Dale Carnegie Training · 2016'
+        cert2_title: 'Academic Honor of Merit',
+        cert2_issuer: 'Universidad del Valle de Guatemala · 2025'
       },
       scene6: {
-        label: '// ORIGIN STORY',
-        quote: '"I started coding at 14, fascinated by how text could become something real on a screen. That curiosity never left."',
-        traits: ['Self-taught', 'Curious', 'Team Player', 'Music Lover', 'Problem Solver']
+        label: '// DRIVEN BY CURIOSITY',
+        quote: '"Engineering is about transforming complex mathematical and algorithmic challenges into reliable, elegant systems that elevate human capability."',
+        traits: ['Data-Driven', 'Analytical', 'Low-Level & High-Level', 'Agile Mindset', 'Results-Oriented']
       },
       scene7: {
-        label: '// CONNECT WITH ME',
-        title: 'Ready to',
-        title2: 'collaborate?',
+        label: '// CONNECT',
+        title: 'Ready to create',
+        title2: 'extraordinary impact?',
         cta1: 'View Projects',
         cta2: 'Get in Touch',
-        thanksLabel: 'thank you for watching'
+        thanksLabel: 'thank you for visiting'
       }
     }
   },
@@ -323,12 +347,12 @@ export default {
       greeting: 'Hola, soy',
       name: 'Javier España',
       titles: [
-        'Desarrollador Full Stack',
-        'Estudiante de Ciencias de la Computación',
-        'Entusiasta del Backend',
-        'Amante de IA y Data Science'
+        'Desarrollador Full Stack & Software',
+        'Especialista en Datos y Machine Learning',
+        '1.er Lugar Hackatón BAM 2026',
+        'Estudiante de Computación @ UVG'
       ],
-      subtitle: 'Estudiante de 7.º Semestre de Ingeniería en Ciencias de la Computación y TI en la Universidad del Valle de Guatemala',
+      subtitle: 'Estudiante de 8.º Ciclo de Ingeniería en Ciencia de la Computación y TI en la Universidad del Valle de Guatemala. Especializado en arquitecturas full-stack end-to-end, machine learning en producción y optimización de sistemas.',
       cta: {
         projects: 'Ver Proyectos',
         contact: 'Contáctame'
@@ -338,61 +362,59 @@ export default {
     about: {
       title: 'Sobre Mí',
       name: 'Javier Eduardo España Pacheco',
-      role: 'Estudiante de Ingeniería en Ciencias de la Computación y Tecnologías de la Información',
+      role: 'Estudiante de Ingeniería en Ciencia de la Computación y TI',
       university: 'Universidad del Valle de Guatemala',
-      semester: '7.º Semestre',
+      semester: '8.º Ciclo',
       badges: {
         fullstack: 'Desarrollador Full Stack',
-        backend: 'Entusiasta del Backend',
-        uiux: 'Diseñador UI/UX',
-        music: 'Amante de la Música'
+        backend: 'Ingeniero de Datos y ML',
+        uiux: 'Optimización de Sistemas',
+        music: 'Liderazgo y Metodología Agile'
       },
       bio: [
-        'Soy estudiante de 7.º semestre de Ingeniería en Ciencias de la Computación y Tecnologías de la Información en la Universidad del Valle de Guatemala, con una gran pasión por el desarrollo de software y la resolución de problemas complejos. Me especializo en desarrollo Full Stack, diseño de interfaces intuitivas y en la creación de soluciones eficientes, tanto en backend como en frontend.',
-        'Me encanta explorar nuevas tecnologías, optimizar procesos y convertir ideas en productos funcionales. Actualmente me encuentro desarrollando proyectos de tecnologías web e inteligencia artificial. Me interesa profundamente el desarrollo de aplicaciones que tengan un impacto directo en las personas, especialmente en el área de gestión financiera, automatización de procesos y análisis de datos.',
-        'Además, tengo experiencia en programación paralela, simulaciones y cálculos matemáticos aplicados. Uno de mis enfoques actuales es combinar el análisis financiero con la inteligencia artificial, construyendo soluciones que no solo procesan datos, sino que ofrecen valor agregado mediante la interpretación de los resultados.',
-        'He trabajado en simulaciones de escenarios, generación de reportes financieros, y en el cálculo de indicadores como el Value at Risk utilizando métodos estadísticos avanzados.',
-        'Me considero una persona autodidacta, curiosa y comprometida. Me gusta enfrentar desafíos técnicos y aprender constantemente. Disfruto colaborar en equipos multidisciplinarios, donde el intercambio de ideas potencia la creatividad y la eficiencia.',
-        'Creo firmemente en el desarrollo ético de la tecnología, con una visión crítica sobre el impacto social del software que construimos. Fuera del mundo del código, disfruto mucho de la música y la tecnología como medio de expresión artística. Siempre estoy buscando ese equilibrio entre lo técnico y lo humano en todo lo que hago.'
+        'Soy estudiante de 8.º ciclo de Ingeniería en Ciencia de la Computación y Tecnologías de la Información en la Universidad del Valle de Guatemala (UVG), con sólida experiencia en desarrollo full-stack, ciencia de datos y automatización de procesos.',
+        'Primer lugar en el Hackatón BAM 2026 y segundo lugar en 2025, creando soluciones end-to-end de machine learning e inteligencia aplicada llevadas directamente a producción. Con experiencia como Pasante en Analítica de Riesgos en el Banco Agromercantil de Guatemala (BAM) y Maestro Auxiliar del curso Organización de Computadoras y Assembler (ARM Assembler) en la UVG.',
+        'Mi enfoque principal abarca el desarrollo de microservicios robustos (Go, Python, Vue.js, PostgreSQL, Docker), pipelines automatizados de datos (Apache Airflow, LightGBM, Optuna) y optimización de sistemas en analítica de riesgos, ciberseguridad e inteligencia de negocios.',
+        'Autodidacta, analítico y enfocado en el trabajo colaborativo en equipos multidisciplinarios. Busco siempre la combinación entre arquitectura limpia, rigor algorítmico y software con impacto positivo real.'
       ],
       contact: {
         title: 'Contacto',
         email: 'Correo',
-        phone: 'Teléfono',
+        phone: 'Teléfono / WhatsApp',
         github: 'GitHub',
         linkedin: 'LinkedIn',
         location: 'Guatemala, Guatemala'
       },
-      button: 'Ver Más Sobre Mí',
-      solar: 'Lenguajes de Programación'
+      button: 'Conoce Más Sobre Mí',
+      solar: 'Arsenal Tecnológico'
     },
     techStack: {
       title: 'Stack Tecnológico',
-      subtitle: 'Tecnologías con las que trabajo',
+      subtitle: 'Tecnologías, frameworks y herramientas con las que construyo soluciones',
       filter: {
         all: 'Todas',
-        frontend: 'Frontend',
-        backend: 'Backend',
-        database: 'Bases de Datos',
+        frontend: 'Lenguajes',
+        backend: 'Datos y ML',
+        database: 'Backend y Nube',
         tools: 'Herramientas y DevOps'
       },
       proficiency: 'Dominio'
     },
     projects: {
       title: 'Proyectos Destacados',
-      subtitle: 'Una selección de mi trabajo reciente',
+      subtitle: 'Sistemas en producción, algoritmos premiados y arquitecturas escalables',
       viewAll: 'Ver Todos los Proyectos',
       viewDetails: 'Ver Detalles',
       technologies: 'Tecnologías',
-      features: 'Características Principales',
-      github: 'Ver en GitHub',
+      features: 'Aspectos Destacados',
+      github: 'Ver Código',
       demo: 'Demo en Vivo',
       comingSoon: 'Próximamente'
     },
     projectsView: {
       title: 'Mis Proyectos',
-      subtitle: 'Una colección de proyectos que demuestran mis habilidades y pasión por el desarrollo',
-      searchPlaceholder: 'Buscar proyectos...',
+      subtitle: 'Una selección curada de aplicaciones completas, modelos de machine learning y software open source',
+      searchPlaceholder: 'Buscar proyectos por nombre, tecnología o palabra clave...',
       loading: 'Cargando proyectos...',
       noResults: 'No se encontraron proyectos con esos criterios',
       noDescription: 'Sin descripción disponible',
@@ -404,49 +426,45 @@ export default {
       categories: {
         all: 'Todos',
         frontend: 'Frontend',
-        backend: 'Backend',
+        backend: 'Backend y ML',
         fullstack: 'Full Stack',
         other: 'Otros'
       }
     },
     cta: {
-      title: 'Trabajemos Juntos',
-      subtitle: 'Estoy disponible para proyectos freelance y oportunidades full-time',
+      title: '¿Construimos Algo Extraordinario?',
+      subtitle: 'Abierto a retos de ingeniería de software, proyectos de machine learning y oportunidades profesionales de alto impacto.',
       buttons: {
         contact: 'Contáctame',
         github: 'Ver GitHub'
       }
     },
     footer: {
-      about: 'Estudiante de Ingeniería en Ciencias de la Computación apasionado por el desarrollo de software, la inteligencia artificial y la creación de soluciones tecnológicas innovadoras.',
-      quickLinks: 'Enlaces Rápidos',
-      social: 'Redes Sociales',
+      about: 'Ingeniero de Computación y TI enfocado en desarrollo de software escalable, machine learning en producción y optimización de sistemas.',
+      quickLinks: 'Navegación',
+      social: 'Redes y Contacto',
       rights: 'Todos los derechos reservados.',
-      madeWith: 'Hecho con',
+      madeWith: 'Desarrollado con',
       and: 'y'
     },
     experience: {
-      title: 'Experiencia',
+      title: 'Experiencia Profesional',
       current: 'Presente',
       technologies: 'Tecnologías',
       items: [
         {
-          title: 'Desarrollador Full Stack',
-          company: 'Proyectos Personales',
-          description: 'Desarrollo de aplicaciones web completas, desde el diseño de interfaces hasta la implementación de APIs y bases de datos. Experiencia en tecnologías modernas de desarrollo frontend y backend.',
-          technologies: ['Vue.js', 'React', 'Node.js', 'Python', 'PostgreSQL', 'MongoDB']
+          title: 'Pasante, Analítica de Riesgos',
+          company: 'Banco Agromercantil de Guatemala (BAM)',
+          period: 'Ene 2026 – Jul 2026',
+          description: 'Pasantía en el área de Analítica de Riesgos del banco, desarrollando flujos de análisis de datos, modelos predictivos y automatización de procesos de evaluación crediticia.',
+          technologies: ['Python', 'SQL', 'LightGBM', 'Data Analytics', 'Modelado de Riesgos', 'Power BI']
         },
         {
-          title: 'Desarrollador Backend',
-          company: 'Proyectos Académicos',
-          description: 'Desarrollo de sistemas backend robustos, APIs RESTful, procesamiento de datos y cálculos matemáticos aplicados. Implementación de simulaciones y análisis financiero.',
-          technologies: ['Python', 'FastAPI', 'Java', 'Spring Boot', 'PostgreSQL', 'Redis']
-        },
-        {
-          title: 'Desarrollador Frontend',
-          company: 'Proyectos Web',
-          description: 'Diseño e implementación de interfaces de usuario modernas y responsivas. Enfoque en experiencia de usuario y rendimiento de aplicaciones web.',
-          technologies: ['Vue.js', 'React', 'TypeScript', 'Tailwind CSS', 'GSAP']
+          title: 'Maestro Auxiliar (Organización de Computadoras y Assembler)',
+          company: 'Universidad del Valle de Guatemala',
+          period: 'Ene 2025 – Nov 2025',
+          description: 'Apoyo a la docencia del curso Organización de Computadoras y Assembler (ARM Assembler), asesorando a estudiantes en arquitectura de procesadores, gestión de memoria y bajo nivel.',
+          technologies: ['ARM Assembler', 'C', 'Arquitectura de Computadoras', 'Linux', 'GDB']
         }
       ]
     },
@@ -457,168 +475,196 @@ export default {
       period: 'Período',
       items: [
         {
-          degree: 'Ingeniería en Ciencias de la Computación y Tecnologías de la Información',
-          institution: 'Universidad del Valle de Guatemala',
-          date: '2023 - Actualidad'
+          degree: 'Ingeniería en Ciencia de la Computación y Tecnologías de la Información',
+          institution: 'Universidad del Valle de Guatemala (UVG)',
+          date: '2023 – Actualidad · 8.º ciclo (2026)'
+        },
+        {
+          degree: 'Bachiller en Ciencias y Letras',
+          institution: 'Colegio Liceo Javier',
+          date: '2011 – 2022'
         }
       ]
     },
     skills: {
       title: 'Habilidades Técnicas',
-      subtitle: 'Un vistazo completo a mis conocimientos y experiencia en diferentes tecnologías',
+      subtitle: 'Lenguajes de programación, herramientas de datos y machine learning, infraestructura y metodologías',
       radar: 'Radar de Competencias',
       categories: {
         languages: 'Lenguajes de Programación',
-        frontend: 'Frontend',
-        backend: 'Backend y APIs',
+        frontend: 'Datos y Machine Learning',
+        backend: 'Backend y Almacenamiento',
         databases: 'Bases de Datos',
-        devops: 'DevOps y Cloud',
-        tools: 'Herramientas y Otros'
+        devops: 'DevOps e Infraestructura',
+        tools: 'Metodologías y Liderazgo'
       },
-      years: 'años de experiencia'
+      years: 'nivel de competencia'
     },
     contact: {
       title: 'Contacto',
-      subtitle: 'Tienes un proyecto en mente? Hablemos! Estoy disponible para nuevas oportunidades',
+      subtitle: '¿Tienes un proyecto, vacante o idea en mente? ¡Hablemos! Estoy disponible para nuevas oportunidades.',
       form: {
         title: 'Envíame un Mensaje',
         name: 'Nombre',
         namePlaceholder: 'Tu nombre',
-        email: 'Email',
-  emailPlaceholder: 'tu correo',
+        email: 'Correo Electrónico',
+        emailPlaceholder: 'tu.correo@ejemplo.com',
         subject: 'Asunto',
-        subjectPlaceholder: 'Asunto del mensaje',
+        subjectPlaceholder: 'Propuesta de proyecto, consulta...',
         message: 'Mensaje',
-        messagePlaceholder: 'Cuéntame sobre tu proyecto...',
+        messagePlaceholder: 'Cuéntame sobre tu proyecto, equipo o necesidad...',
         submit: 'Enviar Mensaje',
+        send: 'Enviar Mensaje',
         sending: 'Enviando...',
-        success: 'Mensaje enviado con éxito! Te responderé pronto.',
-        error: 'Hubo un error al enviar el mensaje. Por favor, intenta nuevamente.',
+        success: '¡Mensaje enviado con éxito! Me pondré en contacto contigo pronto.',
+        error: 'Hubo un error al enviar el mensaje. Por favor intenta de nuevo o escribe directamente por correo.',
         errors: {
-          nameRequired: 'El nombre es requerido',
-          emailRequired: 'El email es requerido',
-          emailInvalid: 'Email inválido',
-          subjectRequired: 'El asunto es requerido',
-          messageRequired: 'El mensaje es requerido',
+          nameRequired: 'El nombre es obligatorio',
+          emailRequired: 'El correo electrónico es obligatorio',
+          emailInvalid: 'Ingresa un correo electrónico válido',
+          subjectRequired: 'El asunto es obligatorio',
+          messageRequired: 'El mensaje es obligatorio',
           messageMin: 'El mensaje debe tener al menos 10 caracteres'
         }
       },
       info: {
-        title: 'Información de Contacto',
-        availability: 'Disponible para proyectos freelance y oportunidades full-time'
+        title: 'Datos de Contacto',
+        email: 'Correo Directo',
+        phone: 'Teléfono / WhatsApp',
+        location: 'Ubicación',
+        writeMe: 'Enviar correo',
+        availability: 'Disponible para roles de tiempo completo y proyectos de alto impacto'
       }
     },
     certifications: {
       title: 'Certificaciones',
       items: [
         {
-          title: 'Curso Juvenil Dale Carnegie',
-          institution: 'Dale Carnegie Training',
-          year: '2016',
-          description: 'Curso de liderazgo y comunicación'
+          title: 'Gestión de Proyectos con Metodología Agile y Scrum',
+          institution: 'Google / Coursera',
+          year: '2024',
+          description: 'Gestión ágil de proyectos, planificación de sprints, control de backlog y liderazgo de equipos'
         },
         {
-          title: 'Gestión de Proyectos con Metodología Agile',
-          institution: 'Google - Coursera',
-          year: '2024',
-          description: 'Gestión de proyectos ágiles y SCRUM'
+          title: 'Curso Juvenil de Liderazgo y Comunicación',
+          institution: 'Dale Carnegie Training',
+          year: '2016',
+          description: 'Liderazgo interpersonal, comunicación efectiva y oratoria'
         }
       ]
     },
     achievements: {
-      title: 'Logros y Reconocimientos',
+      title: 'Reconocimientos y Honores',
       items: [
         {
-          title: 'Mención Académica',
+          title: '1.er Lugar — Hackatón BAM 2026',
+          institution: 'Banco Agromercantil de Guatemala',
+          year: '2026',
+          description: 'Optimización de cobranza con LightGBM y resolvedor de direcciones: 92% de promesas de pago con solo el 30% de llamadas.'
+        },
+        {
+          title: '2.º Lugar — Hackatón BAM 2025',
+          institution: 'Banco Agromercantil de Guatemala',
+          year: '2025',
+          description: 'Sistema semanal de forecasting de tarjetas de crédito con Apache Airflow, Docker Compose, LightGBM y Optuna.'
+        },
+        {
+          title: 'Honor al Mérito Académico',
           institution: 'Universidad del Valle de Guatemala',
-          year: '2023',
-          description: 'Distinción académica por desempeño sobresaliente'
+          year: '2025',
+          description: 'Máximo reconocimiento académico por promedio ponderado sobresaliente en la UVG'
         },
         {
           title: 'Distinción Académica',
           institution: 'Universidad del Valle de Guatemala',
           year: '2024',
-          description: 'Reconocimiento por excelencia académica'
+          description: 'Reconocimiento por rendimiento y excelencia académica en computación'
+        },
+        {
+          title: 'Mención Académica',
+          institution: 'Universidad del Valle de Guatemala',
+          year: '2023',
+          description: 'Distinción otorgada por destacado desempeño de cohorte en UVG'
         }
       ]
     },
     cinematic: {
-      statusLabel: 'FULL EXPERIENCE',
-      skipBtn: 'SALTAR',
-      warning: '⚠️ Contiene música y sonido (3:12 mins)',
+      statusLabel: 'EXPERIENCIA INTERACTIVA',
+      skipBtn: 'SALIR',
+      warning: '⚠️ Contiene banda sonora y efectos de audio',
       scene0: {
-        subtitle: 'Ingeniería en Ciencias de la Computación y TI',
+        subtitle: 'Ingeniería en Ciencia de la Computación y TI · 8.º Ciclo',
         university: 'Universidad del Valle de Guatemala'
       },
       scene1: {
-        label1: 'Semestre',
-        label2: 'Años Programando',
-        label3: 'Proyectos',
-        tagline: 'Convirtiendo ideas en software'
+        label1: 'Ciclo',
+        label2: '1.er Lugar',
+        label3: 'Hackatón BAM',
+        tagline: 'Transformando datos de alta dimensionalidad en valor operativo'
       },
       scene2: {
         label: '// ARSENAL TÉCNICO',
-        title: 'Dominio',
-        title2: 'Multi-Stack'
+        title: 'Full-Stack y',
+        title2: 'Machine Learning'
       },
       scene3: {
-        label: '// PROYECTOS DESTACADOS',
-        title: 'Lo que he',
-        title2: 'construido'
+        label: '// IMPACTO COMPROBADO',
+        title: 'Soluciones en',
+        title2: 'Producción'
       },
       scene4: {
-        label: '// MI TRAYECTORIA',
+        label: '// TRAYECTORIA',
         title: 'Experiencia',
-        exp1_title: 'Desarrollador Full Stack',
-        exp1_company: 'Proyectos Personales',
-        exp1_desc: 'Aplicaciones web completas de frontend a backend, APIs y bases de datos.',
-        exp2_title: 'Desarrollador Backend',
-        exp2_company: 'Proyectos Académicos',
-        exp2_desc: 'Sistemas robustos, simulaciones, análisis financiero y paralelismo.',
-        exp3_title: 'Computación Paralela',
-        exp3_company: 'Investigación UVG',
-        exp3_desc: 'Simulaciones Monte Carlo, Value at Risk, OpenMP y CUDA.'
+        exp1_title: 'Pasante, Analítica de Riesgos',
+        exp1_company: 'Banco Agromercantil de Guatemala (BAM)',
+        exp1_desc: 'Modelado predictivo, automatización de evaluación crediticia e inteligencia de riesgos.',
+        exp2_title: 'Maestro Auxiliar',
+        exp2_company: 'UVG · Organización de Computadoras y Assembler',
+        exp2_desc: 'Docencia en arquitectura de procesadores, jerarquías de memoria y bajo nivel.',
+        exp3_title: 'CRM Microservicios',
+        exp3_company: 'Optyma Clínica Oftalmológica',
+        exp3_desc: 'Microservicios en Go (Echo), frontend en Vue.js, PostgreSQL, MinIO/S3 y Docker CI/CD.'
       },
       sceneA: {
-        label: '// FILOSOFÍA',
+        label: '// FILOSOFÍA DE INGENIERÍA',
         title: 'Arquitectura Limpia',
-        title2: 'Sistemas Escalables',
-        points: ['Principios de Clean Code', 'Alto Rendimiento', 'Seguridad desde el Diseño']
+        title2: 'Rigor Matemático',
+        points: ['Machine Learning en Producción', 'Microservicios y Paralelismo', 'Cero Tiempo de Inactividad']
       },
       sceneB: {
-        label: '// METAS FUTURAS',
-        title: 'Impactando a través',
-        title2: 'del Software',
-        text1: 'Construyendo plataformas financieras con IA.',
-        text2: 'Automatizando el futuro.'
+        label: '// VISIÓN',
+        title: 'Software de',
+        title2: 'Alto Impacto',
+        text1: 'Sistemas financieros inteligentes y automatización avanzada.',
+        text2: 'Optimizando el núcleo de la infraestructura tecnológica.'
       },
       scene5: {
-        label: '// LOGROS',
+        label: '// RECONOCIMIENTOS',
         title: 'Premios y',
-        title2: 'Reconocimientos',
-        ach1_title: 'Mención Académica',
-        ach1_year: '2023',
-        ach1_desc: 'Desempeño sobresaliente en la Universidad del Valle de Guatemala',
-        ach2_title: 'Distinción Académica',
-        ach2_year: '2024',
-        ach2_desc: 'Reconocimiento por excelencia académica en la UVG',
-        cert1_title: 'Gestión de Proyectos con Agile',
+        title2: 'Distinciones',
+        ach1_title: '1.er Lugar Hackatón BAM',
+        ach1_year: '2026',
+        ach1_desc: '92% de promesas con solo el 30% de llamadas del call center',
+        ach2_title: '2.º Lugar Hackatón BAM',
+        ach2_year: '2025',
+        ach2_desc: 'Pipeline semanal de forecasting con Airflow y LightGBM',
+        cert1_title: 'Google Agile Project Management',
         cert1_issuer: 'Google — Coursera · 2024',
-        cert2_title: 'Curso Dale Carnegie para Jóvenes',
-        cert2_issuer: 'Dale Carnegie Training · 2016'
+        cert2_title: 'Honor al Mérito Académico',
+        cert2_issuer: 'Universidad del Valle de Guatemala · 2025'
       },
       scene6: {
-        label: '// HISTORIA DE ORIGEN',
-        quote: '"Empecé a programar a los 14, fascinado por cómo el texto podía convertirse en algo real en una pantalla. Esa curiosidad nunca se fue."',
-        traits: ['Autodidacta', 'Curioso', 'Trabajo en Equipo', 'Amante de la Música', 'Solucionador de Problemas']
+        label: '// IMPULSADO POR LA CURIOSIDAD',
+        quote: '"La ingeniería de software consiste en convertir desafíos matemáticos y algorítmicos complejos en sistemas confiables y elegantes que potencian las capacidades humanas."',
+        traits: ['Enfocado en Datos', 'Analítico', 'Bajo y Alto Nivel', 'Mentalidad Ágil', 'Orientado a Resultados']
       },
       scene7: {
-        label: '// CONÉCTATE CONMIGO',
-        title: '¿Listo para',
-        title2: 'colaborar?',
+        label: '// CONÉCTATE',
+        title: '¿Listo para crear',
+        title2: 'un impacto real?',
         cta1: 'Ver Proyectos',
         cta2: 'Contáctame',
-        thanksLabel: 'gracias por ver'
+        thanksLabel: 'gracias por tu visita'
       }
     }
   }

@@ -11,7 +11,7 @@
             <!-- Photo -->
             <div class="about-photo-large gsap-reveal">
               <div class="photo-border">
-                <img src="/assets/images/Profile-Picture.jpg" :alt="$t('about.name')" class="profile-photo-large" />
+                <img src="/images/Profile-Picture.jpg" :alt="$t('about.name')" class="profile-photo-large" />
               </div>
             </div>
 
@@ -22,6 +22,19 @@
                 <p v-for="(paragraph, index) in $tm('about.bio')" :key="index" class="gsap-reveal">
                   {{ paragraph }}
                 </p>
+              </div>
+
+              <!-- Quick details -->
+              <div class="quick-details gsap-reveal">
+                <div class="detail-pill">
+                  <span class="detail-label">🎓 {{ $t('about.university') }}</span>
+                </div>
+                <div class="detail-pill">
+                  <span class="detail-label">📍 {{ $t('about.contact.location') }}</span>
+                </div>
+                <div class="detail-pill highlight">
+                  <span class="detail-label">🏆 1.er Lugar Hackatón BAM 2026</span>
+                </div>
               </div>
             </div>
           </div>
@@ -42,7 +55,10 @@
           >
             <div class="timeline-marker"></div>
             <div class="timeline-content card">
-              <h3 class="timeline-title">{{ exp.title }}</h3>
+              <div class="timeline-header">
+                <h3 class="timeline-title">{{ exp.title }}</h3>
+                <span v-if="exp.period" class="timeline-period">{{ exp.period }}</span>
+              </div>
               <h4 class="timeline-company">{{ exp.company }}</h4>
               <p class="timeline-desc">{{ exp.description }}</p>
               <div class="timeline-tech">
@@ -50,6 +66,30 @@
                   {{ tech }}
                 </span>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Achievements & Awards -->
+    <section class="achievements section" ref="achieveRef">
+      <div class="container">
+        <h2 class="section-title gsap-reveal">{{ $t('achievements.title') }}</h2>
+        <div class="achievements-grid">
+          <div
+            v-for="(ach, index) in $tm('achievements.items')"
+            :key="index"
+            class="achievement-card card gsap-ach-card"
+          >
+            <div class="achievement-icon">🏆</div>
+            <div class="achievement-body">
+              <div class="achievement-header">
+                <h3>{{ ach.title }}</h3>
+                <span class="achievement-year">{{ ach.year }}</span>
+              </div>
+              <h4>{{ ach.institution }}</h4>
+              <p>{{ ach.description }}</p>
             </div>
           </div>
         </div>
@@ -73,7 +113,6 @@
                   <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
                   </svg>
                 </div>
                 <h3>{{ edu.degree }}</h3>
@@ -100,6 +139,7 @@
                 <h3>{{ cert.title }}</h3>
                 <h4>{{ cert.institution }}</h4>
                 <p class="education-date">{{ cert.year }}</p>
+                <p v-if="cert.description" class="cert-desc">{{ cert.description }}</p>
               </div>
             </div>
           </div>
@@ -119,6 +159,7 @@ gsap.registerPlugin(ScrollTrigger)
 const heroRef = ref(null)
 const expRef = ref(null)
 const eduRef = ref(null)
+const achieveRef = ref(null)
 const timelineLineRef = ref(null)
 
 onMounted(() => {
@@ -126,20 +167,11 @@ onMounted(() => {
     // 1. Hero Animations
     if (heroRef.value) {
       gsap.fromTo(heroRef.value.querySelectorAll('.gsap-reveal'),
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: "power3.out",
+        { y: 35, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: "power3.out",
           scrollTrigger: { trigger: heroRef.value, start: "top 80%" }
         }
       )
-      
-      // Floating animation for the photo
-      gsap.to('.photo-border', {
-        y: -15,
-        duration: 3,
-        repeat: -1,
-        yoyo: true,
-        ease: "sine.inOut"
-      })
     }
 
     // 2. Timeline Animations
@@ -151,43 +183,39 @@ onMounted(() => {
         }
       )
 
-      // Animate line drawing
-      gsap.fromTo(timelineLineRef.value,
-        { scaleY: 0 },
-        { scaleY: 1, transformOrigin: "top center", duration: 1.5, ease: "power3.inOut",
-          scrollTrigger: { trigger: ".timeline", start: "top 70%" }
-        }
-      )
+      if (timelineLineRef.value) {
+        gsap.fromTo(timelineLineRef.value,
+          { scaleY: 0 },
+          { scaleY: 1, transformOrigin: "top center", duration: 1.2, ease: "power3.inOut",
+            scrollTrigger: { trigger: ".timeline", start: "top 70%" }
+          }
+        )
+      }
 
-      // Animate timeline items
       gsap.fromTo('.gsap-timeline-item',
-        { x: -50, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, stagger: 0.3, ease: "back.out(1.2)",
-          scrollTrigger: { trigger: ".timeline", start: "top 60%" }
+        { x: -40, opacity: 0 },
+        { x: 0, opacity: 1, duration: 0.8, stagger: 0.2, ease: "power3.out",
+          scrollTrigger: { trigger: ".timeline", start: "top 75%" }
         }
       )
     }
 
-    // 3. Education / Certifications Animations
+    // 3. Achievements Animations
+    if (achieveRef.value) {
+      gsap.fromTo('.gsap-ach-card',
+        { y: 40, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.7, stagger: 0.12, ease: "power3.out",
+          scrollTrigger: { trigger: achieveRef.value, start: "top 80%" }
+        }
+      )
+    }
+
+    // 4. Education & Certs Animations
     if (eduRef.value) {
-      gsap.fromTo(eduRef.value.querySelectorAll('.gsap-reveal'),
+      gsap.fromTo(eduRef.value.querySelectorAll('.gsap-edu-card, .gsap-cert-card'),
         { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, ease: "power2.out", stagger: 0.2,
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out",
           scrollTrigger: { trigger: eduRef.value, start: "top 80%" }
-        }
-      )
-
-      gsap.fromTo('.gsap-edu-card',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, stagger: 0.2, ease: "power3.out",
-          scrollTrigger: { trigger: ".gsap-edu-card", start: "top 85%" }
-        }
-      )
-
-      gsap.fromTo('.gsap-cert-card',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.7, stagger: 0.2, ease: "power3.out",
-          scrollTrigger: { trigger: ".gsap-cert-card", start: "top 85%" }
         }
       )
     }
@@ -202,131 +230,140 @@ onMounted(() => {
 
 .about-intro {
   display: grid;
-  grid-template-columns: 350px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 4rem;
-  align-items: start;
+  align-items: center;
+  margin-top: 2rem;
 }
 
-/* ---- Photo ---- */
 .about-photo-large {
-  position: sticky;
-  top: 100px;
+  display: flex;
+  justify-content: center;
 }
 
 .photo-border {
-  width: 100%;
-  aspect-ratio: 1;
+  width: 260px;
+  height: 260px;
   border-radius: var(--radius-xl);
-  padding: 3px;
+  padding: 8px;
   background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
-  box-shadow: var(--glow-violet);
-  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(108, 99, 255, 0.3);
 }
 
 .profile-photo-large {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: calc(var(--radius-xl) - 3px);
-  display: block;
+  border-radius: calc(var(--radius-xl) - 6px);
 }
 
-/* ---- Bio ---- */
 .about-text h2 {
   font-size: var(--text-3xl);
-  font-weight: 800;
-  margin-bottom: 2rem;
-  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
 }
 
 .bio-paragraphs {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .bio-paragraphs p {
-  line-height: 1.8;
   color: var(--text-secondary);
   font-size: var(--text-base);
-  text-align: justify;
+  line-height: 1.7;
 }
 
-/* ---- Timeline ---- */
+.quick-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.detail-pill {
+  padding: 0.4rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  color: var(--text-primary);
+}
+
+.detail-pill.highlight {
+  border-color: #ffb703;
+  color: #ffb703;
+  background: rgba(255, 183, 3, 0.08);
+}
+
+/* Timeline */
 .timeline {
   position: relative;
   max-width: 800px;
-  margin: 0 auto;
+  margin: 3rem auto 0;
+  padding-left: 2.5rem;
 }
 
 .timeline-line {
   position: absolute;
-  left: 24px;
+  left: 8px;
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, var(--accent-violet), var(--accent-cyan));
-  opacity: 0.5;
+  background: linear-gradient(to bottom, var(--accent-violet), var(--accent-cyan));
 }
 
 .timeline-item {
   position: relative;
-  padding-left: 70px;
-  margin-bottom: 3rem;
-}
-
-.timeline-item:last-child {
-  margin-bottom: 0;
+  margin-bottom: 2.5rem;
 }
 
 .timeline-marker {
   position: absolute;
-  left: 17px;
-  top: 0;
-  width: 16px;
-  height: 16px;
+  left: -2.5rem;
+  top: 1.5rem;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--bg-primary);
   border: 3px solid var(--accent-cyan);
   box-shadow: 0 0 10px var(--accent-cyan);
-  z-index: 2;
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.timeline-item:hover .timeline-marker {
-  transform: scale(1.3);
-  background: var(--accent-cyan);
 }
 
 .timeline-content {
-  padding: 2rem;
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
+  padding: 1.75rem;
 }
 
-.timeline-item:hover .timeline-content {
-  transform: translateX(10px);
-  border-color: var(--accent-violet);
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .timeline-title {
-  font-size: var(--text-xl);
+  font-size: var(--text-lg);
   color: var(--text-white);
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+}
+
+.timeline-period {
+  font-size: var(--text-xs);
+  color: var(--accent-cyan);
+  font-weight: 500;
 }
 
 .timeline-company {
   font-size: var(--text-sm);
   color: var(--accent-violet);
-  font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .timeline-desc {
+  font-size: var(--text-sm);
   color: var(--text-secondary);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
-  font-size: var(--text-sm);
+  margin-bottom: 1.25rem;
 }
 
 .timeline-tech {
@@ -335,53 +372,96 @@ onMounted(() => {
   gap: 0.5rem;
 }
 
-/* ---- Education & Certifications ---- */
+/* Achievements */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+.achievement-card {
+  padding: 1.75rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  border-left: 3px solid #ffb703;
+}
+
+.achievement-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.achievement-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.achievement-header h3 {
+  font-size: var(--text-base);
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.achievement-year {
+  font-size: var(--text-xs);
+  color: #ffb703;
+  font-weight: 600;
+}
+
+.achievement-body h4 {
+  font-size: var(--text-xs);
+  color: var(--accent-cyan);
+  margin-bottom: 0.5rem;
+}
+
+.achievement-body p {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Education & Certifications */
 .two-col-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: 3rem;
+  margin-top: 2rem;
 }
 
 .education-grid {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .education-card {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  transition: transform 0.3s var(--ease-out), border-color 0.3s var(--ease-out);
-}
-
-.education-card:hover {
-  transform: translateY(-5px);
-  border-color: var(--accent-cyan);
+  gap: 0.4rem;
 }
 
 .education-icon {
   width: 40px;
   height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--accent-violet-10);
+  color: var(--accent-violet);
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--accent-violet-10);
-  color: var(--accent-violet);
-  border-radius: var(--radius-md);
   margin-bottom: 0.5rem;
-  transition: transform 0.3s ease;
-}
-
-.education-card:hover .education-icon {
-  transform: scale(1.1) rotate(-10deg);
 }
 
 .education-card h3 {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   color: var(--text-white);
-  font-weight: 600;
 }
 
 .education-card h4 {
@@ -391,24 +471,27 @@ onMounted(() => {
 
 .education-date {
   font-size: var(--text-xs);
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  margin-top: 0.5rem;
+  color: var(--accent-cyan);
 }
 
-/* ---- Responsive ---- */
-@media (max-width: 1024px) {
+.cert-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 900px) {
   .about-intro {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    text-align: center;
+    gap: 2rem;
   }
-  
   .about-photo-large {
-    position: static;
-    max-width: 300px;
     margin: 0 auto;
   }
-
+  .quick-details {
+    justify-content: center;
+  }
   .two-col-grid {
     grid-template-columns: 1fr;
     gap: 3rem;
