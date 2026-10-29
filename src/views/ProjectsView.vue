@@ -4,20 +4,6 @@
       <div class="container">
         <h1 class="section-title">{{ $t('projects.title') }}</h1>
         <p class="section-subtitle">{{ $t('projects.subtitle') }}</p>
-
-        <!-- Búsqueda -->
-        <div class="projects-search">
-          <svg class="search-icon" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <input
-            v-model="searchQuery"
-            type="text"
-            :placeholder="$t('projectsView.searchPlaceholder')"
-            class="search-input"
-            aria-label="Buscar proyectos"
-          />
-        </div>
       </div>
     </section>
 
@@ -26,7 +12,7 @@
         
         <!-- Estado de carga: Skeletons -->
         <div v-if="loading && projects.length === 0" class="grid">
-          <div v-for="i in 6" :key="i" class="project-card skeleton-card">
+          <div v-for="i in 4" :key="i" class="project-card skeleton-card">
             <div class="skeleton-img"></div>
             <div class="skeleton-content">
               <div class="skeleton-title"></div>
@@ -44,8 +30,8 @@
         <!-- Grid de proyectos -->
         <transition-group v-else name="fade-grid" tag="div" class="grid">
           <article
-            v-for="project in filteredProjects"
-            :key="project.id"
+            v-for="project in projects"
+            :key="project.id || project.name"
             class="project-card card"
             @click="openModal(project)"
             tabindex="0"
@@ -89,7 +75,7 @@
         </transition-group>
 
         <!-- Sin resultados -->
-        <div v-if="!loading && filteredProjects.length === 0" class="no-results">
+        <div v-if="!loading && projects.length === 0" class="no-results">
           <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -197,7 +183,6 @@ import { featuredProjectsData } from '../data/projects.js'
 
 const { locale  } = useI18n({ useScope: 'global' })
 
-const searchQuery = ref('')
 const selectedProject = ref(null)
 const loading = ref(false)
 
@@ -214,19 +199,19 @@ const projects = ref([...baseProjects])
 const getProjectName = (p) => {
   if (!p) return ''
   const val = p.name || p.title
-  if (typeof val === 'object') {
+  if (val && typeof val === 'object') {
     return val[locale.value] || val.es || val.en || ''
   }
-  return val || ''
+  return val ? String(val) : ''
 }
 
 const getProjectDescription = (p) => {
   if (!p) return ''
   const val = p.description
-  if (typeof val === 'object') {
+  if (val && typeof val === 'object') {
     return val[locale.value] || val.es || val.en || ''
   }
-  return val || ''
+  return val ? String(val) : ''
 }
 
 const fetchGitHubProjects = async () => {
@@ -291,18 +276,6 @@ onMounted(() => {
   fetchGitHubProjects()
 })
 
-const filteredProjects = computed(() => {
-  const query = searchQuery.value.toLowerCase().trim()
-  if (!query) return projects.value
-  return projects.value.filter(project => {
-    const name = getProjectName(project).toLowerCase()
-    const desc = getProjectDescription(project).toLowerCase()
-    const techs = (project.technologies || []).join(' ').toLowerCase()
-    const lang = (project.language || '').toLowerCase()
-    return name.includes(query) || desc.includes(query) || techs.includes(query) || lang.includes(query)
-  })
-})
-
 const handleKeydown = (e) => {
   if (e.key === 'Escape') closeModal()
 }
@@ -334,37 +307,6 @@ const formatDate = (dateString) => {
 <style scoped>
 .projects-view {
   padding-top: 5rem;
-}
-
-/* ---- Búsqueda ---- */
-.projects-search {
-  max-width: 500px;
-  margin: 2rem auto 0;
-  position: relative;
-}
-
-.search-icon {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text-muted);
-}
-
-.search-input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-full);
-  color: var(--text-primary);
-  font-size: var(--text-base);
-  outline: none;
-  transition: border-color var(--transition-fast);
-}
-
-.search-input:focus {
-  border-color: var(--accent-violet);
 }
 
 /* ---- Grid ---- */
