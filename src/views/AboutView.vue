@@ -33,7 +33,7 @@
                   <span class="detail-label">📍 {{ $t('about.contact.location') }}</span>
                 </div>
                 <div class="detail-pill highlight">
-                  <span class="detail-label">🏆 1.er Lugar Hackatón BAM 2026</span>
+                  <span class="detail-label">🏆 Bicampeón Hackatón BAM 2026 (2x 1.er Lugar)</span>
                 </div>
               </div>
             </div>
